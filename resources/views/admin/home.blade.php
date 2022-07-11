@@ -16,7 +16,7 @@
 
                     {{ __('You are logged in!') }}
                 </div>
-                <h1>HOME GUEST</h1>
+                <h1>HOME</h1>
             </div>
         </div>
     </div>
