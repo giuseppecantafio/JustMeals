@@ -9,4 +9,7 @@ class Item extends Model
     public function restaurant(){
         return $this->belongsTo('App\Restaurant');
     }
+    public function category(){
+        return $this->belongsTo('App\Category');
+    }
 }
