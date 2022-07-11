@@ -37,7 +37,23 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $newRestaurant = new Restaurant();
+        $newRestaurant->name = $data['name'];
+        $slug = Str::of($data['name'])->slug("-");
+        $count = 1;
+        while(Restaurant::where('slug', $slug)->first()){
+            $slug = Str::of($data['name'])->slug("-")."-{$count}";
+            $count++;
+        }
+        $newRestaurant->slug = $slug;
+        $newRestaurant->address = $data['address'];
+        if( isset($data['image']) ) {
+            $path_image = Storage::put("uploads", $data['image']); // uploads/nomeimg.jpg
+            $newRestaurant->image = $path_image;
+        }
+        $newRestaurant->vat = $data['vat'];
+        $newRestaurant->save();
     }
 
     /**
