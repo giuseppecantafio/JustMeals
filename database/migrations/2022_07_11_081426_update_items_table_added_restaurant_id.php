@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateRestaurantsTableAddedUserId extends Migration
+class UpdateItemsTableAddedRestaurantId extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class UpdateRestaurantsTableAddedUserId extends Migration
      */
     public function up()
     {
-        Schema::table('restaurants', function (Blueprint $table) {
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+        Schema::table('items', function (Blueprint $table) {
+            $table->foreignId('restaurant_id')->nullable()->constrained()->onDelete('set null');
         });
     }
 
@@ -25,9 +25,9 @@ class UpdateRestaurantsTableAddedUserId extends Migration
      */
     public function down()
     {
-        Schema::table('restaurants', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropColumn('user_id');
+        Schema::table('items', function (Blueprint $table) {
+            $table->dropForeign(['restaurant_id']);
+            $table->dropColumn('restaurant_id');
         });
     }
 }

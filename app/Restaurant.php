@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use App\Item;
 
 class Restaurant extends Model
 {
@@ -12,7 +13,12 @@ class Restaurant extends Model
     }
 
     public function typologies(){
-    $this->belongsToMany('App\Typology');
+        return $this->belongsToMany('App\Typology');
     }
+
+    public function items(){
+        return $this->hasMany('App\Item');
+    }
+
 
 }
