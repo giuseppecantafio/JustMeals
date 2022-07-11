@@ -17,9 +17,9 @@ class CreateItemTagTable extends Migration
             $table->id();
 
             $table->unsignedBigInteger('item_id');
-            $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('tag_id');
             $table->foreign('item_id')->references('id')->on('items');
-            $table->foreign('order_id')->references('id')->on('orders');
+            $table->foreign('tag_id')->references('id')->on('tags');
 
             $table->timestamps(); 
         });
