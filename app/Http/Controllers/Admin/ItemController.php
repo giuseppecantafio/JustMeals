@@ -17,10 +17,11 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $items = Item::all();
-        return view('admin.restaurants.items.index', compact('items'));
+    public function index($id)
+    {   
+        $restaurant = Restaurant::findOrFail($id);
+        $items = $restaurant->items;
+        return view('admin.items.index', compact('items', 'restaurant'));
     }
 
     /**
@@ -28,9 +29,10 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+         $restaurant = Restaurant::findOrFail($id);
+        return view('admin.items.create', compact('restaurant'));
     }
 
     /**

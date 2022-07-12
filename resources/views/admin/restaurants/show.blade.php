@@ -17,4 +17,8 @@
     <a href="{{route('admin.restaurants.edit', $restaurant->id)}}">Edit</a>
 </button>
 
+<button>
+    <a href="{{route('admin.items.index', $restaurant->id)}}">PROVA</a>
+</button>
+
 @endsection
