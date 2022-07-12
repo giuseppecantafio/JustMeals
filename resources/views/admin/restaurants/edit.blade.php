@@ -28,6 +28,18 @@
     <input type="text" class="form-control" id="vat" placeholder="Inserisci la partita IVA" name="vat" value="{{$restaurant->vat}}" required>
   </div>
 
+  <div class="form-group">
+        <h5>Tipologia di Servizi</h5>
+        @foreach ($typologies as $typology)
+            <div class="form-check form-check-inline">
+                <input type="checkbox" class="form-check-input" {{$restaurant->typologies->contains($typology) ? 'checked' : ''}} id="{{$typology->slug}}" name="typologies[]" value="{{$typology->id}}">
+                <label class="form-check-label"  for="{{$typology->slug}}">{{$typology->name}}</label>
+            </div>
+        @endforeach
+        @error('tags')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+  </div>
 
   <button type="submit" class="btn btn-primary">Invia</button>
 </form>
