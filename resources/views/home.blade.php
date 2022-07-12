@@ -14,9 +14,9 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    
                 </div>
-                <h1>HOME GUEST</h1>
+                <h1 class="text-center">HOME GUEST</h1>
             </div>
         </div>
     </div>
