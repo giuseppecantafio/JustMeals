@@ -87,7 +87,8 @@ class RestaurantController extends Controller
      */
     public function edit(Restaurant $restaurant)
     {
-        return view('admin.restaurants.edit', compact('restaurant'));
+        $typologies = Typology::all();
+        return view('admin.restaurants.edit', compact('restaurant', 'typologies'));
     }
 
     /**
@@ -117,6 +118,9 @@ class RestaurantController extends Controller
         }
         $restaurant->vat = $data['vat'];
         $restaurant->update();
+
+        $restaurant->typologies()->sync($data['typologies']);
+
         return redirect()->route('admin.restaurants.show', $restaurant->id);
     }
 
@@ -128,7 +132,11 @@ class RestaurantController extends Controller
      */
     public function destroy(Restaurant $restaurant)
     {
+
+        $restaurant->typologies()->sync([]);
+
         $restaurant->delete();
+
         return redirect()->route('admin.restaurants.index');
     }
 }
