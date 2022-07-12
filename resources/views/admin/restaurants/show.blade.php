@@ -18,7 +18,7 @@
 </button>
 
 <button>
-    <a href="{{route('admin.items.index', $restaurant->id)}}">PROVA</a>
+    <a href="{{route('admin.items.index', $restaurant->id)}}">Menu</a>
 </button>
 
 @endsection

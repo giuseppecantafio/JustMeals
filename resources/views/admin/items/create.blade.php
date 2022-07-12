@@ -5,7 +5,7 @@
     
     <h1>Aggiungi piatto al tuo menu</h1>
 
-<form  method="post" enctype="multipart/form-data">
+<form action="{{route('admin.items.store', $restaurant->id)}}" method="POST" enctype="multipart/form-data">
     @csrf
 
   <div class="form-group mb-3">
@@ -15,17 +15,17 @@
 
   <div class="form-group mb-3">
     <label for="price">Prezzo</label>
-    <input type="number" min="0.20" max="999.99" class="form-control" id="price" placeholder="Inserisci il prezzo" name="price" value="{{old('price')}}" required>
+    <input type="number" step="0.1" min="0.20" max="999" class="form-control" id="price" placeholder="Inserisci il prezzo" name="price" value="{{old('price')}}" required>
   </div>
 
   <div class="form-group mb-3">
     <label for="image">Inserisci immagine</label>
-    <input type="file" id="image" placeholder="Inserisci immagine" name="image" required>
+    <input type="file" id="image" placeholder="Inserisci immagine" name="image">
   </div>
 
   <div class="form-group mb-3">
     <label for="description">Descrizione piatto</label>
-    <text-area class="form-control" id="description" name="description" required>{{old('description')}}</text-area>
+    <textarea class="form-control" id="description" name="description" required>{{old('description')}}</textarea>
   </div>
 
   <div class="form-group mb-3 form-check">
