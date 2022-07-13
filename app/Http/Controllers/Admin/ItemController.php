@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Item;
+use App\Tag;
 use App\Restaurant;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -19,9 +20,10 @@ class ItemController extends Controller
      */
     public function index($id)
     {   
+        $tags = Tag::all();
         $restaurant = Restaurant::findOrFail($id);
         $items = $restaurant->items;
-        return view('admin.items.index', compact('items', 'restaurant'));
+        return view('admin.items.index', compact('items', 'restaurant', 'tags'));
     }
 
     /**
@@ -31,8 +33,9 @@ class ItemController extends Controller
      */
     public function create($id)
     {
-         $restaurant = Restaurant::findOrFail($id);
-        return view('admin.items.create', compact('restaurant'));
+        $tags = Tag::all();
+        $restaurant = Restaurant::findOrFail($id);
+        return view('admin.items.create', compact('restaurant', 'tags'));
     }
 
     /**
@@ -70,6 +73,10 @@ class ItemController extends Controller
 
         $newItem->save();
 
+        if (isset($data['tags'])) {
+        $newItem->tags()->sync($data['tags']);
+        }
+
         return redirect()->route('admin.items.show', [ 'id' => $restaurant->id, 'item' => $newItem->id ]);
 
     }
@@ -94,11 +101,12 @@ class ItemController extends Controller
      */
     public function edit($restaurant_id, $item_id)
     {
+        $tags = Tag::all();
         $item = Item::findOrFail($item_id);
 
         $restaurant = Restaurant::findOrFail($restaurant_id);
 
-        return view('admin.items.edit', compact('item', 'restaurant'));
+        return view('admin.items.edit', compact('item', 'restaurant', 'tags'));
     }
 
     /**
@@ -141,6 +149,10 @@ class ItemController extends Controller
 
         $item->update();
 
+        if (isset($data['tags'])){
+            $item->tags()->sync($data['tags']);
+        }
+
         return redirect()->route('admin.items.show', [ 'id' => $restaurant->id, 'item' => $item->id ]);
     }
 
@@ -153,6 +165,7 @@ class ItemController extends Controller
     public function destroy($restaurant_id, $item_id)
     {
         $item = Item::findOrFail($item_id);
+        $item->tags()->sync([]);
         $item->delete();
         return redirect()->route('admin.items.index', $restaurant_id);
     }
