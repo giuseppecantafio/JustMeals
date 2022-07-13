@@ -16,6 +16,8 @@
             <li>{{$tag->name}}</li>
         @endforeach
     </ul>
+
+    <div>Categoria: {{$item->category? $item->category->name : 'Senza categoria'}}</div>
 </div>
     
 @endsection

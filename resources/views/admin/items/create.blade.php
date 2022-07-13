@@ -49,6 +49,16 @@
         @enderror
     </div>
 
+    <div class="form-group">
+      <label for="category">Selezionare categoria</label>
+      <select name="category" id="category">
+        <option value="">Selezionare categoria</option>
+      @foreach ($categories as $category)
+          <option value="{{$category->id}}">{{$category->name}}</option>
+      @endforeach
+      </select>
+    </div>
+
   <button type="submit" class="btn btn-primary">Invia</button>
 </form>
 

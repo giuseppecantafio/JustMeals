@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <h1>Menu ristorante: {{$restaurant->name}}</h1>
 

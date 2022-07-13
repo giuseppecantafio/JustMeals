@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Tag;
+use App\Category;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
-class TagController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,8 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::all();
-        return view('admin.tags.index', compact('tags'));
+        $categories = Category::all();
+        return view('admin.categories.index', compact('categories'));
     }
 
     /**
@@ -28,7 +28,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        return view('admin.tags.create');
+        return view('admin.categories.create');
     }
 
     /**
@@ -40,21 +40,21 @@ class TagController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $newTag = new Tag();
+        $newCategory = new Category();
 
-        $newTag->name = $data['name'];
+        $newCategory->name = $data['name'];
 
         $slug = Str::of($data['name'])->slug("-");
         $count = 1;
-        while(Tag::where('slug', $slug)->first()){
+        while(Category::where('slug', $slug)->first()){
             $slug = Str::of($data['name'])->slug("-")."-{$count}";
             $count++;
         }
-        $newTag->slug = $slug;
+        $newCategory->slug = $slug;
 
-        $newTag->save();
+        $newCategory->save();
 
-        return redirect()->route('admin.tags.show', $newTag->id);
+        return redirect()->route('admin.categories.show', $newCategory->id);
     }
 
     /**
@@ -63,9 +63,9 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Tag $tag)
+    public function show(Category $category)
     {
-        return view('admin.tags.show', compact('tag'));
+        return view('admin.categories.show', compact('category'));
     }
 
     /**
@@ -74,9 +74,9 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Tag $tag)
+    public function edit(Category $category)
     {
-        return view('admin.tags.edit', compact('tag'));
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
@@ -86,26 +86,26 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tag $tag)
+    public function update(Request $request, Category $category)
     {
-         $data = $request->all();
+        $data = $request->all();
 
-        if ($tag->name != $data['name']){
+        if ($category->name != $data['name']){
 
-            $tag->name = $data['name'];
+            $category->name = $data['name'];
 
             $slug = Str::of($data['name'])->slug("-");
             $count = 1;
-            while(Tag::where('slug', $slug)->first()){
+            while(Category::where('slug', $slug)->first()){
                 $slug = Str::of($data['name'])->slug("-")."-{$count}";
                 $count++;
             }
-            $tag->slug = $slug;
+            $category->slug = $slug;
         }
 
-        $tag->update();
+        $category->update();
 
-        return redirect()->route('admin.tags.show', $tag->id);
+        return redirect()->route('admin.categories.show', $category->id);
     }
 
     /**
@@ -114,9 +114,9 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tag $tag)
+    public function destroy(Category $category)
     {
-        $tag->delete();
-        return redirect()->route('admin.tags.index');
+        $category->delete();
+        return redirect()->route('admin.categories.index');
     }
 }
