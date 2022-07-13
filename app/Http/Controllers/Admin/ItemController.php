@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Item;
 use App\Tag;
 use App\Restaurant;
+use App\Category;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -21,9 +22,10 @@ class ItemController extends Controller
     public function index($id)
     {   
         $tags = Tag::all();
+        $categories = Category::all();
         $restaurant = Restaurant::findOrFail($id);
         $items = $restaurant->items;
-        return view('admin.items.index', compact('items', 'restaurant', 'tags'));
+        return view('admin.items.index', compact('items', 'restaurant', 'tags', 'categories'));
     }
 
     /**
@@ -33,9 +35,10 @@ class ItemController extends Controller
      */
     public function create($id)
     {
+        $categories = Category::all();
         $tags = Tag::all();
         $restaurant = Restaurant::findOrFail($id);
-        return view('admin.items.create', compact('restaurant', 'tags'));
+        return view('admin.items.create', compact('restaurant', 'tags', 'categories'));
     }
 
     /**
@@ -70,7 +73,7 @@ class ItemController extends Controller
         $newItem->description = $data['description'];
         $newItem->available = isset($data['available']);
         $newItem->restaurant_id = $restaurant->id;
-
+        $newItem->category_id = $data['category'];
         $newItem->save();
 
         if (isset($data['tags'])) {
@@ -102,11 +105,12 @@ class ItemController extends Controller
     public function edit($restaurant_id, $item_id)
     {
         $tags = Tag::all();
+        $categories = Category::all();
         $item = Item::findOrFail($item_id);
 
         $restaurant = Restaurant::findOrFail($restaurant_id);
 
-        return view('admin.items.edit', compact('item', 'restaurant', 'tags'));
+        return view('admin.items.edit', compact('item', 'restaurant', 'tags', 'categories'));
     }
 
     /**
@@ -146,7 +150,7 @@ class ItemController extends Controller
         $item->description = $data['description'];
         $item->available = isset($data['available']);
         $item->restaurant_id = $restaurant->id;
-
+        $item->category_id = $data['category'];
         $item->update();
 
         if (isset($data['tags'])){

@@ -31,6 +31,7 @@ Route::middleware('auth')
         Route::resource('/typologies', 'TypologyController');
         Route::resource('/restaurants/{id}/items', 'ItemController');
         Route::resource('/tags', 'TagController');
+        Route::resource('/categories', 'CategoryController');
     });
 
 Route::get("{any?}", function() {
