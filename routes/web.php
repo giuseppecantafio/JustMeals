@@ -30,7 +30,7 @@ Route::middleware('auth')
         Route::resource('/restaurants', 'RestaurantController');
         Route::resource('/typologies', 'TypologyController');
         Route::resource('/restaurants/{id}/items', 'ItemController');
-        // Route::resource('/restaurants/{$id}/items', 'ItemController');
+        Route::resource('/tags', 'TagController');
     });
 
 Route::get("{any?}", function() {
