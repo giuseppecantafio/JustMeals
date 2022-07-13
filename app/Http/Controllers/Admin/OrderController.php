@@ -29,7 +29,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -49,9 +49,9 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Order $order)
     {
-        //
+        return view('admin.orders.show', compact('order'));
     }
 
     /**
@@ -60,9 +60,9 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Order $order)
     {
-        //
+        return view('admin.orders.edit', compact('order'));
     }
 
     /**
@@ -72,9 +72,25 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Order $order)
     {
-        //
+        $data = $request->all();
+
+        if($order->delivery_time != $data['delivery']){
+            $order->delivery_time = $data['delivery'];
+            // manda una mail
+        }
+
+        if(isset($data['confirmed'])){
+            $order->confirmed = 1;
+            // manda una mail
+        } else {
+            $order->confirmed = 0;
+        }
+
+        $order->update();
+
+        return redirect()->route('admin.orders.show', $order->id);
     }
 
     /**
@@ -83,8 +99,10 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Order $order)
     {
-        //
+        $order->delete();
+
+        return redirect()->route('admin.orders.index');
     }
 }
