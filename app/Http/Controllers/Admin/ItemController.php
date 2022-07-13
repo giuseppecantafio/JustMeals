@@ -112,14 +112,9 @@ class ItemController extends Controller
  
         $data = $request->all();
 
-        $items = Item::all();
         $item = Item::findOrFail($item_id);
 
-        // dd('dioboia di piatto : '.$item);
-
         $restaurant = Restaurant::findOrFail($item['restaurant_id']);
-
-        dump($restaurant);
 
         if ($item->name != $data['name']){
             $item->name = $data['name'];
