@@ -65,12 +65,12 @@ class ItemController extends Controller
             $newItem->image = $path_image;
         }
         $newItem->description = $data['description'];
-        $newItem->available = $data['available'] ? true : false;
+        $newItem->available = isset($data['available']);
         $newItem->restaurant_id = $restaurant->id;
 
         $newItem->save();
 
-        return redirect()->route('admin.items.index', $restaurant->id);
+        return redirect()->route('admin.items.show', [ 'id' => $restaurant->id, 'item' => $newItem->id ]);
 
     }
 
@@ -80,9 +80,10 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($rest_id, $item_id)
     {
-        //
+        $item = Item::findOrFail($item_id);
+        return view('admin.items.show', compact('item'));
     }
 
     /**
@@ -140,10 +141,7 @@ class ItemController extends Controller
 
         $item->update();
 
-
-        
-
-        return redirect()->route('admin.items.index', $restaurant->id);
+        return redirect()->route('admin.items.show', [ 'id' => $restaurant->id, 'item' => $item->id ]);
     }
 
     /**
@@ -152,8 +150,10 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($restaurant_id, $item_id)
     {
-        //
+        $item = Item::findOrFail($item_id);
+        $item->delete();
+        return redirect()->route('admin.items.index', $restaurant_id);
     }
 }

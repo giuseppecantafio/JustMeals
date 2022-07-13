@@ -5,6 +5,16 @@
     
     <h1>Modifica piatto al tuo menu</h1>
 
+    <form action="{{route('admin.items.destroy', 
+                    [ 'id' => $restaurant->id,
+                    'item' => $item->id ]
+                        )}}" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">Elimina piatto
+                    </button>
+                </form>
+  
 <form action="{{route('admin.items.update', 
 [ 'id' => $restaurant->id, 'item' => $item->id ])}}" method="POST" enctype="multipart/form-data">
     @csrf
