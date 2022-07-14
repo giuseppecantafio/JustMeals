@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-  <h1>CREA ORDINE</h1>
+  <h1>CREA ORDINE!</h1>
   
   <form action="{{route('admin.orders.store')}}" method="post">
       @csrf
