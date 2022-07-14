@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Auth;
 
 class RestaurantController extends Controller
 {
+    protected $validationRule = [
+        "name" => "required|string|max:100",
+        "address" => "required|string|max:255",
+        "image" => "nullable|image|max:2048",
+        "vat" => "numeric|required|size:11",
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -43,6 +49,7 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate($this->validationRule);
         $data = $request->all();
         $newRestaurant = new Restaurant();
         $newRestaurant->name = $data['name'];
@@ -100,6 +107,7 @@ class RestaurantController extends Controller
      */
     public function update(Request $request, Restaurant $restaurant)
     {
+        $request->validate($this->validationRule);
         $data = $request->all();
         if ($restaurant->name != $data['name']){
             $restaurant->name = $data['name'];
