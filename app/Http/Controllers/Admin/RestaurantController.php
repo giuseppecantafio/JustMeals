@@ -7,17 +7,21 @@ use Illuminate\Http\Request;
 use App\Restaurant;
 use App\Typology;
 use Illuminate\Support\Str;
+use App\Rules\NumberValidation;
+use Faker\Core\Number;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
 class RestaurantController extends Controller
 {
+
     protected $validationRule = [
         "name" => "required|string|max:100",
         "address" => "required|string|max:255",
         "image" => "nullable|image|max:2048",
-        "vat" => "numeric|required|size:11",
+        "vat" => "numeric|required|digits:11",
     ];
+
     /**
      * Display a listing of the resource.
      *
@@ -51,6 +55,18 @@ class RestaurantController extends Controller
     {
         $request->validate($this->validationRule);
         $data = $request->all();
+        $numbers=[
+            0,1,2,3,4,5,6,7,8,9
+        ];
+        $var = false;
+        foreach($numbers as $number){
+            if(str_contains($data["address"],$number)){
+                $var = true;
+            }
+        }
+        $request->validate($var);
+        //$data['address']->validate(new NumberValidation);
+
         $newRestaurant = new Restaurant();
         $newRestaurant->name = $data['name'];
         $slug = Str::of($data['name'])->slug("-");
@@ -66,13 +82,16 @@ class RestaurantController extends Controller
             $newRestaurant->image = $path_image;
         }
         $newRestaurant->vat = $data['vat'];
-        $newRestaurant->save();
+        
+            $newRestaurant->save();
 
-        if(isset($data['typologies'])){
-            $newRestaurant->typologies()->sync($data['typologies']);
-        }
+            if(isset($data['typologies'])){
+                $newRestaurant->typologies()->sync($data['typologies']);
+            }
 
-        return redirect()->route('admin.restaurants.show', $newRestaurant->id);
+            return redirect()->route('admin.restaurants.show', $newRestaurant->id);
+        
+
     }
 
     /**
@@ -108,7 +127,9 @@ class RestaurantController extends Controller
     public function update(Request $request, Restaurant $restaurant)
     {
         $request->validate($this->validationRule);
+        $request->validate(new NumberValidation);
         $data = $request->all();
+        //$data['address']->validate(new NumberValidation);
         if ($restaurant->name != $data['name']){
             $restaurant->name = $data['name'];
             $slug = Str::of($data['name'])->slug("-");

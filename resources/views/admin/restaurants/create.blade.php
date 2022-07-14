@@ -14,17 +14,23 @@
 
   <div class="form-group mb-3">
     <label for="address">Indirizzo</label>
-    <input type="text" class="form-control" id="address" placeholder="Inserisci la via" name="address" value="{{old('address')}}" required>
+    <input type="text" class="form-control @error('address') is-invalid @enderror" id="address" placeholder="Es. Via po, 45" name="address" value="{{old('address')}}" required>
+    @error('address')
+        <div class="alert alert-danger">{{ $message }}</div>
+      @enderror
   </div>
 
   <div class="form-group mb-3">
     <label for="image">Inserisci immagine</label>
-    <input type="file" id="image" placeholder="Inserisci immagine" name="image" required>
+    <input type="file" id="image" placeholder="Inserisci immagine" name="image">
   </div>
 
   <div class="form-group mb-3">
     <label for="vat">Partita IVA</label>
-    <input type="text" class="form-control" id="vat" placeholder="Inserisci la partita IVA" name="vat" value="{{old('vat')}}" required>
+    <input type="text" class="form-control @error('vat') is-invalid @enderror" id="vat" placeholder="Inserisci la partita IVA" name="vat" value="{{old('vat')}}" required>
+    @error('vat')
+        <div class="alert alert-danger">{{ $message }}</div>
+      @enderror
   </div>
 
   {{-- <div class="form-group mb-3">
