@@ -22,22 +22,39 @@
 
   <div class="form-group mb-3">
     <label for="name">Nome</label>
-    <input type="text" class="form-control" id="name" placeholder="Inserisci nome piatto" name="name" value="{{$item->name}}" required>
+    <input type="text" class="form-control" id="name" placeholder="Inserisci nome piatto" name="name" value="{{old('name', $item->name)}}
+    " required>
+
+    @error('name')
+      <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
   </div>
 
   <div class="form-group mb-3">
     <label for="price">Prezzo</label>
-    <input type="number" step="0.1" min="0.20" max="999" class="form-control" id="price" placeholder="Inserisci il prezzo" name="price" value="{{$item->price}}" required>
+    <input type="number" step="0.1" min="0.20" max="999" class="form-control" id="price" placeholder="Inserisci il prezzo" name="price" value="{{old('price', $item->price)}}" required>
+
+    @error('price')
+      <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
   </div>
 
   <div class="form-group mb-3">
     <label for="image">Inserisci immagine</label>
     <input type="file" id="image" placeholder="Inserisci immagine" name="image">
+
+    @error('image')
+      <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
   </div>
 
   <div class="form-group mb-3">
     <label for="description">Descrizione piatto</label>
-    <textarea class="form-control" id="description" name="description" required>{{$item->description}}</textarea>
+    <textarea class="form-control" id="description" name="description" required>{{old('description', $item->description)}}</textarea>
+
+    @error('description')
+      <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
   </div>
 
   <div class="form-group mb-3 form-check">
