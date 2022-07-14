@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Order;
 use App\Item;
+use App\Customer;
+use App\Restaurant;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,7 +31,8 @@ class OrderController extends Controller
      */
     public function create()
     {
-        // FARE CREATE INUTILE PER PROVE
+        $items = Item::where("restaurant_id", 1)->get();
+        return view('admin.orders.create', compact('items'));
     }
 
     /**
@@ -40,7 +43,57 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $newOrder = new Order();
+        $newCustomer = new Customer();
+        // CUSTOMER
+        $newCustomer->name = $data['userName'];
+        $newCustomer->surname = $data['userSurname'];
+        $newCustomer->email = $data['userEmail'];
+        $newCustomer->address = $data['userAddress'];
+        $newCustomer->save();
+        $customer = Customer::where("email", $newCustomer->email)->first();
+
+        // ORDINE
+        $newOrder->customer_id = $customer->id;
+        $newOrder->delivery_time = $data['delivery'];
+        $newOrder->note = $data['userNote'];
+        $itemsOrdered = [];
+        $item1 = Item::where("id", $data['item1'])->first();
+        $item2 = Item::where("id", $data['item2'])->first();
+        $item3 = Item::where("id", $data['item3'])->first();
+        $price1 = $item1->price;
+        $price2 = $item2->price;
+        $price3 = $item3->price;
+        $totPrice1 = $price1 * $data['quantity1'];
+        $totPrice2 = $price2 * $data['quantity2'];
+        $totPrice3 = $price3 * $data['quantity3'];
+        $total_price = $totPrice1 + $totPrice2 + $totPrice3;
+        $newOrder->total_price = $total_price;
+        $newOrder->save();
+
+        $newOrder->items()->sync([
+            [
+                'item_id' => $item1->id,
+                'quantity' => $data['quantity1'],
+                'item_price' => $price1
+            ],
+            [
+                'item_id' => $item2->id,
+                'quantity' => $data['quantity2'],
+                'item_price' => $price2
+            ],
+            [
+                'item_id' => $item3->id,
+                'quantity' => $data['quantity3'],
+                'item_price' => $price3
+            ]
+        ]);
+
+        // App\User::find(1)->roles()->save($role, ['expires' => $expires]);
+
+        return redirect()->route('admin.orders.show', $newOrder->id);
+
     }
 
     /**
@@ -101,8 +154,11 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
+        $order->items()->sync([]);
         $order->delete();
 
         return redirect()->route('admin.orders.index');
     }
+
+    
 }
