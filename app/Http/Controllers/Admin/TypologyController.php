@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Auth;
 
 class TypologyController extends Controller
 {
+    protected $validationRules=[
+        "name" => "required|string|max:100"
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -40,6 +43,7 @@ class TypologyController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate($this->validationRules);
         $data = $request->all();
         $newTypology = new Typology();
 
@@ -89,6 +93,7 @@ class TypologyController extends Controller
      */
     public function update(Request $request, Typology $typology)
     {
+        $request->validate($this->validationRules);
         $data = $request->all();
 
         if ($typology->name != $data['name']){

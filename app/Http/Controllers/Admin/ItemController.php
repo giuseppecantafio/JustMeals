@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
 {
+    protected $validationRules=[
+        "name" => "required|string|max:150",
+        "price" => "required|numeric|between:0.20,999.99",
+        "image" => "nullable|image|max:2048",
+        "description" => "required|string|max:1000"
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -49,6 +55,7 @@ class ItemController extends Controller
      */
     public function store(Request $request, $id)
     {
+        $request->validate($this->validationRules);
         $data = $request->all();
 
         $restaurant = Restaurant::findOrFail($id);
@@ -123,6 +130,7 @@ class ItemController extends Controller
     public function update(Request $request, $rest_id, $item_id)
     {
  
+        $request->validate($this->validationRules);
         $data = $request->all();
 
         $item = Item::findOrFail($item_id);

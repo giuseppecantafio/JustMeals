@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class TagController extends Controller
 {
+    protected $validationRules=[
+        "name" => "required|string|max:150"
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -39,6 +42,7 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate($this->validationRules);
         $data = $request->all();
         $newTag = new Tag();
 
@@ -88,6 +92,7 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
+        $request->validate($this->validationRules);
          $data = $request->all();
 
         if ($tag->name != $data['name']){

@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Restaurant;
 use App\Typology;
 use Illuminate\Support\Str;
-use App\Rules\NumberValidation;
 use Faker\Core\Number;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -55,17 +54,27 @@ class RestaurantController extends Controller
     {
         $request->validate($this->validationRule);
         $data = $request->all();
+
+        // validazioni di address
         $numbers=[
             0,1,2,3,4,5,6,7,8,9
         ];
-        $var = false;
+        $vie=[
+            'Via', 'Piazza', 'Largo', 'Strada', 'Stradone', 'Contrada', 'Rione', 'Circonvallazione', "Ca'"
+        ];
+        $numberChecked = false;
+        $viaChecked = false;
         foreach($numbers as $number){
-            if(str_contains($data["address"],$number)){
-                $var = true;
+            if(str_contains($data["address"], $number)){
+                $numberChecked = true;
             }
         }
-        $request->validate($var);
-        //$data['address']->validate(new NumberValidation);
+        foreach($vie as $via){
+            if(str_contains($data["address"], $via)){
+                $viaChecked = true;
+            }
+        }
+        
 
         $newRestaurant = new Restaurant();
         $newRestaurant->name = $data['name'];
@@ -82,7 +91,9 @@ class RestaurantController extends Controller
             $newRestaurant->image = $path_image;
         }
         $newRestaurant->vat = $data['vat'];
-        
+
+        // salvataggio in base a validazione dell'address
+        if($numberChecked == true && $viaChecked == true){
             $newRestaurant->save();
 
             if(isset($data['typologies'])){
@@ -90,6 +101,13 @@ class RestaurantController extends Controller
             }
 
             return redirect()->route('admin.restaurants.show', $newRestaurant->id);
+        } elseif ($numberChecked == true){
+            return redirect()->back()->withInput()->with('myError', 'Si prega di inserire una Via');
+        } elseif ($viaChecked == true){
+            return redirect()->back()->withInput()->with('myError', 'Si prega di inserire un Numero Civico');
+        } else {
+            return redirect()->back()->withInput()->with('myError', 'Si prega di inserire una Via e un Numero Civico');
+        }
         
 
     }
@@ -127,9 +145,29 @@ class RestaurantController extends Controller
     public function update(Request $request, Restaurant $restaurant)
     {
         $request->validate($this->validationRule);
-        $request->validate(new NumberValidation);
         $data = $request->all();
-        //$data['address']->validate(new NumberValidation);
+
+        // validazioni di address
+        $numbers=[
+            0,1,2,3,4,5,6,7,8,9
+        ];
+        $vie=[
+            'Via', 'Piazza', 'Largo', 'Strada', 'Stradone', 'Contrada', 'Rione', 'Circonvallazione', "Ca'"
+        ];
+        $numberChecked = false;
+        $viaChecked = false;
+        foreach($numbers as $number){
+            if(str_contains($data["address"], $number)){
+                $numberChecked = true;
+            }
+        }
+        foreach($vie as $via){
+            if(str_contains($data["address"], $via)){
+                $viaChecked = true;
+            }
+        }
+
+
         if ($restaurant->name != $data['name']){
             $restaurant->name = $data['name'];
             $slug = Str::of($data['name'])->slug("-");
@@ -146,11 +184,24 @@ class RestaurantController extends Controller
             $restaurant->image = $path_image;
         }
         $restaurant->vat = $data['vat'];
-        $restaurant->update();
 
-        $restaurant->typologies()->sync($data['typologies']);
+        // salvataggio in base a validazione dell'address
+        if($numberChecked == true && $viaChecked == true){
 
-        return redirect()->route('admin.restaurants.show', $restaurant->id);
+            $restaurant->update();
+
+            $restaurant->typologies()->sync($data['typologies']);
+
+            return redirect()->route('admin.restaurants.show', $restaurant->id);
+
+        } elseif ($numberChecked == true){
+            return redirect()->back()->withInput()->with('myError', 'Si prega di inserire una Via');
+        } elseif ($viaChecked == true){
+            return redirect()->back()->withInput()->with('myError', 'Si prega di inserire un Numero Civico');
+        } else {
+            return redirect()->back()->withInput()->with('myError', 'Si prega di inserire una Via e un Numero Civico');
+        }
+
     }
 
     /**
