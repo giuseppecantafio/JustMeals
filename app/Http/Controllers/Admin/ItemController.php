@@ -27,9 +27,17 @@ class ItemController extends Controller
      */
     public function index($id)
     {   
+        
         $tags = Tag::all();
         $categories = Category::all();
         $restaurant = Restaurant::findOrFail($id);
+        
+        // controllo autenticazione
+        $auth_user = Auth::user()->id;
+        if ($auth_user != $restaurant->user_id){
+            abort(401);
+        }
+
         $items = $restaurant->items;
         return view('admin.items.index', compact('items', 'restaurant', 'tags', 'categories'));
     }
@@ -44,6 +52,13 @@ class ItemController extends Controller
         $categories = Category::all();
         $tags = Tag::all();
         $restaurant = Restaurant::findOrFail($id);
+        
+        // controllo autenticazione
+        $auth_user = Auth::user()->id;
+        if ($auth_user != $restaurant->user_id){
+            abort(401);
+        }
+
         return view('admin.items.create', compact('restaurant', 'tags', 'categories'));
     }
 
@@ -59,6 +74,12 @@ class ItemController extends Controller
         $data = $request->all();
 
         $restaurant = Restaurant::findOrFail($id);
+
+        // controllo autenticazione
+        $auth_user = Auth::user()->id;
+        if ($auth_user != $restaurant->user_id){
+            abort(401);
+        }
 
         $newItem = new Item();
 
@@ -99,6 +120,12 @@ class ItemController extends Controller
      */
     public function show($rest_id, $item_id)
     {
+        $restaurant = Restaurant::findOrFail($rest_id);
+        // controllo autenticazione
+        $auth_user = Auth::user()->id;
+        if ($auth_user != $restaurant->user_id){
+            abort(401);
+        }
         $item = Item::findOrFail($item_id);
         return view('admin.items.show', compact('item'));
     }

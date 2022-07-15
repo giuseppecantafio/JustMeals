@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
 <div class="container">
     <button class="btn btn-success">
         <a href="{{route('admin.categories.create')}}" style="color: white">Aggiungi category per il tuo piatto</a>

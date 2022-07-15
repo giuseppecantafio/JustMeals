@@ -29,7 +29,8 @@ class RestaurantController extends Controller
     public function index()
     {
         $typologies = Typology::all();
-        $restaurants = Restaurant::all();
+        $auth_user = Auth::user()->id;
+        $restaurants = Restaurant::where('user_id', $auth_user)->get();
         return view('admin.restaurants.index', compact('restaurants', 'typologies'));
     }
 
@@ -54,6 +55,12 @@ class RestaurantController extends Controller
     {
         $request->validate($this->validationRule);
         $data = $request->all();
+
+        // controllo autenticazione
+        $auth_user = Auth::user()->id;
+        if ($auth_user != $restaurant->user_id){
+            abort(401);
+        }
 
         // validazioni di address
         $numbers=[
@@ -92,6 +99,8 @@ class RestaurantController extends Controller
         }
         $newRestaurant->vat = $data['vat'];
 
+        $newRestaurant->user_id = Auth::user()->id;
+
         // salvataggio in base a validazione dell'address
         if($numberChecked == true && $viaChecked == true){
             $newRestaurant->save();
@@ -120,6 +129,13 @@ class RestaurantController extends Controller
      */
     public function show(Restaurant $restaurant)
     {
+        // controllo autenticazione
+        $auth_user = Auth::user()->id;
+        if ($auth_user != $restaurant->user_id){
+            abort(401);
+        }
+
+
         return view('admin.restaurants.show', compact('restaurant'));
     }
 
@@ -131,6 +147,12 @@ class RestaurantController extends Controller
      */
     public function edit(Restaurant $restaurant)
     {
+        // controllo autenticazione
+        $auth_user = Auth::user()->id;
+        if ($auth_user != $restaurant->user_id){
+            abort(401);
+        }
+
         $typologies = Typology::all();
         return view('admin.restaurants.edit', compact('restaurant', 'typologies'));
     }
@@ -144,6 +166,12 @@ class RestaurantController extends Controller
      */
     public function update(Request $request, Restaurant $restaurant)
     {
+        // controllo autenticazione
+        $auth_user = Auth::user()->id;
+        if ($auth_user != $restaurant->user_id){
+            abort(401);
+        }
+
         $request->validate($this->validationRule);
         $data = $request->all();
 
@@ -212,11 +240,14 @@ class RestaurantController extends Controller
      */
     public function destroy(Restaurant $restaurant)
     {
+        // controllo autenticazione
+        $auth_user = Auth::user()->id;
+        if ($auth_user != $restaurant->user_id){
+            abort(401);
+        }
 
         $restaurant->typologies()->sync([]);
-
         $restaurant->delete();
-
         return redirect()->route('admin.restaurants.index');
     }
 }
