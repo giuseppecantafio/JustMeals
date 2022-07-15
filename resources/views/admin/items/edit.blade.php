@@ -22,6 +22,7 @@
 
   <div class="form-group mb-3">
     <label for="name">Nome</label>
+    <span class="mx-2">*</span>
     <input type="text" class="form-control" id="name" placeholder="Inserisci nome piatto" name="name" value="{{old('name', $item->name)}}
     " required>
 
@@ -32,6 +33,7 @@
 
   <div class="form-group mb-3">
     <label for="price">Prezzo</label>
+    <span class="mx-2">*</span>
     <input type="number" step="0.1" min="0.20" max="999" class="form-control" id="price" placeholder="Inserisci il prezzo" name="price" value="{{old('price', $item->price)}}" required>
 
     @error('price')
@@ -50,6 +52,7 @@
 
   <div class="form-group mb-3">
     <label for="description">Descrizione piatto</label>
+    <span class="mx-2">*</span>
     <textarea class="form-control" id="description" name="description" required>{{old('description', $item->description)}}</textarea>
 
     @error('description')
@@ -88,7 +91,11 @@
       </select>
     </div>
 
-  <button type="submit" class="btn btn-primary">Invia</button>
+  <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">Invia</button>
+
+        <div>* Campi Obbligatori</div>
+      </div>
 </form>
 
 </div>
