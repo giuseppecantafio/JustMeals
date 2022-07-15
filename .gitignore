@@ -12,6 +12,10 @@ npm-debug.log
 yarn-error.log
 composer.lock
 package.lock
+/public/js/admin.js
+/public/js/front.js
 /public/js/app.js
+/public/css/admin.css
+/public/css/front.css
 /public/css/app.css
 /public/mix-manifest.json
