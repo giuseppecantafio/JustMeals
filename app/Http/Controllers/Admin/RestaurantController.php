@@ -56,12 +56,6 @@ class RestaurantController extends Controller
         $request->validate($this->validationRule);
         $data = $request->all();
 
-        // controllo autenticazione
-        $auth_user = Auth::user()->id;
-        if ($auth_user != $restaurant->user_id){
-            abort(401);
-        }
-
         // validazioni di address
         $numbers=[
             0,1,2,3,4,5,6,7,8,9
