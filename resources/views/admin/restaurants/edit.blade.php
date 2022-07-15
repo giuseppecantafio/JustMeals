@@ -5,14 +5,14 @@
 <div class="container">
     <h1>MODIFICA IL TUO RISTORANTE</h1>
     
-    <form action="{{route('admin.restaurants.update', $restaurant->id)}}" method="post" enctype="multipart/form-data">
+    <form action="{{route('admin.restaurants.update', $restaurant->id)}}" method="post" enctype="multipart/form-data" class="form-js">
         @csrf
         @method('PUT')
     
       <div class="form-group mb-3">
         <label for="name">Nome</label>
         <span class="mx-2">*</span>
-        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Inserisci nome" name="name" value="{{old('name', $restaurant->name)}}" required>
+        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Inserisci nome" name="name" value="{{old('name', $restaurant->name)}}" required  title="Il ristorante può contenere massimo 100 caratteri" >
     
         @error('name')
               <div class="alert alert-danger">{{ $message }}</div>
@@ -22,7 +22,7 @@
       <div class="form-group mb-3">
         <label for="address">Indirizzo</label>
         <span class="mx-2">*</span>
-        <input type="text" class="form-control" id="address" placeholder="Inserisci la via" name="address" value="{{old('address', $restaurant->address)}}" required>
+        <input type="text" class="form-control" id="address" placeholder="Es. Via po, 45" name="address" value="{{old('address', $restaurant->address)}}" required>
     
         @error('address')
               <div class="alert alert-danger">{{ $message }}</div>
@@ -33,6 +33,9 @@
                 {{ session('myError') }}
             </div>
           @endif
+
+          <div class="d-none viaAddress-error" style="border:1px solid red; color: red; padding: 20px;">Inserisci una Via valida ('Via', 'Corso', 'Strada', ecc...)</div>
+          <div class="d-none numberAddress-error" style="border:1px solid red; color: red; padding: 20px;">Inserisci un numero civico</div>
       </div>
     
       <div class="form-group mb-3">
@@ -52,6 +55,8 @@
         @error('vat')
               <div class="alert alert-danger">{{ $message }}</div>
           @enderror
+
+          <div class="d-none vat-error" style="border:1px solid red; color: red; padding: 20px;">La partita Iva deve contenere solo numeri ed essere di 11 cifre</div>
       </div>
     
       <div class="form-group">
@@ -66,15 +71,19 @@
             @error('tags')
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
+
+            <div class="d-none typology-error" style="border:1px solid red; color: red; padding: 20px;">Seleziona almeno una categoria per il tuo ristorante</div>
       </div>
     
       <div class="d-flex justify-content-between">
-        <button type="submit" class="btn btn-primary">Invia</button>
+        <button type="submit" class="btn btn-primary check-address">Invia</button>
 
         <div>* Campi Obbligatori</div>
       </div>
     </form>
 
 </div>
+
+<script src="{{asset('js/admin.js')}}"></script>
 
 @endsection
