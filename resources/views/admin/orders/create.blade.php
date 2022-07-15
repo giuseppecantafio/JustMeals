@@ -76,7 +76,11 @@
     </div>
   
   
-    <button type="submit" class="btn btn-primary">Invia</button>
+    <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">Invia</button>
+
+        <div>* Campi Obbligatori</div>
+      </div>
   </form>
 </div>
 @endsection
