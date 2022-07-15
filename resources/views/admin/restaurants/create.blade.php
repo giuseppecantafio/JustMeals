@@ -5,7 +5,7 @@
 <div class="container">
   <h1>CREA RISTORANTE</h1>
   
-  <form action="{{route('admin.restaurants.store')}}" method="post" enctype="multipart/form-data" class="js-form-check" id="form-js">
+  <form action="{{route('admin.restaurants.store')}}" method="post" enctype="multipart/form-data" class="form-js">
       @csrf
   
     <div class="form-group mb-3">
@@ -31,6 +31,9 @@
             {{ session('myError') }}
         </div>
       @endif
+
+      <div class="d-none viaAddress-error" style="border:1px solid red; color: red; padding: 20px;">Inserisci una Via valida ('Via', 'Corso', 'Strada', ecc...)</div>
+      <div class="d-none numberAddress-error" style="border:1px solid red; color: red; padding: 20px;">Inserisci un numero civico</div>
   
     </div>
   
@@ -51,6 +54,8 @@
       @error('vat')
           <div class="alert alert-danger">{{ $message }}</div>
       @enderror
+
+      <div class="d-none vat-error" style="border:1px solid red; color: red; padding: 20px;">La partita Iva deve contenere solo numeri ed essere di 11 cifre</div>
     </div>
   
       <div class="form-group">
@@ -65,6 +70,8 @@
           @error('tags')
               <div class="alert alert-danger">{{ $message }}</div>
           @enderror
+
+          <div class="d-none typology-error" style="border:1px solid red; color: red; padding: 20px;">Seleziona almeno una categoria per il tuo ristorante</div>
       </div>
   
       <div class="d-flex justify-content-between">
