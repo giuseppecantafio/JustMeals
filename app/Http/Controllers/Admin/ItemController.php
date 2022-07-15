@@ -120,13 +120,26 @@ class ItemController extends Controller
      */
     public function show($rest_id, $item_id)
     {
-        $restaurant = Restaurant::findOrFail($rest_id);
-        // controllo autenticazione
+
+        // controllo che il ristorante esista
+        $restaurant_route = Restaurant::findOrFail($rest_id);
+
+        // controlla che il piatto esista
+        $item = Item::findOrFail($item_id);
+
+        //  controllo che il piatto sia del ristorante cercato
+        if($item->restaurant_id != $restaurant_route->id){
+            abort(404);
+        }
+        
+        // prendo l'user autenticato
         $auth_user = Auth::user()->id;
-        if ($auth_user != $restaurant->user_id){
+        
+        // controllo che il ristorante appartenga all'user
+        if ($auth_user != $restaurant_route->user_id){
             abort(401);
         }
-        $item = Item::findOrFail($item_id);
+
         return view('admin.items.show', compact('item'));
     }
 
@@ -136,15 +149,32 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($restaurant_id, $item_id)
+    public function edit($rest_id, $item_id)
     {
-        $tags = Tag::all();
-        $categories = Category::all();
+        
+        // controllo che il ristorante esista
+        $restaurant_route = Restaurant::findOrFail($rest_id);
+
+        // controlla che il piatto esista
         $item = Item::findOrFail($item_id);
 
-        $restaurant = Restaurant::findOrFail($restaurant_id);
+        //  controllo che il piatto sia del ristorante cercato
+        if($item->restaurant_id != $restaurant_route->id){
+            abort(404);
+        }
+        
+        // prendo l'user autenticato
+        $auth_user = Auth::user()->id;
+        
+        // controllo che il ristorante appartenga all'user
+        if ($auth_user != $restaurant_route->user_id){
+            abort(401);
+        }
 
-        return view('admin.items.edit', compact('item', 'restaurant', 'tags', 'categories'));
+        $tags = Tag::all();
+        $categories = Category::all();
+
+        return view('admin.items.edit', compact('item', 'restaurant_route', 'tags', 'categories'));
     }
 
     /**
@@ -201,11 +231,29 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($restaurant_id, $item_id)
+    public function destroy($rest_id, $item_id)
     {
+        // controllo che il ristorante esista
+        $restaurant_route = Restaurant::findOrFail($rest_id);
+
+        // controlla che il piatto esista
         $item = Item::findOrFail($item_id);
+
+        //  controllo che il piatto sia del ristorante cercato
+        if($item->restaurant_id != $restaurant_route->id){
+            abort(404);
+        }
+        
+        // prendo l'user autenticato
+        $auth_user = Auth::user()->id;
+        
+        // controllo che il ristorante appartenga all'user
+        if ($auth_user != $restaurant_route->user_id){
+            abort(401);
+        }
+
         $item->tags()->sync([]);
         $item->delete();
-        return redirect()->route('admin.items.index', $restaurant_id);
+        return redirect()->route('admin.items.index', $rest_id);
     }
 }

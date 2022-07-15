@@ -129,11 +129,14 @@ class RestaurantController extends Controller
      */
     public function show(Restaurant $restaurant)
     {
+
         // controllo autenticazione
         $auth_user = Auth::user()->id;
         if ($auth_user != $restaurant->user_id){
             abort(401);
         }
+
+        
 
 
         return view('admin.restaurants.show', compact('restaurant'));
