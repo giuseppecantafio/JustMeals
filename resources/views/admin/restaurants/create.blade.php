@@ -5,7 +5,7 @@
 <div class="container">
   <h1>CREA RISTORANTE</h1>
   
-  <form action="{{route('admin.restaurants.store')}}" method="post" enctype="multipart/form-data" class="js-form-check">
+  <form action="{{route('admin.restaurants.store')}}" method="post" enctype="multipart/form-data" class="js-form-check" id="form-js">
       @csrf
   
     <div class="form-group mb-3">
@@ -77,4 +77,5 @@
 </div>
 
 <script src="{{asset('js/admin.js')}}"></script>
+
 @endsection

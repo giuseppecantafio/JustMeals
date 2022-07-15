@@ -13,7 +13,7 @@ checkAddress.addEventListener("click", function (event) {
     event.preventDefault();
 
     const address = document.getElementById('address');
-    const formAddress = document.getElementsByTagName('form');
+    const formAddress = document.getElementById('form-js');
 
 
     // validazioni di address
@@ -44,7 +44,7 @@ checkAddress.addEventListener("click", function (event) {
 
     if (viaChecked && numberChecked) {
 
-        formAddress[0].submit();
+        formAddress.submit();
 
     } else {
         console.log("LEONARODOSODS")
