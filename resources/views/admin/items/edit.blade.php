@@ -6,7 +6,7 @@
     <h1>Modifica piatto al tuo menu</h1>
 
     <form action="{{route('admin.items.destroy', 
-                    [ 'id' => $restaurant->id,
+                    [ 'id' => $restaurant_route->id,
                     'item' => $item->id ]
                         )}}" method="post">
                     @csrf
@@ -16,15 +16,15 @@
                 </form>
   
 <form action="{{route('admin.items.update', 
-[ 'id' => $restaurant->id, 'item' => $item->id ])}}" method="POST" enctype="multipart/form-data">
+[ 'id' => $restaurant_route->id, 'item' => $item->id ])}}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
   <div class="form-group mb-3">
     <label for="name">Nome</label>
-    <span class="mx-2">*</span>
-    <input type="text" class="form-control" id="name" placeholder="Inserisci nome piatto" name="name" value="{{old('name', $item->name)}}
-    " required>
+    <span class="mx-2">* <small class="mx-2" style="color: grey">Max 150 caratteri</small></span>
+    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Inserisci nome piatto" name="name" value="{{old('name', $item->name)}}
+    " maxlength="150" required>
 
     @error('name')
       <div class="alert alert-danger">{{ $message }}</div>
@@ -34,7 +34,7 @@
   <div class="form-group mb-3">
     <label for="price">Prezzo</label>
     <span class="mx-2">*</span>
-    <input type="number" step="0.1" min="0.20" max="999" class="form-control" id="price" placeholder="Inserisci il prezzo" name="price" value="{{old('price', $item->price)}}" required>
+    <input type="number" step="0.01" min="0.20" max="999" class="form-control @error('price') is-invalid @enderror" id="price" placeholder="Inserisci il prezzo" name="price" value="{{old('price', $item->price)}}" required>
 
     @error('price')
       <div class="alert alert-danger">{{ $message }}</div>
@@ -43,7 +43,7 @@
 
   <div class="form-group mb-3">
     <label for="image">Inserisci immagine</label>
-    <input type="file" id="image" placeholder="Inserisci immagine" name="image">
+    <input type="file" class="@error('image') is-invalid @enderror" id="image" placeholder="Inserisci immagine" name="image">
 
     @error('image')
       <div class="alert alert-danger">{{ $message }}</div>
@@ -52,8 +52,8 @@
 
   <div class="form-group mb-3">
     <label for="description">Descrizione piatto</label>
-    <span class="mx-2">*</span>
-    <textarea class="form-control" id="description" name="description" required>{{old('description', $item->description)}}</textarea>
+    <span class="mx-2">* <small class="mx-2" style="color: grey">Max 1000 caratteri</small></span>
+    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" required maxlength="1000">{{old('description', $item->description)}}</textarea>
 
     @error('description')
       <div class="alert alert-danger">{{ $message }}</div>
@@ -66,16 +66,17 @@
       @error('available')
         <div class="alert alert-danger">{{ $message }}</div>
       @enderror
-    </div>
+  </div>
 
     <div class="form-group">
-        <h5>Tipologia di Servizi</h5>
+        <h5>Modifica tag</h5>
         @foreach ($tags as $tag)
             <div class="form-check form-check-inline">
                 <input type="checkbox" class="form-check-input" {{$item->tags->contains($tag) ? 'checked' : ''}} id="{{$tag->slug}}" name="tags[]" value="{{$tag->id}}">
                 <label class="form-check-label"  for="{{$tag->slug}}">{{$tag->name}}</label>
             </div>
         @endforeach
+
         @error('tags')
             <div class="alert alert-danger">{{ $message }}</div>
         @enderror
