@@ -140,7 +140,7 @@ class ItemController extends Controller
             abort(401);
         }
 
-        return view('admin.items.show', compact('item'));
+        return view('admin.items.show', compact('item', 'restaurant_route'));
     }
 
     /**

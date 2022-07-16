@@ -22,7 +22,7 @@ class TagController extends Controller
     {
         $user_id = Auth::user()->id;
 
-        $tags = Tag::where('id', $user_id)->get();
+        $tags = Tag::all();
         return view('admin.tags.index', compact('tags'));
     }
 
