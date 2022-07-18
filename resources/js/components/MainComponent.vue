@@ -1,18 +1,15 @@
 <template>
     <main>
-        <router-view>
-            
-        </router-view>
+
+        <router-view />
+
     </main>
 </template>
 
 <script>
 export default {
-    name:'MainComponent',
-
-}
+    name: "MainComponent",
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

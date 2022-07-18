@@ -156,25 +156,8 @@ class RestaurantController extends Controller
         $data = $request->all();
 
         // validazioni di address
-        $numbers=[
-            0,1,2,3,4,5,6,7,8,9
-        ];
-        $vie=[
-            'Via', 'Piazza', 'Largo', 'Strada', 'Stradone', 'Contrada', 'Rione', 'Circonvallazione', "Ca'"
-        ];
-        $numberChecked = false;
-        $viaChecked = false;
-        foreach($numbers as $number){
-            if(str_contains($data["address"], $number)){
-                $numberChecked = true;
-            }
-        }
-        foreach($vie as $via){
-            if(str_contains($data["address"], $via)){
-                $viaChecked = true;
-            }
-        }
-
+        $numberChecked = Restaurant::validateNumber($data['address']);
+        $viaChecked = Restaurant::validateStreet($data['address']);
 
         if ($restaurant->name != $data['name']){
             $restaurant->name = $data['name'];

@@ -7,6 +7,8 @@ Vue.use(VueRouter);
 import HomeComponent from './pages/HomeComponent';
 import RestaurantsComponent from './pages/RestaurantsComponent';
 import MenuComponent from './pages/MenuComponent';
+import SingleRestaurantComponent from './pages/SingleRestaurantComponent';
+
 
 const router = new VueRouter({
     mode: "history",
@@ -17,6 +19,11 @@ const router = new VueRouter({
             component: HomeComponent,
         },
         {
+
+            path: '/ristorantedaclelia',
+            name: 'daclelia',
+            component: SingleRestaurantComponent,
+        },
             path: '/restaurants',
             name: 'restaurants',
             component: RestaurantsComponent,
