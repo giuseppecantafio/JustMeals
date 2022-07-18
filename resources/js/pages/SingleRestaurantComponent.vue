@@ -1,7 +1,6 @@
 <template>
     <div>
         <h1>Benvenuto da Pizzeria da Clelia</h1>
-        <cart-component :piatto="'leonardo'" />
         <div class="d-flex justify-content-between">
             <div class="card" v-for="(item, index) in menu" :key="index">
                 <div>
@@ -19,10 +18,9 @@
 </template>
 
 <script>
-import CartComponent from "../partials/CartComponent.vue";
 
 export default {
-    components: { CartComponent },
+
     name: "SingleRestaurantComponent",
     data() {
         return {
@@ -67,10 +65,30 @@ export default {
                 JSON.stringify(item)
             );
 
-            console.log("PORCOLEONAROD");
+            console.log(this.cart);
         },
+        getCartItems() {
+            for (const [key, value] of Object.entries(window.localStorage)) {
+                let newValue = JSON.parse(value);
+                let item = {};
+                item.name = newValue.name;
+                item.price = newValue.price;
+                this.cart.push(item);
+            }
+        },
+    
     },
-};
+    mounted(){
+        console.log('Cart : ',this.cart)
+    },
+    created(){
+        this.getCartItems()
+    }
+}
+
+
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>

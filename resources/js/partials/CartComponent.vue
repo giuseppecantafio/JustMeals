@@ -1,11 +1,12 @@
 <template>
     <div>
         <div class="container">
-            <div class="row">
+            <div class="row" v-if="cartItems.length > 0">
                 <div
                     class="col"
                     v-for="(item, index) in cartItems"
-                    :key="index"
+                    :key="index" 
+                    
                 >
                     <div>
                         {{ item.name }}
@@ -13,8 +14,11 @@
                     <div>
                         {{ item.price }}
                     </div>
+                    <button @click="removeItem(item.id)">Rimuovi elemento</button>
                 </div>
             </div>
+
+            <button @click="emptyCart()">Svuota carrello</button>
         </div>
     </div>
 </template>
@@ -34,10 +38,27 @@ export default {
                 let item = {};
                 item.name = newValue.name;
                 item.price = newValue.price;
+                console.log(key)
+                item.id = key;
                 this.cartItems.push(item);
             }
-            // console.log(this.getCart[0].name, this.getCart[0].price);
         },
+        emptyCart(){
+            window.localStorage.clear();
+            this.cartItems = [];
+        },
+        removeItem(id){
+            window.localStorage.removeItem(id);
+
+            this.cartItems.forEach((item)=>{
+                if(item.id === id){
+                    this.cartItems.splice(item)
+                }
+            })
+            
+            this.getCartItems()
+        }
+
     },
     created() {
         this.getCartItems();
