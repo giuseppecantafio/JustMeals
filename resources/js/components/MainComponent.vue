@@ -1,19 +1,13 @@
 <template>
     <main>
-        <router-view>
-            
-        </router-view>
-        <h1>Sono il Main</h1>
+        <router-view />
     </main>
 </template>
 
 <script>
 export default {
-    name:'MainComponent',
-
-}
+    name: "MainComponent",
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

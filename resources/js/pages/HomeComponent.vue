@@ -1,15 +1,17 @@
 <template>
     <div>
-        HomeComponent
+        <h1>Benvenuto su Deliveboo!</h1>
+        <router-link :to="{ name: 'daclelia' }"
+            >Vai al menù del ristorante da Clelia</router-link
+        >
     </div>
 </template>
 
 <script>
 export default {
-    name: 'HomeComponent',
-}
+    components: {},
+    name: "HomeComponent",
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
