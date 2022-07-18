@@ -21,15 +21,28 @@ export default {
     data(){
         return{
             restaurants: [],
+            typologies: [],
         }
     },
     created(){
         axios.get("api/restaurants").then((response)=>{
             this.restaurants = response.data;
+            //console.log(this.restaurants)
         }).catch((error)=>{
             console.log(error);
         });
-        
+        axios.get("api/typologies").then((response)=>{
+            this.typologies = response.data;
+            console.log(this.typologies)
+        }).catch((error)=>{
+            console.log(error);
+        });
+        axios.get("api/restaurants?id=1").then((response)=>{
+            this.restaurants = response.data;
+            console.log(this.restaurants);
+        }).catch((error)=>{
+            console.log(error);
+        });
     }
 }
 </script>
