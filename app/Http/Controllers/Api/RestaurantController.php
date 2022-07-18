@@ -21,8 +21,15 @@ class RestaurantController extends Controller
         $data = $request->all();
         // $restaurants = Restaurant::where("typologies", $data)->get();
         $typology = Typology::findOrFail($data);
-        $restaurants = $typology->restaurants()->get();
+        // $restaurants = $typology->restaurants()->get();
+
+        //GIUSTO
+        $restaurants = Restaurant::whereHas('typologies', function($q) use($data) {
+            $q->whereIn('typology_id', $data);
+        })->get();
+        
         dd($restaurants);
+
         // $restaurants = Restaurant::with("typologies")->get();
         return response()->json($restaurants);
     }
