@@ -47,7 +47,7 @@ window.restaurantValidation = {
 
 
         // rimetto a ogni submit il d-none
-        // this.viaAddressError.classList.add('d-none')
+        this.viaAddressError.classList.add('d-none')
         this.vatError.classList.add('d-none')
         this.numberAddressError.classList.add('d-none')
         this.typologyError.classList.add('d-none')
