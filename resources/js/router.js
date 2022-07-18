@@ -8,7 +8,7 @@ import HomeComponent from './pages/HomeComponent';
 import RestaurantsComponent from './pages/RestaurantsComponent';
 import MenuComponent from './pages/MenuComponent';
 import SingleRestaurantComponent from './pages/SingleRestaurantComponent';
-
+import CartComponent from './partials/CartComponent';
 
 const router = new VueRouter({
     mode: "history",
@@ -33,6 +33,11 @@ const router = new VueRouter({
             path: '/restaurant/:slug',
             name: 'menu',
             component: MenuComponent,
+        },
+        {
+            path: '/cart',
+            name: 'cart',
+            component: CartComponent,
         },
     ]
 });

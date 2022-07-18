@@ -10,7 +10,12 @@
                     <div class="navbar-nav">
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                         <a class="nav-link" href="#">Features</a>
-                        <a class="nav-link" href="#">Pricing</a>
+                        <router-link class="nav-link" :to="{ name: 'daclelia' }">
+                            da Clelia
+                        </router-link>
+                        <router-link class="nav-link" :to="{ name: 'cart' }">
+                            <i class="fa-solid fa-cart-arrow-down"></i>
+                        </router-link>
                     </div>
                 </div>
             </div>
