@@ -57,25 +57,8 @@ class RestaurantController extends Controller
         $data = $request->all();
 
         // validazioni di address
-        $numbers=[
-            0,1,2,3,4,5,6,7,8,9
-        ];
-        $vie=[
-            'Via', 'Piazza', 'Largo', 'Strada', 'Stradone', 'Contrada', 'Rione', 'Circonvallazione', "Ca'"
-        ];
-        $numberChecked = false;
-        $viaChecked = false;
-        foreach($numbers as $number){
-            if(str_contains($data["address"], $number)){
-                $numberChecked = true;
-            }
-        }
-        foreach($vie as $via){
-            if(str_contains($data["address"], $via)){
-                $viaChecked = true;
-            }
-        }
-        
+        $numberChecked = Restaurant::validateNumber($data['address']);
+        $viaChecked = Restaurant::validateStreet($data['address']);
 
         $newRestaurant = new Restaurant();
         $newRestaurant->name = $data['name'];
@@ -105,7 +88,7 @@ class RestaurantController extends Controller
 
             return redirect()->route('admin.restaurants.show', $newRestaurant->id);
         } elseif ($numberChecked == true){
-            return redirect()->back()->withInput()->with('myError', 'Si prega di inserire una Via');
+            return redirect()->back()->withInput()->with('myError', 'Si prega di inserire una Via, Corso, Strada, ecc');
         } elseif ($viaChecked == true){
             return redirect()->back()->withInput()->with('myError', 'Si prega di inserire un Numero Civico');
         } else {

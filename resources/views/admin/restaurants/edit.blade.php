@@ -10,13 +10,15 @@
         @method('PUT')
     
       <div class="form-group mb-3">
-        <label for="name">Nome</label>
-        <span class="mx-2">*</span>
-        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Inserisci nome" name="name" value="{{old('name', $restaurant->name)}}" required  title="Il ristorante può contenere massimo 100 caratteri" >
+        <label for="name-form">Nome</label>
+        <span class="mx-2">* <small class="mx-2" style="color: grey">Max 100 caratteri</small></span>
+        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name-form" placeholder="Inserisci nome" name="name" value="{{old('name', $restaurant->name)}}" required maxlength="100" title="Il ristorante può contenere massimo 100 caratteri" >
     
         @error('name')
-              <div class="alert alert-danger">{{ $message }}</div>
-          @enderror
+          <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
+
+        <div class="name-error d-none alert alert-danger">Devi inserire un nome</div>
       </div>
     
       <div class="form-group mb-3">
@@ -25,17 +27,18 @@
         <input type="text" class="form-control" id="address" placeholder="Es. Via po, 45" name="address" value="{{old('address', $restaurant->address)}}" required>
     
         @error('address')
-              <div class="alert alert-danger">{{ $message }}</div>
-          @enderror
+          <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
     
-          @if (session('myError'))
-            <div class="alert alert-danger">
-                {{ session('myError') }}
-            </div>
-          @endif
+        @if (session('myError'))
+          <div class="alert alert-danger">
+            {{ session('myError') }}
+          </div>
+        @endif
 
-          <div class="d-none viaAddress-error" style="border:1px solid red; color: red; padding: 20px;">Inserisci una Via valida ('Via', 'Corso', 'Strada', ecc...)</div>
-          <div class="d-none numberAddress-error" style="border:1px solid red; color: red; padding: 20px;">Inserisci un numero civico</div>
+        <div class="viaAddress-error d-none alert alert-danger">Inserisci una Via valida ('Via', 'Corso', 'Strada', ecc...)</div>
+        <div class="numberAddress-error d-none alert alert-danger">Inserisci un numero civico</div>
+
       </div>
     
       <div class="form-group mb-3">
@@ -53,10 +56,10 @@
         <input type="text" class="form-control @error('vat') is-invalid @enderror" id="vat" placeholder="Inserisci la partita IVA" name="vat" value="{{old('vat', $restaurant->vat)}}" required>
     
         @error('vat')
-              <div class="alert alert-danger">{{ $message }}</div>
-          @enderror
+          <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
 
-          <div class="d-none vat-error" style="border:1px solid red; color: red; padding: 20px;">La partita Iva deve contenere solo numeri ed essere di 11 cifre</div>
+        <div class="vat-error d-none alert alert-danger">La partita Iva deve contenere solo numeri ed essere di 11 cifre</div>
       </div>
     
       <div class="form-group">
@@ -72,11 +75,11 @@
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
 
-            <div class="d-none typology-error" style="border:1px solid red; color: red; padding: 20px;">Seleziona almeno una categoria per il tuo ristorante</div>
+            <div class="typology-error d-none alert alert-danger">Seleziona almeno una categoria per il tuo ristorante</div>
       </div>
     
       <div class="d-flex justify-content-between">
-        <button type="submit" class="btn btn-primary check-address">Invia</button>
+        <button type="submit" class="btn btn-primary restaurant-submit">Invia</button>
 
         <div>* Campi Obbligatori</div>
       </div>

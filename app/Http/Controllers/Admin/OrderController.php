@@ -45,14 +45,47 @@ class OrderController extends Controller
     {
         $data = $request->all();
         $newOrder = new Order();
-        $newCustomer = new Customer();
-        // CUSTOMER
-        $newCustomer->name = $data['userName'];
-        $newCustomer->surname = $data['userSurname'];
-        $newCustomer->email = $data['userEmail'];
-        $newCustomer->address = $data['userAddress'];
-        $newCustomer->save();
-        $customer = Customer::where("email", $newCustomer->email)->first();
+        // qui fare controllo del new customer, se è new o no
+        $mailFound = false;
+        $nameFound = false;
+        $surnameFound = false;
+        $fullnameFound = false;
+        
+        $CustomerEmail = Customer::where('email', $data['userEmail'])->get();
+
+        $customerFullName = Customer::where([
+            ['name', '=', $data['userName']],
+            ['surname', '=', $data['userSurname']],
+        ])->get();
+        
+        foreach ($customerFullName as $customerConFullnameTrovata){
+            if($customerConFullnameTrovata){
+                $fullnameFound = true;
+            }
+        }
+
+        foreach ($CustomerEmail as $customerConMailTrovata){
+            if($customerConMailTrovata){
+                $mailFound = true;
+            }
+        }
+
+        if($mailFound && $fullnameFound){
+            dd('Bentornato!! Sconto Speciale per te');
+        } else if ($mailFound){
+            dd('Questa mail esiste già sotto un altro nome. Reinserisci i dati corretti');
+        } else {
+
+            // NEW CUSTOMER
+            $newCustomer = new Customer();
+            $newCustomer->name = $data['userName'];
+            $newCustomer->surname = $data['userSurname'];
+            $newCustomer->email = $data['userEmail'];
+            $newCustomer->address = $data['userAddress'];
+            $newCustomer->save();
+            $customer = Customer::where("email", $newCustomer->email)->first();
+        }
+
 
         // ORDINE
         $newOrder->customer_id = $customer->id;

@@ -2,8 +2,16 @@
 
 @section('content')
 <div class="container">
+    <button class="btn btn-warning" style="float: right">
+        <a href="{{route('admin.restaurants.edit', $restaurant->id)}}">Edit</a>
+    </button>
     
     <h2>{{$restaurant->name}}</h2>
+    @if($restaurant->image)
+    <div style="height:200px; width:200px">
+        <img style="height: 100%" src="{{asset("storage/".$restaurant->image)}}" alt="">
+    </div>
+    @endif
     <h4>{{$restaurant->address}}</h4>
     
     <ul>
@@ -12,12 +20,8 @@
         @endforeach
     </ul>
     
-    <button>
-        <a href="{{route('admin.restaurants.edit', $restaurant->id)}}">Edit</a>
-    </button>
-    
-    <button>
-        <a href="{{route('admin.items.index', $restaurant->id)}}">Menu</a>
+    <button class="btn btn-primary">
+        <a style="color: white" href="{{route('admin.items.index', $restaurant->id)}}">Menu</a>
     </button>
 
 </div>
