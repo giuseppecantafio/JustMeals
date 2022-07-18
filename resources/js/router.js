@@ -24,6 +24,7 @@ const router = new VueRouter({
             name: 'daclelia',
             component: SingleRestaurantComponent,
         },
+        {
             path: '/restaurants',
             name: 'restaurants',
             component: RestaurantsComponent,
