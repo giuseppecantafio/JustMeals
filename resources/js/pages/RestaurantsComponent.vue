@@ -50,10 +50,35 @@ export default {
                 console.log(error);
             });
         },
+        // filterRestaurants(query){
+        //     console.log(query)
+        //     if (this.selectTypo.length > 0){
+        //             axios.get(`api/restaurants?id=${this.selectTypo}`).then((response)=>{
+        //                 this.restaurants = response.data;
+        //                 console.log(this.selectTypo);
+        //         }).catch((error)=>{
+        //             console.log(error);
+        //         });
+        //     } else {
+        //             axios.get("api/restaurants").then((response)=>{
+        //                 this.restaurants = response.data;
+        //                 //console.log(this.restaurants)
+        //         }).catch((error)=>{
+        //             console.log(error);
+        //         });
+        //     }
+
+        // },
         filterRestaurants(query){
+            let pezzo = "";
             console.log(query)
             if (this.selectTypo.length > 0){
-                    axios.get(`api/restaurants?id=${query}`).then((response)=>{
+                    this.selectTypo.forEach((el) =>{
+                        pezzo += `&id=${el}`
+                    });
+                    let finalQuery = pezzo.replace(pezzo[0], '' );
+                    console.log(finalQuery);
+                    axios.get(`api/restaurants?${finalQuery}`).then((response)=>{
                         this.restaurants = response.data;
                         console.log(this.selectTypo);
                 }).catch((error)=>{
