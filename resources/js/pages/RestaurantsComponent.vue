@@ -7,8 +7,8 @@
         <option v-for="typology in typologies" :key="typology.id" :value="typology.id">{{typology.name}}</option>
     </select> -->
 
-    <div class="form-check" v-for="typology in typologies" :key="typology.id">
-        <input class="form-check-input" type="checkbox" :value="typology.id" id="flexCheckDefault" v-model="selectTypo">
+    <div class="form-check" v-for="typology in typologies" :key="typology.id" >
+        <input class="form-check-input" type="checkbox" :value="typology.id" @change="filterRestaurants(selectTypo)" id="flexCheckDefault" v-model="selectTypo">
         <label class="form-check-label" for="flexCheckDefault">
             {{typology.name}}
         </label>
@@ -38,7 +38,7 @@ export default {
         return{
             restaurants: [],
             typologies: [],
-            selectTypo: null
+            selectTypo: [],
         }
     },
     methods: {
@@ -52,21 +52,26 @@ export default {
         },
         filterRestaurants(query){
             console.log(query)
-            axios.get(`api/restaurants?id=${query}`).then((response)=>{
-                this.restaurants = response.data;
-                console.log('siamo qua  : ',this.restaurants);
-            }).catch((error)=>{
-                console.log(error);
-            });
+            if (this.selectTypo.length > 0){
+                    axios.get(`api/restaurants?id=${query}`).then((response)=>{
+                        this.restaurants = response.data;
+                        console.log(this.selectTypo);
+                }).catch((error)=>{
+                    console.log(error);
+                });
+            } else {
+                    axios.get("api/restaurants").then((response)=>{
+                        this.restaurants = response.data;
+                        //console.log(this.restaurants)
+                }).catch((error)=>{
+                    console.log(error);
+                });
+            }
+
         }
     },
     created(){
-        // axios.get("api/restaurants").then((response)=>{
-        //     this.restaurants = response.data;
-        //     //console.log(this.restaurants)
-        // }).catch((error)=>{
-        //     console.log(error);
-        // });
+        this.filterRestaurants();
         // axios.get("api/typologies").then((response)=>{
         //     this.typologies = response.data;
         //     console.log(this.typologies)
