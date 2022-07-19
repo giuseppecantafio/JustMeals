@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Restaurant;
 use App\Item;
 use App\Typology;
+use Illuminate\Support\Facades\DB;
 
 
 class RestaurantController extends Controller
@@ -19,21 +20,26 @@ class RestaurantController extends Controller
     public function index(Request $request)
     {
         $data = $request->all();
-        // dd($data);
-        $typology = Typology::findOrFail($data);
-        $restaurants = [];
-        if ($data == null){
-            $restaurants = Restaurant::all();
-        } else {
-            $restaurants = Restaurant::whereHas('typologies', function($q) use($data) {
-                $q->whereIn('typology_id', $data);
-            })->get();
-        }
-        //GIUSTO
-        
-        // dd($restaurants);
 
-        // $restaurants = Restaurant::with("typologies")->get();
+        if ($data == []){
+            $restaurants = Restaurant::with('typologies')->get();
+        } else {
+            
+            $queryParams = [];
+    
+            if(isset($data['typology'])){
+                $queryParams = explode(',', $data['typology']);      
+            } else{
+                // dd('query sbagliata');
+                abort(400);
+            }            
+
+            $restaurants = Restaurant::whereHas('typologies', function($q) use($queryParams) {
+                    $q->whereIn('typology_id', $queryParams);
+                })->with('typologies')->get();
+
+        }
+
         return response()->json($restaurants);
     }
 
