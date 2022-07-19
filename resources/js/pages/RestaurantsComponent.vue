@@ -1,38 +1,26 @@
 <template>
     <div class="container">
-        <select
-            name="filterTypologies"
-            id="filterTypologies"
-            v-model="selectTypo"
-            @change="filterRestaurants(selectTypo)"
-        >
-            <option value="">Select typology</option>
 
+        <div class="form-check" v-for="typology in typologies" :key="typology.id" >
+            <input class="form-check-input" type="checkbox" :value="typology.id" @change="filterRestaurants(selectTypo)" id="flexCheckDefault" v-model="selectTypo">
+            <label class="form-check-label" for="flexCheckDefault">
+                {{typology.name}}
+            </label>
+        </div>
 
+        <div class="row d-flex" style="flex-direction: row">
+            <div class="col" v-for="restaurant in restaurants" :key="restaurant.id">
+                <div  class="card">
+                    <img :src="`/storage/${restaurant.image}`" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{restaurant.name}}</h5>
+                        <h6 class="card-subtitle">{{restaurant.address}}</h6>
+                        <p class="card-text">{{restaurant.vat}}</p>
+                        <div v-if="(restaurant.typologies)">
+                            <p v-for="typology in restaurant.typologies" :key="typology.id" class="card-text">{{typology.name}}</p>
 
-    <!-- <select name="filterTypologies" id="filterTypologies" v-model="selectTypo" @change="filterRestaurants(selectTypo)">
-        <option value="">Select typology</option>
-
-        <option v-for="typology in typologies" :key="typology.id" :value="typology.id">{{typology.name}}</option>
-    </select> -->
-
-    <div class="form-check" v-for="typology in typologies" :key="typology.id" >
-        <input class="form-check-input" type="checkbox" :value="typology.id" @change="filterRestaurants(selectTypo)" id="flexCheckDefault" v-model="selectTypo">
-        <label class="form-check-label" for="flexCheckDefault">
-            {{typology.name}}
-        </label>
-    </div>
-
-    <div class="d-flex">
-        <div v-for="restaurant in restaurants" :key="restaurant.id" class="card" style="width: 18rem;">
-            <img :src="`/storage/${restaurant.image}`" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">{{restaurant.name}}</h5>
-                <h6 class="card-subtitle">{{restaurant.address}}</h6>
-                <p class="card-text">{{restaurant.vat}}</p>
-                <div v-if="(restaurant.typologies)">
-                    <p v-for="typology in restaurant.typologies" :key="typology.id" class="card-text">{{typology.name}}</p>
-
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
