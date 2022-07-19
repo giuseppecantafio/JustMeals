@@ -19,16 +19,19 @@ class RestaurantController extends Controller
     public function index(Request $request)
     {
         $data = $request->all();
-        // $restaurants = Restaurant::where("typologies", $data)->get();
+        // dd($data);
         $typology = Typology::findOrFail($data);
-        // $restaurants = $typology->restaurants()->get();
-
+        $restaurants;
+        if ($data == null){
+            $restaurants = Restaurant::all();
+        } else {
+            $restaurants = Restaurant::whereHas('typologies', function($q) use($data) {
+                $q->whereIn('typology_id', $data);
+            })->get();
+        }
         //GIUSTO
-        $restaurants = Restaurant::whereHas('typologies', function($q) use($data) {
-            $q->whereIn('typology_id', $data);
-        })->get();
         
-        dd($restaurants);
+        // dd($restaurants);
 
         // $restaurants = Restaurant::with("typologies")->get();
         return response()->json($restaurants);
