@@ -10,6 +10,9 @@
                     <div class="navbar-nav">
                         <a class="nav-link active" aria-current="page" href="#">Home</a>
                         <a class="nav-link" href="#">Features</a>
+                        <router-link class="nav-link" :to="{ name: 'restaurants' }">
+                            Restaurants
+                        </router-link>
                         <router-link class="nav-link" :to="{ name: 'daclelia' }">
                             da Clelia
                         </router-link>
