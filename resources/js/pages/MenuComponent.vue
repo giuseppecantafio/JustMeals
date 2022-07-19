@@ -29,6 +29,7 @@ export default {
     },
     methods: {
         addToCart(item) {
+            console.log('1--- ',item)
             if (this.cart.length > 0) {
                 // console.log(this.cart);
                 // console.log(item);
@@ -37,10 +38,10 @@ export default {
                     if (element.restaurant_id != item.restaurant_id) {
                         cheeck = true;
                         console.log(
-                            "######################################################################################"
+                            "2---######################################################################################"
                         );
                         console.log(
-                            "element: ",
+                            "3---element: ",
                             element.restaurant_id,
                             "item: ",
                             item.restaurant_id
@@ -48,6 +49,8 @@ export default {
                     }
                 });
                 if (cheeck) {
+                    alert('PORCAMADONNA')
+                    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
                 } else {
                     this.cart.push(item);
                     window.localStorage.setItem(
@@ -55,9 +58,9 @@ export default {
                         JSON.stringify(item)
                     );
                     console.log(
-                        "?????????????????????????????????????????????????"
+                        "4---?????????????????????????????????????????????????"
                     );
-                    console.log(this.cart);
+                    console.log('5---',this.cart);
                 }
             } else {
                 this.cart.push(item);
@@ -65,7 +68,7 @@ export default {
                     `item${this.cart.length}`,
                     JSON.stringify(item)
                 );
-                console.log(this.cart);
+                console.log('6---',this.cart);
             }
         },
         getCartItems() {
@@ -86,10 +89,10 @@ export default {
                 .then((response) => {
                     this.menu = response.data.items;
                     this.restaurant = response.data;
-                    console.log("RESPONSE : ", response.data);
+                    console.log("7---RESTAURANT : ", response.data);
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.log('8---',error);
                 });
         },
     },
