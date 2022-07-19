@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Typology extends Model
 {
     public function restaurants(){
-    $this->belongsToMany('App\Restaurant');
+        return $this->belongsToMany('App\Restaurant');
     }
 }

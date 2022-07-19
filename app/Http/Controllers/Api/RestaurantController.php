@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Restaurant;
+use App\Item;
+use App\Typology;
 
 
 class RestaurantController extends Controller
@@ -14,9 +16,21 @@ class RestaurantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $restaurants = Restaurant::with("typologies")->get();
+        $data = $request->all();
+        // $restaurants = Restaurant::where("typologies", $data)->get();
+        $typology = Typology::findOrFail($data);
+        // $restaurants = $typology->restaurants()->get();
+
+        //GIUSTO
+        $restaurants = Restaurant::whereHas('typologies', function($q) use($data) {
+            $q->whereIn('typology_id', $data);
+        })->get();
+        
+        dd($restaurants);
+
+        // $restaurants = Restaurant::with("typologies")->get();
         return response()->json($restaurants);
     }
 
@@ -49,8 +63,8 @@ class RestaurantController extends Controller
      */
     public function show($slug)
     {
-        $restaurant = Restaurant::where("slug", $slug)->with(["typologies"])->first();
-        return response()->json($restaurant);
+        $restaurant = Restaurant::where("slug", $slug)->with(["typologies", "items"])->first();
+        return response()->json($restaurant);        
     }
 
     /**
