@@ -1,11 +1,18 @@
 <template>
 <div class="container">
 
-    <select name="filterTypologies" id="filterTypologies" v-model="selectTypo" @change="filterRestaurants(selectTypo)">
+    <!-- <select name="filterTypologies" id="filterTypologies" v-model="selectTypo" @change="filterRestaurants(selectTypo)">
         <option value="">Select typology</option>
 
         <option v-for="typology in typologies" :key="typology.id" :value="typology.id">{{typology.name}}</option>
-    </select>
+    </select> -->
+
+    <div class="form-check" v-for="typology in typologies" :key="typology.id">
+        <input class="form-check-input" type="checkbox" :value="typology.id" id="flexCheckDefault" v-model="selectTypo">
+        <label class="form-check-label" for="flexCheckDefault">
+            {{typology.name}}
+        </label>
+    </div>
 
     <div class="d-flex">
         <div v-for="restaurant in restaurants" :key="restaurant.id" class="card" style="width: 18rem;">
