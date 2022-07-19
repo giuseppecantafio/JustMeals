@@ -8,48 +8,31 @@
         >
             <option value="">Select typology</option>
 
-            <option
-                v-for="typology in typologies"
-                :key="typology.id"
-                :value="typology.id"
-            >
-                {{ typology.name }}
-            </option>
-        </select>
 
-        <div class="d-flex">
-            <div
-                v-for="restaurant in restaurants"
-                :key="restaurant.id"
-                class="card"
-                style="width: 18rem"
-            >
-                <img
-                    :src="`/storage/${restaurant.image}`"
-                    class="card-img-top"
-                    alt="..."
-                />
-                <div class="card-body">
-                    <h5 class="card-title">{{ restaurant.name }}</h5>
-                    <h6 class="card-subtitle">{{ restaurant.address }}</h6>
-                    <p class="card-text">{{ restaurant.vat }}</p>
-                    <div v-if="restaurant.typologies">
-                        <p
-                            v-for="typology in restaurant.typologies"
-                            :key="typology.id"
-                            class="card-text"
-                        >
-                            {{ typology.name }}
-                        </p>
-                    </div>
-                    <router-link
-                        class="btn btn-primary"
-                        :to="{
-                            name: 'menu',
-                            params: { slug: restaurant.slug },
-                        }"
-                        >Vai al menù</router-link
-                    >
+
+    <!-- <select name="filterTypologies" id="filterTypologies" v-model="selectTypo" @change="filterRestaurants(selectTypo)">
+        <option value="">Select typology</option>
+
+        <option v-for="typology in typologies" :key="typology.id" :value="typology.id">{{typology.name}}</option>
+    </select> -->
+
+    <div class="form-check" v-for="typology in typologies" :key="typology.id" >
+        <input class="form-check-input" type="checkbox" :value="typology.id" @change="filterRestaurants(selectTypo)" id="flexCheckDefault" v-model="selectTypo">
+        <label class="form-check-label" for="flexCheckDefault">
+            {{typology.name}}
+        </label>
+    </div>
+
+    <div class="d-flex">
+        <div v-for="restaurant in restaurants" :key="restaurant.id" class="card" style="width: 18rem;">
+            <img :src="`/storage/${restaurant.image}`" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{restaurant.name}}</h5>
+                <h6 class="card-subtitle">{{restaurant.address}}</h6>
+                <p class="card-text">{{restaurant.vat}}</p>
+                <div v-if="(restaurant.typologies)">
+                    <p v-for="typology in restaurant.typologies" :key="typology.id" class="card-text">{{typology.name}}</p>
+
                 </div>
             </div>
         </div>
@@ -63,8 +46,8 @@ export default {
         return {
             restaurants: [],
             typologies: [],
-            selectTypo: null,
-        };
+            selectTypo: [],
+        }
     },
     methods: {
         getApiTypologies() {
@@ -88,14 +71,53 @@ export default {
                     console.log(error);
                 });
         },
+        // filterRestaurants(query){
+        //     console.log(query)
+        //     if (this.selectTypo.length > 0){
+        //             axios.get(`api/restaurants?id=${this.selectTypo}`).then((response)=>{
+        //                 this.restaurants = response.data;
+        //                 console.log(this.selectTypo);
+        //         }).catch((error)=>{
+        //             console.log(error);
+        //         });
+        //     } else {
+        //             axios.get("api/restaurants").then((response)=>{
+        //                 this.restaurants = response.data;
+        //                 //console.log(this.restaurants)
+        //         }).catch((error)=>{
+        //             console.log(error);
+        //         });
+        //     }
+
+        // },
+        filterRestaurants(query){
+            let pezzo = "";
+            console.log(query)
+            if (this.selectTypo.length > 0){
+                    this.selectTypo.forEach((el) =>{
+                        pezzo += `&id=${el}`
+                    });
+                    let finalQuery = pezzo.replace(pezzo[0], '' );
+                    console.log(finalQuery);
+                    axios.get(`api/restaurants?${finalQuery}`).then((response)=>{
+                        this.restaurants = response.data;
+                        console.log(this.selectTypo);
+                }).catch((error)=>{
+                    console.log(error);
+                });
+            } else {
+                    axios.get("api/restaurants").then((response)=>{
+                        this.restaurants = response.data;
+                        //console.log(this.restaurants)
+                }).catch((error)=>{
+                    console.log(error);
+                });
+            }
+
+        }
     },
-    created() {
-        // axios.get("api/restaurants").then((response)=>{
-        //     this.restaurants = response.data;
-        //     //console.log(this.restaurants)
-        // }).catch((error)=>{
-        //     console.log(error);
-        // });
+    created(){
+        this.filterRestaurants();
         // axios.get("api/typologies").then((response)=>{
         //     this.typologies = response.data;
         //     console.log(this.typologies)
