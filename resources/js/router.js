@@ -7,7 +7,6 @@ Vue.use(VueRouter);
 import HomeComponent from './pages/HomeComponent';
 import RestaurantsComponent from './pages/RestaurantsComponent';
 import MenuComponent from './pages/MenuComponent';
-import SingleRestaurantComponent from './pages/SingleRestaurantComponent';
 import CartComponent from './partials/CartComponent';
 
 const router = new VueRouter({
@@ -17,12 +16,6 @@ const router = new VueRouter({
             path: '/',
             name: '/home',
             component: HomeComponent,
-        },
-        {
-
-            path: '/ristorantedaclelia',
-            name: 'daclelia',
-            component: SingleRestaurantComponent,
         },
         {
             path: '/restaurants',

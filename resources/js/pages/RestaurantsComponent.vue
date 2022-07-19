@@ -1,5 +1,14 @@
 <template>
-<div class="container">
+    <div class="container">
+        <select
+            name="filterTypologies"
+            id="filterTypologies"
+            v-model="selectTypo"
+            @change="filterRestaurants(selectTypo)"
+        >
+            <option value="">Select typology</option>
+
+
 
     <!-- <select name="filterTypologies" id="filterTypologies" v-model="selectTypo" @change="filterRestaurants(selectTypo)">
         <option value="">Select typology</option>
@@ -23,32 +32,44 @@
                 <p class="card-text">{{restaurant.vat}}</p>
                 <div v-if="(restaurant.typologies)">
                     <p v-for="typology in restaurant.typologies" :key="typology.id" class="card-text">{{typology.name}}</p>
+
                 </div>
-                <router-link class="btn btn-primary" :to="{ name: 'menu', params: {slug: restaurant.slug} }">Vai al menù</router-link>
             </div>
         </div>
     </div>
-</div>
 </template>
 
 <script>
 export default {
-    name: 'RestaurantsComponent',
-    data(){
-        return{
+    name: "RestaurantsComponent",
+    data() {
+        return {
             restaurants: [],
             typologies: [],
             selectTypo: [],
         }
     },
     methods: {
-        getApiTypologies(){
-            axios.get("api/typologies").then((response)=>{
-                this.typologies = response.data;
-                console.log(this.typologies)
-            }).catch((error)=>{
-                console.log(error);
-            });
+        getApiTypologies() {
+            axios
+                .get("api/typologies")
+                .then((response) => {
+                    this.typologies = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        filterRestaurants(query) {
+            console.log(query);
+            axios
+                .get(`api/restaurants?id=${query}`)
+                .then((response) => {
+                    this.restaurants = response.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         },
         // filterRestaurants(query){
         //     console.log(query)
@@ -109,11 +130,9 @@ export default {
         // }).catch((error)=>{
         //     console.log(error);
         // });
-        this.getApiTypologies()
-    }
-}
+        this.getApiTypologies();
+    },
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
