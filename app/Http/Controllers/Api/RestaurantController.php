@@ -21,7 +21,7 @@ class RestaurantController extends Controller
         $data = $request->all();
         // dd($data);
         $typology = Typology::findOrFail($data);
-        $restaurants;
+        $restaurants = [];
         if ($data == null){
             $restaurants = Restaurant::all();
         } else {
