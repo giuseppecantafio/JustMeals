@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Restaurant;
 use App\Item;
-use App\Typology;
-use Illuminate\Support\Facades\DB;
 
 
 class RestaurantController extends Controller
@@ -22,7 +20,8 @@ class RestaurantController extends Controller
         $data = $request->all();
 
         if ($data == []){
-            $restaurants = Restaurant::with('typologies')->get();
+            $restaurants = Restaurant::with(['typologies', 'user'])->get();
+            // dd($restaurants);
         } else {
             
             $queryParams = [];
@@ -36,7 +35,7 @@ class RestaurantController extends Controller
 
             $restaurants = Restaurant::whereHas('typologies', function($q) use($queryParams) {
                     $q->whereIn('typology_id', $queryParams);
-                })->with('typologies')->get();
+                })->with(['typologies','user'])->get();
 
         }
 

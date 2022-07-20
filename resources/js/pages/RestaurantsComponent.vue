@@ -14,7 +14,8 @@
                         <img :src="`/storage/${restaurant.image}`" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">{{restaurant.name}}</h5>
-                            <h6 class="card-subtitle">{{restaurant.address}}</h6>
+                            <h6 v-if="restaurant.user">di {{restaurant.user.name}} {{restaurant.user.surname}}</h6>
+                            <h6 class="card-subtitle mt-2">{{restaurant.address}}</h6>
                             <p class="card-text">{{restaurant.vat}}</p>
                             <div v-if="(restaurant.typologies)">
                                 <p v-for="typology in restaurant.typologies" :key="typology.id" class="card-text">{{typology.name}}</p>
@@ -73,7 +74,7 @@ export default {
                 // console.log('SONO QUI')
                 axios.get(this.apiPath)
                     .then((response)=>{
-                        // console.log('5,1---',response.data)
+                        console.log('5,1---',response.data)
                         this.restaurants = response.data;
                         // console.log('5---',this.restaurants)
                     }).catch((error)=>{
