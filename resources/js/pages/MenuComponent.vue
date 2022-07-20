@@ -3,15 +3,24 @@
         <div class="d-flex justify-content-between">
             <h1 v-if="restaurant">Menù {{ restaurant.name }}</h1>
             <div class="card" v-for="(item, index) in menu" :key="index">
+
+                <div>{{ item.name }}</div>
+
+                <div>{{ item.price }}</div>
+
                 <div>
-                    {{ item.name }}
+                    <span>Disponibilità </span>
+                    <i v-if="item.available === 1" class="fa-solid fa-circle-check" style="color: green"></i>
+                    <i v-else class="fa-solid fa-circle-xmark" style="color: red"></i>
                 </div>
-                <div>
-                    {{ item.price }}
-                </div>
-                <button @click="addToCart(item)" class="btn btn-primary">
+
+                <button v-if="item.available === 1" @click="addToCart(item)" class="btn btn-primary" >
                     Aggiungi al carrello
                 </button>
+                <button v-else class="btn btn-secondary" >
+                    Aggiungi al carrello
+                </button>
+
             </div>
         </div>
     </div>
@@ -29,38 +38,40 @@ export default {
     },
     methods: {
         addToCart(item) {
-            console.log('1--- ',item)
+            // console.log('1--- ',item)
+            let check = false;
             if (this.cart.length > 0) {
                 // console.log(this.cart);
                 // console.log(item);
-                let cheeck = false;
+
                 this.cart.forEach((element) => {
                     if (element.restaurant_id != item.restaurant_id) {
-                        cheeck = true;
-                        console.log(
-                            "2---######################################################################################"
-                        );
-                        console.log(
-                            "3---element: ",
-                            element.restaurant_id,
-                            "item: ",
-                            item.restaurant_id
-                        );
+                        check = true;
+                        // console.log("2---######################################################################################");
+                        // console.log("3---element: ",
+                        //     element.restaurant_id,
+                        //     "item: ",
+                        //     item.restaurant_id
+                        // );
                     }
                 });
-                if (cheeck) {
-                    alert('PORCAMADONNA')
-                    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+
+                if (check) {
+                    let destroy = confirm("Svuotare il carrello con l'ordine di un altro ristorante per proseguire?")
+                    if(destroy){
+                        this.emptyCart()
+                        this.cart.push(item);
+                        window.localStorage.setItem(`item${this.cart.length}`,JSON.stringify(item));
+                    }
+                    // console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
                 } else {
                     this.cart.push(item);
                     window.localStorage.setItem(
                         `item${this.cart.length}`,
                         JSON.stringify(item)
                     );
-                    console.log(
-                        "4---?????????????????????????????????????????????????"
-                    );
-                    console.log('5---',this.cart);
+                    // console.log("4---?????????????????????????????????????????????????");
+                    // console.log('5---',this.cart);
                 }
             } else {
                 this.cart.push(item);
@@ -94,6 +105,10 @@ export default {
                 .catch((error) => {
                     console.log('8---',error);
                 });
+        },
+        emptyCart() {
+            window.localStorage.clear();
+            this.cart = [];
         },
     },
     created() {

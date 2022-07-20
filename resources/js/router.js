@@ -32,6 +32,10 @@ const router = new VueRouter({
             name: 'cart',
             component: CartComponent,
         },
+        {
+            path: '/login',
+            name: 'login',
+        },
     ]
 });
 

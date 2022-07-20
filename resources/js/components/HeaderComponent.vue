@@ -26,7 +26,12 @@
                         >
                             Restaurants
                         </router-link>
+                        <a class="nav-link" href="/admin">
+                            <span>Dashboard</span>
+                            <i class="fa-solid fa-user"></i>
+                        </a>
                         <router-link class="nav-link" :to="{ name: 'cart' }">
+                            <span>Carrello</span>
                             <i class="fa-solid fa-cart-arrow-down"></i>
                         </router-link>
                     </div>
@@ -39,6 +44,11 @@
 <script>
 export default {
     name: "HeaderComponent",
+    methods:{
+        goToLogin(){
+            window.location.href = "/login";
+        }
+    }
 };
 </script>
 

@@ -1,29 +1,33 @@
 <template>
     <div class="container">
 
-        <div class="form-check" v-for="typology in typologies" :key="typology.id" >
-            <input class="form-check-input" type="checkbox" :value="typology.id" @change="filterRestaurants(selectTypo)" id="flexCheckDefault" v-model="selectTypo">
-            <label class="form-check-label" for="flexCheckDefault">
-                {{typology.name}}
-            </label>
-        </div>
+            <div class="form-check" v-for="typology in typologies" :key="typology.id" >
+                <input class="form-check-input" type="checkbox" :value="typology.id" @change="filterRestaurants()" id="flexCheckDefault" v-model="selectTypo">
+                <label class="form-check-label" for="flexCheckDefault">
+                    {{typology.name}}
+                </label>
+            </div>
 
-        <div class="row d-flex" style="flex-direction: row">
-            <div class="col" v-for="restaurant in restaurants" :key="restaurant.id">
-                <div  class="card">
-                    <img :src="`/storage/${restaurant.image}`" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">{{restaurant.name}}</h5>
-                        <h6 class="card-subtitle">{{restaurant.address}}</h6>
-                        <p class="card-text">{{restaurant.vat}}</p>
-                        <div v-if="(restaurant.typologies)">
-                            <p v-for="typology in restaurant.typologies" :key="typology.id" class="card-text">{{typology.name}}</p>
+            <div class="row d-flex" style="flex-direction: row">
+                <div class="col" v-for="restaurant in restaurants" :key="restaurant.id" style="padding-bottom: 30px">
+                    <div  class="card" style="height: 100%">
+                        <img :src="`/storage/${restaurant.image}`" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{restaurant.name}}</h5>
+                            <h6 v-if="restaurant.user">di {{restaurant.user.name}} {{restaurant.user.surname}}</h6>
+                            <h6 class="card-subtitle mt-2">{{restaurant.address}}</h6>
+                            <p class="card-text">{{restaurant.vat}}</p>
+                            <div v-if="(restaurant.typologies)">
+                                <p v-for="typology in restaurant.typologies" :key="typology.id" class="card-text">{{typology.name}}</p>
 
+                            </div>
                         </div>
+                        <button class="btn btn-primary">
+                            <router-link :to="{ name: 'menu', params: { slug: restaurant.slug } }" style="color:white" >Menu</router-link>
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 </template>
 
@@ -35,90 +39,53 @@ export default {
             restaurants: [],
             typologies: [],
             selectTypo: [],
+            apiPath: 'api/restaurants'
         }
     },
     methods: {
         getApiTypologies() {
-            axios
-                .get("api/typologies")
+
+            axios.get("api/typologies")
                 .then((response) => {
                     this.typologies = response.data;
+                    // this.filterRestaurants();
                 })
                 .catch((error) => {
-                    console.log(error);
+                    console.log('1---',error);
                 });
         },
-        filterRestaurants(query) {
-            console.log(query);
-            axios
-                .get(`api/restaurants?id=${query}`)
-                .then((response) => {
-                    this.restaurants = response.data;
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        },
-        // filterRestaurants(query){
-        //     console.log(query)
-        //     if (this.selectTypo.length > 0){
-        //             axios.get(`api/restaurants?id=${this.selectTypo}`).then((response)=>{
-        //                 this.restaurants = response.data;
-        //                 console.log(this.selectTypo);
-        //         }).catch((error)=>{
-        //             console.log(error);
-        //         });
-        //     } else {
-        //             axios.get("api/restaurants").then((response)=>{
-        //                 this.restaurants = response.data;
-        //                 //console.log(this.restaurants)
-        //         }).catch((error)=>{
-        //             console.log(error);
-        //         });
-        //     }
+        filterRestaurants(){
 
-        // },
-        filterRestaurants(query){
-            let pezzo = "";
-            console.log(query)
             if (this.selectTypo.length > 0){
-                    this.selectTypo.forEach((el) =>{
-                        pezzo += `&id=${el}`
-                    });
-                    let finalQuery = pezzo.replace(pezzo[0], '' );
-                    console.log(finalQuery);
-                    axios.get(`api/restaurants?${finalQuery}`).then((response)=>{
-                        this.restaurants = response.data;
-                        console.log(this.selectTypo);
-                }).catch((error)=>{
-                    console.log(error);
-                });
-            } else {
-                    axios.get("api/restaurants").then((response)=>{
-                        this.restaurants = response.data;
-                        //console.log(this.restaurants)
-                }).catch((error)=>{
-                    console.log(error);
-                });
-            }
 
+                let finalQuery = '';
+                this.selectTypo.forEach((el) =>{
+                    finalQuery += (el + ',')
+                });
+                    
+                axios.get(`${this.apiPath}?typology=${finalQuery}`)
+                    .then((response)=>{
+                        this.restaurants = response.data;
+                        // console.log('3---',this.selectTypo);
+                    }).catch((error)=>{
+                        console.log(error);
+                    });
+            } else {
+                // console.log('SONO QUI')
+                axios.get(this.apiPath)
+                    .then((response)=>{
+                        console.log('5,1---',response.data)
+                        this.restaurants = response.data;
+                        // console.log('5---',this.restaurants)
+                    }).catch((error)=>{
+                        console.log(error);
+                    });
+            }
         }
     },
     created(){
-        this.filterRestaurants();
-        // axios.get("api/typologies").then((response)=>{
-        //     this.typologies = response.data;
-        //     console.log(this.typologies)
-        // }).catch((error)=>{
-        //     console.log(error);
-        // });
-        // axios.get("api/restaurants?id=1").then((response)=>{
-        //     this.restaurants = response.data;
-        //     console.log(this.restaurants);
-        // }).catch((error)=>{
-        //     console.log(error);
-        // });
         this.getApiTypologies();
+        this.filterRestaurants();
     },
 };
 </script>
