@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Order;
-use App\User;
 use App\Restaurant;
+use App\User;
+use App\Item;
 use Illuminate\Support\Facades\DB;
 use App\Chart;
 use App\Http\Controllers\Controller;
@@ -18,19 +19,32 @@ class ChartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
-        $authUser = Auth::user()->id;
+        $auth_user = Auth::user()->id;
+        $restaurant = Restaurant::where("user_id", "=", $auth_user)
+            ->get();
+        
+        
+        // $cazzo = $user_urestaurant[0]->user_id;  
+        //$restaurants = Restaurant::where($auth_user, "user_id")->get();
+        
+        
+        $items_restaurant = Item::where("restaurant_id", $restaurant[0]->user_id)->with("orders")->get();
         
 
-        $orders = DB::table("orders")
-        ->join("item_order", "item_order.id", "=","orders.id")
-        ->join("items", "items.id", "=", "item_order.item_id")
-        ->join("restaurants", "restaurants.id", "=", "items.restaurant_id")
-        ->select("total_price", DB::raw('count(*) as total'))
-        ->groupBy("total_price")
-        ->where("user_id", $authUser)
-        ->pluck("total", "total_price")->all();
+        // controllo autenticazione
+        
+        if ($auth_user != $restaurant[0]->user_id){
+            abort(401);
+        }
+        $orders = DB::table('orders')
+            
+            ->select("total_price", DB::raw('count(*) as total'))
+            ->groupBy("total_price")
+            ->pluck("total", "total_price")
+            ->all(); 
 
         for ($i=0; $i<=count($orders); $i++) {
             $colours[] = '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6);
@@ -43,7 +57,7 @@ class ChartController extends Controller
         
             return view('admin.chart.index', compact('chart'));
     }
-
+    
     /**
      * Show the form for creating a new resource.
      *
