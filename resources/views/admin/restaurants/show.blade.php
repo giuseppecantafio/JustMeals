@@ -5,6 +5,9 @@
     <button class="btn btn-warning" style="float: right">
         <a href="{{route('admin.restaurants.edit', $restaurant->id)}}">Edit</a>
     </button>
+    <button class="btn btn-warning" style="float: right">
+        <a href="{{route('admin.charts.index', $restaurant->id)}}">Grafico</a>
+    </button>
     
     <h2>{{$restaurant->name}}</h2>
     @if($restaurant->image)
@@ -23,6 +26,7 @@
     <button class="btn btn-primary">
         <a style="color: white" href="{{route('admin.items.index', $restaurant->id)}}">Menu</a>
     </button>
+    
 
 </div>
 

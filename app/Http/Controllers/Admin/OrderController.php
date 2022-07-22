@@ -21,6 +21,14 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::all();
+        // $restaurant = Restaurant::findOrFail();
+        // controllo autenticazione
+        // $auth_user = Auth::user()->id;
+        // if ($auth_user != $restaurant->user_id){
+        //     abort(401);
+        // }
+        // $orders = $restaurant->orders;
+        
         return view('admin.orders.index', compact('orders'));
     }
 
@@ -31,7 +39,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        $items = Item::where("restaurant_id", 1)->get();
+        $items = Item::where("restaurant_id", 2)->get();
         return view('admin.orders.create', compact('items'));
     }
 
