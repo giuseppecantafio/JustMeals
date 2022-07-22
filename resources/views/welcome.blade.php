@@ -163,11 +163,17 @@ function appendiCart(){
                       console.log('payload',payload)    
                         getUserDates()
                           console.log('pagamento avvenuto DIOPORCO')
-                          axios.post('api/payment/post', {'paymentMethodNonce': payload.nonce,
+                          axios
+                          .post('api/payment/post', {'paymentMethodNonce': payload.nonce,
                           'transaction': {cartItems},
-                          'user_dates': {datiUtente}
-                        }).then((result)=> {
+                          'user_dates': {datiUtente},
+                          'total_price' : priceTotal
+                          })
+                          // .post('api/payment/post',  payload.nonce)
+                          .then((hostedFieldInstance)=> {
                                   // Tear down the Drop-in UI
+                                  console.log('66666', hostedFieldInstance)
+                                  // console.log('55555555---------',result)
                                   instance.teardown(function (teardownErr) {
                                     if (teardownErr) {
                                       console.error('Could not tear down Drop-in UI!');
@@ -178,13 +184,13 @@ function appendiCart(){
                                     }
                                   });
 
-                                  if (result.success) {
-                                    // $('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
-                                    console.log('successo',result);
-                                  } else {
-                                    console.log('result else',result);
-                                    // $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
-                                  }
+                                  // if (result.success) {
+                                  //   // $('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
+                                  //   console.log('successo',result);
+                                  // } else {
+                                  //   console.log('result else',result);
+                                  //   // $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
+                                  // }
                             });
                         // .then((res)=>{
                         //     console.log('res',res.data)

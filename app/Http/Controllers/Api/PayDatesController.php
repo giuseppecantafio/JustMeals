@@ -9,6 +9,7 @@ use App\Customer;
 use App\Item;
 use App\Restaurant;
 
+
 class PayDatesController extends Controller
 {
     // public function getCartData(Request $request){
@@ -24,10 +25,27 @@ class PayDatesController extends Controller
 
     public function postPayment(Request $request){
 
-        // $data = $request->all();
-        // return response()->json($data);
-
         $data = $request->all();
+   
+        $gateway = new \Braintree\Gateway([
+            'environment' => getenv('BRAINTREE_ENV'),
+            'merchantId' => getenv('BRAINTREE_MERCHANT_ID'),
+            'publicKey' => getenv('BRAINTREE_PUBLIC_KEY'),
+            'privateKey' => getenv('BRAINTREE_PRIVATE_KEY')
+        ]);
+
+
+        $amount = $data['total_price'];
+        $nonce = $data['paymentMethodNonce'];
+
+        $result = $gateway->transaction()->sale([
+            'paymentMethodNonce' => $nonce,
+            'amount' => $amount,
+            'options' => [
+                'submitForSettlement' => true
+            ]
+        ]);
+
 
         $userData = $data['user_dates']['datiUtente'];
         $transItems = $data['transaction']['cartItems'];
