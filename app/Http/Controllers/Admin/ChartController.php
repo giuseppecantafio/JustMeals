@@ -20,44 +20,61 @@ class ChartController extends Controller
      * @return \Illuminate\Http\Response
      */
     
-    public function index()
+    public function index($id)
     {
         $auth_user = Auth::user()->id;
-        $restaurant = Restaurant::where("user_id", "=", $auth_user)
-            ->get();
+        // $restaurant = Restaurant::where("user_id", "=", $auth_user)
+            // ->get();
+        $restaurant = Restaurant::findOrFail($id);
         
         
         // $cazzo = $user_urestaurant[0]->user_id;  
         //$restaurants = Restaurant::where($auth_user, "user_id")->get();
         
         
-        $items_restaurant = Item::where("restaurant_id", $restaurant[0]->user_id)->with("orders")->get();
+        $items_restaurant = Item::where("restaurant_id", $restaurant->id)->get();
         
 
         // controllo autenticazione
         
-        if ($auth_user != $restaurant[0]->user_id){
+        if ($auth_user != $restaurant->user_id){
             abort(401);
         }
-        $orders = DB::table('orders')
+        // $orders = DB::table('orders')
             
-            ->select("total_price", DB::raw('count(*) as total'))
-            ->groupBy("total_price")
-            ->pluck("total", "total_price")
-            ->all(); 
+        //     ->select("total_price", DB::raw('count(*) as total'))
+        //     ->groupBy("total_price")
+        //     ->pluck("total", "total_price")
+        //     ->all(); 
+
+            $orders = Order::whereHas('items', function($q) use($items_restaurant) {
+                $q->whereIn('item_id', $items_restaurant);
+            })->get();
 
         for ($i=0; $i<=count($orders); $i++) {
             $colours[] = '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6);
         }
 
+        $values = [];
+        $keys = [];
+
+        foreach($orders as $order) {
+            $values[] = $order->total_price;
+
+            $keys[] = "Id: ".$order->id;
+            // $values[] = $prova;
+        }
+
         $chart = new Chart;
-            $chart->labels = (array_keys($orders));
-            $chart->dataset = (array_values($orders));
+            $chart->labels = ($keys);
+            // $chart->dataset = (array_values($orders));
+            $chart->dataset = ($values);
             $chart->colours = $colours;
         
+            // dump(array_keys($values));
+            // dump(array_values($values));
             return view('admin.chart.index', compact('chart'));
     }
-    
     /**
      * Show the form for creating a new resource.
      *
