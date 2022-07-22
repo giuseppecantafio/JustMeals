@@ -1,1 +1,11 @@
 //mixins, impostare succevivamente
+
+@mixin bottoneStrafico {
+    padding: 20px;
+    background-color: red;
+    border: 2px green;
+    a{
+        text-decoration: none;
+        font-size: 60px;
+    }
+}

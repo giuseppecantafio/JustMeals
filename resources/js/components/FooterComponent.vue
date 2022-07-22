@@ -1,7 +1,9 @@
 <template>
     <footer>
         <h1>
-            Sono il footer
+            <button class="stocazzo">
+                <a href="">ciao</a>
+            </button>
         </h1>
     </footer>
 </template>
@@ -14,5 +16,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+@import '../../sass/front.scss';
+
+button{
+    @include bottoneStrafico;
+}
+
 
 </style>
