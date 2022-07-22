@@ -1,9 +1,9 @@
 <template>
     <div>
-        <h1>Benvenuto su Deliveboo!</h1>
-        <section class="my-5">Caroselliiii</section>
-        <section class="my-5">Ancora caroselliiii</section>
-        <section>Altri caroselliiii</section>
+        <h1 class="text-center">Deliveboo</h1>
+        <section class="my-5"></section>
+        <section class="my-5"></section>
+        <section></section>
     </div>
 </template>
 

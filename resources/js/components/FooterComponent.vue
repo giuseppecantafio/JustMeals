@@ -1,9 +1,7 @@
 <template>
     <footer>
         <h1>
-            <button class="stocazzo">
-                <a href="">ciao</a>
-            </button>
+            
         </h1>
     </footer>
 </template>

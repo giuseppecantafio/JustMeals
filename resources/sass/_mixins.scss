@@ -9,3 +9,30 @@
         font-size: 60px;
     }
 }
+
+
+@mixin bottoneStorto{
+        position: relative;
+        .prospettiva{
+            perspective: 100px;
+        }
+        .pos.btn.p-1{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            .storto.btn{
+                border: 1px solid black;
+                transform: rotateY(-9deg) rotateX(-11deg) rotateZ(-1deg) translateX(-8px);
+                transition: transform 0.5s;
+                padding: 12px !important;
+                &:hover{
+                    transform: none;
+                }
+                span{
+                    color: transparent;
+                }
+            }
+        }
+    
+}
