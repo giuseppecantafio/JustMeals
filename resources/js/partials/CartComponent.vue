@@ -13,6 +13,9 @@
                     <div>
                         {{ item.price }}
                     </div>
+                    <div>
+                        {{ item.quantity }}
+                    </div>
                     <button @click="removeItem(item.id)">
                         Rimuovi elemento
                     </button>
@@ -20,6 +23,10 @@
             </div>
 
             <button @click="emptyCart()">Svuota carrello</button>
+
+            <button class="btn btn-success">
+                <a class="text-white" href="/payment">Paga Ora</a>
+            </button>
         </div>
     </div>
 </template>
@@ -40,6 +47,7 @@ export default {
                 item.name = newValue.name;
                 item.price = newValue.price;
                 item.restaurant_id = newValue.restaurant_id;
+                item.quantity = newValue.quantity;
                 item.id = key;
                 this.cartItems.push(item);
             }
@@ -59,7 +67,7 @@ export default {
             });
 
             this.getCartItems();
-        },
+        }
     },
     created() {
         this.getCartItems();

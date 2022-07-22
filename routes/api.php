@@ -22,3 +22,5 @@ Route::get("/restaurants", "Api\RestaurantController@index");
 Route::get("/restaurants/{slug}", "Api\RestaurantController@show");
 Route::get("/typologies", "Api\TypologyController@index");
 //Route::get("/categories", "Api\CategoryController@index");
+
+Route::post('/payment/post', 'Api\PayDatesController@postPayment');

@@ -65,15 +65,46 @@ export default {
                     }
                     // console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
                 } else {
-                    this.cart.push(item);
-                    window.localStorage.setItem(
-                        `item${this.cart.length}`,
-                        JSON.stringify(item)
-                    );
+                    // QUI CICLO QUANTITA
+                    // CARRELLO NON VUOTO
+
+                    let nuovo = true
+                    for (const [key, value] of Object.entries(window.localStorage)) {
+                        let parsato = JSON.parse(value)
+                      
+                        if(parsato.name === item.name){
+                                let q = parsato.quantity
+                                console.log(key);
+                                let vecchiaQuantity = parseInt(key.replace('item', ''))
+                                console.log(vecchiaQuantity);
+                                window.localStorage.removeItem(key);
+
+                                item.quantity = q + 1
+                                window.localStorage.setItem(`item${vecchiaQuantity}`,JSON.stringify(item));
+
+                                nuovo = false
+
+                                return console.log(localStorage)
+
+                        }    
+                        
+                    }
+                    if(nuovo){
+                        item.quantity = 1
+                        this.cart.push(item);
+                        window.localStorage.setItem(`item${this.cart.length}`,JSON.stringify(item));
+                        return console.log(localStorage)
+                    }
+                    // this.cart.push(item);
+                    // window.localStorage.setItem(
+                    //     `item${this.cart.length}`,
+                    //     JSON.stringify(item)
+                    // );
                     // console.log("4---?????????????????????????????????????????????????");
                     // console.log('5---',this.cart);
                 }
             } else {
+                item.quantity = 1
                 this.cart.push(item);
                 window.localStorage.setItem(
                     `item${this.cart.length}`,
@@ -90,6 +121,7 @@ export default {
                 item.price = newValue.price;
                 item.restaurant_id = newValue.restaurant_id;
                 item.id = key;
+                item.quantity = newValue.quantity;
                 this.cart.push(item);
             }
         },

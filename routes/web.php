@@ -35,9 +35,13 @@ Route::middleware('auth')
         Route::resource('/categories', 'CategoryController');
         Route::resource('/orders', 'OrderController');
         Route::resource('/restaurants/{id}/charts', 'ChartController');
-
-
     });
+
+Route::resource('/payment', 'PaymentController');
+
+// Route::get('/gateway', function () {
+//     return view('welcome');
+// });
 
 Route::get("{any?}", function() {
     return view('guest.home');

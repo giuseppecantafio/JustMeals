@@ -36,6 +36,10 @@ const router = new VueRouter({
             path: '/login',
             name: 'login',
         },
+        {
+            path: '/payment',
+            name: 'payment',
+        },
     ]
 });
 
