@@ -34,6 +34,7 @@ Route::middleware('auth')
         Route::resource('/tags', 'TagController');
         Route::resource('/categories', 'CategoryController');
         Route::resource('/orders', 'OrderController');
+        Route::resource('/restaurants/{id}/charts', 'ChartController');
     });
 
 Route::resource('/payment', 'PaymentController');
