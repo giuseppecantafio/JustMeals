@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Order;
+use App\User;
+use App\Restaurant;
 use Illuminate\Support\Facades\DB;
 use App\Chart;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ChartController extends Controller
 {
@@ -17,10 +20,17 @@ class ChartController extends Controller
      */
     public function index()
     {
+        $authUser = Auth::user()->id;
+        
+
         $orders = DB::table("orders")
-            ->select("total_price", DB::raw('count(*) as total'))
-            ->groupBy("total_price")
-            ->pluck("total", "total_price")->all();
+        ->join("item_order", "item_order.id", "=","orders.id")
+        ->join("items", "items.id", "=", "item_order.item_id")
+        ->join("restaurants", "restaurants.id", "=", "items.restaurant_id")
+        ->select("total_price", DB::raw('count(*) as total'))
+        ->groupBy("total_price")
+        ->where("user_id", $authUser)
+        ->pluck("total", "total_price")->all();
 
         for ($i=0; $i<=count($orders); $i++) {
             $colours[] = '#' . substr(str_shuffle('ABCDEF0123456789'), 0, 6);
