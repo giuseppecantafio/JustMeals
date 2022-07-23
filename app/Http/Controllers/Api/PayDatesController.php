@@ -72,45 +72,56 @@ class PayDatesController extends Controller
             ]
         ]);
 
-        $userData = $data['user_dates']['userData'];
-        $transItems = $data['transaction']['items'];
+        if($result->success){
 
-        if($data['customer'] === 'old'){
-            $customer = Customer::where('email', $userData['email'])->first();
+            $userData = $data['user_dates']['userData'];
+            $transItems = $data['transaction']['items'];
+    
+            if($data['customer'] === 'old'){
+                $customer = Customer::where('email', $userData['email'])->first();
+            } else {
+                $customer = new Customer();
+                $customer->name = $userData['name'];
+                $customer->surname = $userData['surname'];
+                $customer->email = $userData['email'];
+                $customer->address = $userData['address'];
+                $customer->save();
+            }
+
+            // ORDINE
+            $newOrder = new Order();
+    
+            $newOrder->customer_id = $customer->id;
+            $newOrder->delivery_time = $userData['delivery_time'];
+            $newOrder->note = $userData['note'];
+            $itemsOrdered = [];
+            
+            $newOrder->total_price = $amount;
+            
+            $newOrder->save();
+            
+            foreach($itemsOrdered as $singleItem){
+                $price = $singleItem['stats']['price'];
+    
+                $newOrder->items()->attach(
+                    $singleItem['stats'],
+                    [
+                        'quantity' => $singleItem['quantity'],
+                        'item_price' => $price
+                    ]
+                );
+    
+            }
+            return response()->json($result);
+
         } else {
-            $customer = new Customer();
-            $customer->name = $userData['name'];
-            $customer->surname = $userData['surname'];
-            $customer->email = $userData['email'];
-            $customer->address = $userData['address'];
-            $customer->save();
+            return response()->json($result);
         }
 
-        // ORDINE
-        $newOrder = new Order();
 
-        $newOrder->customer_id = $customer->id;
-        $newOrder->delivery_time = $userData['delivery_time'];
-        $newOrder->note = $userData['note'];
-        $itemsOrdered = [];
+
+
         
-        $newOrder->total_price = $amount;
-        
-        $newOrder->save();
-
-
-        foreach($itemsOrdered as $singleItem){
-            $price = $singleItem['stats']['price'];
-
-            $newOrder->items()->attach(
-                $singleItem['stats'],
-                [
-                    'quantity' => $singleItem['quantity'],
-                    'item_price' => $price
-                ]
-            );
-
-        }
 
 
     }

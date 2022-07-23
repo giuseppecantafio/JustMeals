@@ -85,6 +85,8 @@
         <!-- drop  in -->
         <div id="dropin-container"></div>
 
+        <div id="result"></div>
+
 
         <!-- button -->
         <button v-show="paymentInProgress" id="payBtn" class="btn btn-success">Pagahh Stronzoooohhhh</button>
@@ -114,7 +116,8 @@ export default {
             oldCustomer: false,
             paymentInProgress: false,
             discountPrice: false,
-            oldPrice: false
+            oldPrice: false,
+            transaction: false
         }
     },
     created(){
@@ -179,9 +182,9 @@ export default {
                 } else if(res.data === 'old'){
                     //  - se utente già esistente applica sconto e mostra botton paga ora
                     this.oldCustomer = true
-                    this.oldPrice = this.priceTotal
+                    this.oldPrice = this.priceTotal.toFixed(2)
                     this.discountPrice = true
-                    this.priceTotal = this.priceTotal * 0.8
+                    this.priceTotal = (this.priceTotal * 0.8).toFixed(2)
                     return alert('Bentornato utente! Lo sconto del 20% sarà applicato al tuo carrello')
                 }
             }).catch((error)=>{
@@ -222,24 +225,31 @@ export default {
                                     .post('api/payment/post', {'paymentMethodNonce': payload.nonce,
                                     'transaction': { items },
                                     'user_dates': { userData },
-                                    'total_price' : totalPrice,
+                                    'total_price' : parseFloat(totalPrice).toFixed(2),
                                     'customer': customer
                                     })
-                                    .then((res)=>{
-                                        console.log(res.data)
-                                    })
-                                    .catch((err)=>{
-                                        console.log(err)
-                                    })
-                                    .then((hostedFieldInstance)=> {
+                                    // .then((res)=>{
+                                    //     console.log(res.data)
+                                    // })
+                                    // .catch((err)=>{
+                                    //     console.log(err)
+                                    // })
+                                    .then((result)=> {
+                                        const div = document.getElementById('result')
+                                        let cazzo = result.data.transaction.id
+                                        div.append(cazzo)
+                                        // this.transaction = result.data
+                                        // console.log(this.transaction)
                                             // Tear down the Drop-in UI
-                                           console.log(hostedFieldInstance)
+                                        //    console.log('prima di result ',result)
                                             instance.teardown(function (teardownErr) {
                                                 if (teardownErr) {
                                                 console.error('Could not tear down Drop-in UI!');
+                                                 console.log('RESULT----',result)
                                                 } else {
-                                                    window.location.replace("/checkout");
+                                                    // window.location.replace("/checkout");
                                                 console.info('Drop-in UI has been torn down!');
+                                                console.log('RESULT ELSE----',result)
                                                 // Remove the 'Submit payment' button
                                                 // $('#submit-button').remove();
                                                 }
