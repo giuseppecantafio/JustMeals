@@ -1,8 +1,9 @@
+// non toccare, variabili di bootstrap!
 // Body
 $body-bg: #f8fafc;
 
 // Typography
-$font-family-sans-serif: 'Nunito', sans-serif;
+$font-family-sans-serif: "Nunito", sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
@@ -17,3 +18,24 @@ $yellow: #ffed4a;
 $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
+
+// impostare variabili globali successivamente
+
+//colori, impostare successivamente
+
+//font-family da cambiare una volta decisi
+
+$font-primary: sans-serif;
+$font-secondary: arial;
+
+//font, verificare come rendono e in caso modificare
+$font-xl: 25px;
+$font-lg: 20px;
+$font-md: 15px;
+$font-sm: 10px;
+
+//padding, verificare e adarttare
+$padding-xl: 200px;
+$padding-lg: 150px;
+$padding-md: 100px;
+$padding-sm: 50px;
