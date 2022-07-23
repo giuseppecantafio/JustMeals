@@ -16,6 +16,15 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import '../../sass/front.scss';
+
+body{
+    background: #fc4a1a;  
+    background: -webkit-linear-gradient(to bottom, #f7b733, #fc4a1a); 
+    background: linear-gradient(to bottom, #f7b733, #fc4a1a); 
+    background-repeat: no-repeat;
+
+}
 
 </style>
