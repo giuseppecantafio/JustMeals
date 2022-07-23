@@ -20,7 +20,7 @@
     <div class="container">
         <loading-component v-if="loading"/>
         <div class="row d-flex" style="flex-direction: row">
-            <div class="col" v-for="restaurant in restaurants" :key="restaurant.id" style="padding-bottom: 30px">
+            <div class="col-2 scale-in-center" v-for="restaurant in restaurants" :key="restaurant.id" style="padding-bottom: 30px">
                 <div  class="card" style="height: 100%">
                     <img :src="`/storage/${restaurant.image}`" class="card-img-top" alt="...">
                     <div class="card-body">
@@ -204,6 +204,10 @@ export default {
         transform: scale(1);
     }
 }
-
+.container{
+    height: 100vh;
+}
+.scale-in-center{animation:scale-in-center .1s cubic-bezier(.25,.46,.45,.94) both}
+@keyframes scale-in-center{0%{transform:scale(0);opacity:1}100%{transform:scale(1);opacity:1}}
 
 </style>
