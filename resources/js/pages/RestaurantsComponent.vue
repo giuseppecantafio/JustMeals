@@ -18,47 +18,54 @@
         </div>
     </div>
     <div class="container">
-            <div class="row d-flex" style="flex-direction: row">
-                <div class="col" v-for="restaurant in restaurants" :key="restaurant.id" style="padding-bottom: 30px">
-                    <div  class="card" style="height: 100%">
-                        <img :src="`/storage/${restaurant.image}`" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">{{restaurant.name}}</h5>
-                            <h6 v-if="restaurant.user">di {{restaurant.user.name}} {{restaurant.user.surname}}</h6>
-                            <h6 class="card-subtitle mt-2">{{restaurant.address}}</h6>
-                            <p class="card-text">{{restaurant.vat}}</p>
-                            <div v-if="(restaurant.typologies)">
-                                <p v-for="typology in restaurant.typologies" :key="typology.id" class="card-text">{{typology.name}}</p>
-                            </div>
+        <loading-component v-if="loading"/>
+        <div class="row d-flex" style="flex-direction: row">
+            <div class="col" v-for="restaurant in restaurants" :key="restaurant.id" style="padding-bottom: 30px">
+                <div  class="card" style="height: 100%">
+                    <img :src="`/storage/${restaurant.image}`" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{restaurant.name}}</h5>
+                        <h6 v-if="restaurant.user">di {{restaurant.user.name}} {{restaurant.user.surname}}</h6>
+                        <h6 class="card-subtitle mt-2">{{restaurant.address}}</h6>
+                        <p class="card-text">{{restaurant.vat}}</p>
+                        <div v-if="(restaurant.typologies)">
+                            <p v-for="typology in restaurant.typologies" :key="typology.id" class="card-text">{{typology.name}}</p>
                         </div>
-                        <button class="btn btn-primary">
-                            <router-link :to="{ name: 'menu', params: { slug: restaurant.slug } }" style="color:white" >Menu</router-link>
-                        </button>
                     </div>
+                    <button class="btn btn-primary">
+                        <router-link :to="{ name: 'menu', params: { slug: restaurant.slug } }" style="color:white" >Menu</router-link>
+                    </button>
                 </div>
             </div>
+        </div>
     </div>
 </div>
 </template>
 
 <script>
+import LoadingComponent from "../components/LoadingComponent.vue"
 export default {
     name: "RestaurantsComponent",
+    components: {
+        LoadingComponent,
+    },
     data() {
         return {
             restaurants: [],
             typologies: [],
             selectTypo: [],
-            apiPath: 'api/restaurants'
+            apiPath: 'api/restaurants',
+            loading: false,
         }
     },
     methods: {
         getApiTypologies() {
-
+            this.loading = true;
             axios.get("api/typologies")
                 .then((response) => {
                     this.typologies = response.data;
                     // this.filterRestaurants();
+                    this.loading = false;
                 })
                 .catch((error) => {
                     console.log('1---',error);
@@ -72,11 +79,12 @@ export default {
                 this.selectTypo.forEach((el) =>{
                     finalQuery += (el + ',')
                 });
-                    
+                    this.loading = true;
                 axios.get(`${this.apiPath}?typology=${finalQuery}`)
                     .then((response)=>{
                         this.restaurants = response.data;
                         // console.log('3---',this.selectTypo);
+                        this.loading = false;
                     }).catch((error)=>{
                         console.log(error);
                     });
