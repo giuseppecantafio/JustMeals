@@ -4,21 +4,27 @@
             <div class="d-flex justify-content-between align-items-center">
                 <a class="navbar-brand" href="/">Inserire Logo</a>
                 <div class="d-flex gap">
-                    <i class="fa-solid fa-house"></i>
+                    <a aria-current="page" href="/">
+                        <i class="fa-solid fa-house"></i>
+                    </a>
                     <div class="position-relative">
-                        <a class="nav-link" aria-current="page" href="/">
+                        <a class="nav-item" aria-current="page" href="/">
                             Home
                         </a>
                     </div>
-                    <i class="fa-solid fa-burger "></i>
+                    <a href="/restaurants">
+                        <i class="fa-solid fa-burger "></i>
+                    </a>
                     <div class="position-relative">
-                        <router-link class="nav-link" :to="{ name: 'restaurants' }">
+                        <router-link class="nav-item" :to="{ name: 'restaurants' }">
                             Restaurants
                         </router-link>
                     </div>
-                    <i class="fa-solid fa-cog"></i>
+                    <a href="/admin">
+                        <i class="fa-solid fa-cog"></i>
+                    </a>
                     <div class="position-relative">
-                        <a class="nav-link" href="/admin">
+                        <a class="nav-item" href="/admin">
                             <span>Dashboard</span>
                         </a>
                     </div>
@@ -53,19 +59,19 @@ export default {
 header{
     padding: 20px;
 
-    .nav-link:after {    
+    .nav-item:after {    
         background: none repeat scroll 0 0 transparent;
-        bottom: 5%;
+        bottom: 17%;
         content: "";
         display: block;
         height: 2px;
         left: 0%;
         position: absolute;
-        background: rgba(70, 0, 0, 0.628);
+        background: rgba(255, 255, 255, 0.628);
         transition: width 0.3s ease 0s, left 0.3s ease 0s;
         width: 0;
     }
-    .nav-link:hover:after { 
+    .nav-item:hover:after { 
         width: 100%; 
         right: 0; 
     }
@@ -76,16 +82,18 @@ header{
     }
     a:hover{
         color: black;
+        text-decoration: none;
     }
     .gap{
         gap: 15px;
-        border-right: 2px solid rgba(219, 113, 113, 0.49);
+        border-right: 2px solid rgba(255, 255, 255, 0.49);
         padding-right: 10px;
     }
     i{
         font-size: $font-xl;
-        border-left: 2px solid rgba(219, 113, 113, 0.49);
+        border-left: 2px solid rgba(255, 255, 255, 0.49);
         padding-left: 10px;
+        cursor: pointer;
     }
     .prospettiva{
         perspective: 100px;
