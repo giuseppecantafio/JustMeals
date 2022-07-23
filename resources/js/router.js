@@ -8,6 +8,7 @@ import HomeComponent from './pages/HomeComponent';
 import RestaurantsComponent from './pages/RestaurantsComponent';
 import MenuComponent from './pages/MenuComponent';
 import PaymentComponent from './pages/PaymentComponent';
+import CheckoutComponent from './pages/CheckoutComponent';
 import CartComponent from './partials/CartComponent';
 
 const router = new VueRouter({
@@ -42,6 +43,11 @@ const router = new VueRouter({
             name: 'payment',
             component: PaymentComponent
         },
+        {
+            path: '/checkout',
+            name: 'checkout',
+            component: CheckoutComponent
+        }
     ]
 });
 

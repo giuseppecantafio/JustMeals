@@ -39,7 +39,7 @@
 
             <!-- form -->
 
-            <form v-if="paymentInProgress === false">
+            <form v-if="paymentInProgress === false && oldCustomer === false && newCustomer === false">
 
             <h2>DATI UTENTE</h2>
         
@@ -76,12 +76,11 @@
                     min="09:00" max="18:00"  required>
             </div>
 
-            <button v-if="oldCustomer || newCustomer" @click.prevent="launchPayment()" class="btn btn-success" type="submit">Vai al pagamento</button>
-
-            <button v-else @click.prevent="getUserData()" class="btn btn-success" type="submit">Invia Dati</button>
-            
-
         </form>
+        
+        <button v-if="(oldCustomer || newCustomer) && paymentInProgress === false" @click.prevent="launchPayment()" class="btn btn-success" type="submit">Vai al pagamento</button>
+
+        <button v-if="!oldCustomer && !newCustomer && !paymentInProgress" @click.prevent="getUserData()" class="btn btn-success" type="submit">Invia Dati</button>
 
         <!-- drop  in -->
         <div id="dropin-container"></div>
@@ -199,8 +198,6 @@ export default {
             const items = this.cartItems
             const totalPrice = this.priceTotal
 
-            
-
             let customer;
             if(this.oldCustomer === true){
                 customer = 'old'
@@ -221,10 +218,6 @@ export default {
                             paySubmit.addEventListener('click', function () {
                             instance.requestPaymentMethod(function (err, payload) {
                                 if(payload){
-                                    console.log('payload',payload)    
-                                    console.log('pagamento avvenuto DIOPORCO')
-                                    console.log(totalPrice, '???????????????????????')
-    
                                     axios
                                     .post('api/payment/post', {'paymentMethodNonce': payload.nonce,
                                     'transaction': { items },
@@ -235,14 +228,17 @@ export default {
                                     .then((res)=>{
                                         console.log(res.data)
                                     })
+                                    .catch((err)=>{
+                                        console.log(err)
+                                    })
                                     .then((hostedFieldInstance)=> {
                                             // Tear down the Drop-in UI
                                            console.log(hostedFieldInstance)
-                                            // console.log('55555555---------',result)
                                             instance.teardown(function (teardownErr) {
                                                 if (teardownErr) {
                                                 console.error('Could not tear down Drop-in UI!');
                                                 } else {
+                                                    window.location.replace("/checkout");
                                                 console.info('Drop-in UI has been torn down!');
                                                 // Remove the 'Submit payment' button
                                                 // $('#submit-button').remove();

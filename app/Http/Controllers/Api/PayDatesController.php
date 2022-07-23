@@ -72,78 +72,20 @@ class PayDatesController extends Controller
             ]
         ]);
 
-
         $userData = $data['user_dates']['userData'];
         $transItems = $data['transaction']['items'];
-        // return response()->json($userData);
-        
-        // qui fare controllo del new customer, se è new o no
-        // $mailFound = false;
-        // $nameFound = false;
-        // $surnameFound = false;
-        // $fullnameFound = false;
-
-        // dd($data);
-
-        // $customer = false;
-
-        return response()->json($data['customer']);
 
         if($data['customer'] === 'old'){
-            $customer = Customer::where('email', $userData['email'])->get();
-        } else if($data['customer'] === 'new'){
-            $newCustomer = new Customer();
-            $newCustomer->name = $userData['name'];
-            $newCustomer->surname = $userData['surname'];
-            $newCustomer->email = $userData['email'];
-            $newCustomer->address = $userData['address'];
-            $newCustomer->save();
-            $customer = Customer::where("email", $newCustomer->email)->first();
+            $customer = Customer::where('email', $userData['email'])->first();
         } else {
-            return response()->json('no customeeeeeeeeeeeeeeeeeeeeeeeeeer');
+            $customer = new Customer();
+            $customer->name = $userData['name'];
+            $customer->surname = $userData['surname'];
+            $customer->email = $userData['email'];
+            $customer->address = $userData['address'];
+            $customer->save();
         }
-        
 
-        // $customerFullName = Customer::where([
-        //     ['name', '=', $userData['name']],
-        //     ['surname', '=', $userData['surname']],
-        // ])->get();
-        
-        // foreach ($customerFullName as $customerConFullnameTrovata){
-        //     if($customerConFullnameTrovata){
-        //         $fullnameFound = true;
-        //     }
-        // }
-
-        // foreach ($CustomerEmail as $customerConMailTrovata){
-        //     if($customerConMailTrovata){
-        //         $mailFound = true;
-        //     }
-        // }
-
-        // if($mailFound && $fullnameFound){
-        //     return response()->json('Bentornato');
-        //     // dd('Bentornato!! Sconto Speciale per te');
-            
-
-        // } else if ($mailFound){
-        //     return response()->json('La tua mail esiste già sotto un altro nome');
-        //     // dd('Questa mail esiste già sotto un altro nome. Reinserisci i dati corretti');
-        // } else {
-
-        //     // return response()->json('creo nuovo customer');
-            
-        //     // NEW CUSTOMER
-        //     $newCustomer = new Customer();
-        //     $newCustomer->name = $userData['name'];
-        //     $newCustomer->surname = $userData['surname'];
-        //     $newCustomer->email = $userData['email'];
-        //     $newCustomer->address = $userData['address'];
-        //     $newCustomer->save();
-        //     // $customer = Customer::where("email", $newCustomer->email)->first();
-        // }
-
-        
         // ORDINE
         $newOrder = new Order();
 
@@ -151,34 +93,10 @@ class PayDatesController extends Controller
         $newOrder->delivery_time = $userData['delivery_time'];
         $newOrder->note = $userData['note'];
         $itemsOrdered = [];
-
-        $total_price = 0;
-
-        $count = 1;
-        foreach($transItems as $item){
-            
-            ${"newItem".$count} = [
-                "stats" => Item::where("name", $item['name'])->first(),
-                'quantity' => $item['quantity']
-            ];
-
-
-
-            $total_price += ${"newItem".$count}['stats']['price'] * ${"newItem".$count}['quantity'];
-            $itemsOrdered[] = ${"newItem".$count};
-
-            $count++;
-        }
-
         
-        $newOrder->total_price = $total_price;
-        
-        return response()->json($newOrder);
+        $newOrder->total_price = $amount;
         
         $newOrder->save();
-
-        // return response()->json($newOrder);
-
 
 
         foreach($itemsOrdered as $singleItem){
