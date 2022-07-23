@@ -24,7 +24,7 @@
 
             <button @click="emptyCart()">Svuota carrello</button>
 
-            <!-- <button class="btn btn-success">
+             <button class="btn btn-success">
                 <a class="text-white" href="/payment">Paga Ora</a>
             </button> -->
 
