@@ -14,62 +14,63 @@
 
         {{-- form dati utente --}}
 
-    <form>
+        <form>
 
-    <h2>DATI UTENTE</h2>
-  
-    <div class="form-group mb-3">
-      <label for="userName">Nome utente</label>
-      <input type="text" class="form-control" id="userName" placeholder="Inserisci il tuo nome" name="userName" value="{{old('userName')}}" required>
-    </div>
-  
-      <div class="form-group mb-3">
-      <label for="userSurname">Cognome utente</label>
-      <input type="text" class="form-control" id="userSurname" placeholder="Inserisci il tuo cognome" name="userSurname" value="{{old('userSurname')}}" required>
-    </div>
-  
-    <div class="form-group mb-3">
-      <label for="userEmail">Email utente</label>
-      <input type="email" class="form-control" id="userEmail" placeholder="Inserisci la tua email" name="userEmail" value="{{old('userEmail')}}" required>
-    </div>
-  
-    <div class="form-group mb-3">
-      <label for="userAddress">Indirizzo utente</label>
-      <input type="text" class="form-control" id="userAddress" placeholder="Inserisci la tua via" name="userAddress" value="{{old('userAddress')}}" required>
-    </div>
-  
-    {{-- note --}}
-    <div class="form-group mb-3">
-      <label for="userNote">Note utente</label>
-      <textarea name="userNote" id="userNote" >{{old('userNote')}}</textarea>
-    </div>
+        <h2>DATI UTENTE</h2>
+      
+        <div class="form-group mb-3">
+          <label for="userName">Nome utente</label>
+          <input type="text" class="form-control" id="userName" placeholder="Inserisci il tuo nome" name="userName" value="{{old('userName')}}" required>
+        </div>
+      
+          <div class="form-group mb-3">
+          <label for="userSurname">Cognome utente</label>
+          <input type="text" class="form-control" id="userSurname" placeholder="Inserisci il tuo cognome" name="userSurname" value="{{old('userSurname')}}" required>
+        </div>
+      
+        <div class="form-group mb-3">
+          <label for="userEmail">Email utente</label>
+          <input type="email" class="form-control" id="userEmail" placeholder="Inserisci la tua email" name="userEmail" value="{{old('userEmail')}}" required>
+        </div>
+      
+        <div class="form-group mb-3">
+          <label for="userAddress">Indirizzo utente</label>
+          <input type="text" class="form-control" id="userAddress" placeholder="Inserisci la tua via" name="userAddress" value="{{old('userAddress')}}" required>
+        </div>
+      
+        {{-- note --}}
+        <div class="form-group mb-3">
+          <label for="userNote">Note utente</label>
+          <textarea name="userNote" id="userNote" >{{old('userNote')}}</textarea>
+        </div>
 
-    {{-- orario --}}
-    <div class="form-group mb-3">
-      <label for="delivery">Inserire un orario di consegna</label>
-      <input type="time" id="delivery" name="delivery"
-         min="09:00" max="18:00" value="{{old('delivery')}}" required>
-    </div>
+        {{-- orario --}}
+        <div class="form-group mb-3">
+          <label for="delivery">Inserire un orario di consegna</label>
+          <input type="time" id="delivery" name="delivery"
+            min="09:00" max="18:00" value="{{old('delivery')}}" required>
+        </div>
+        
+
+    </form>
+
+
+
+
+      {{-- drop - in --}}
+      <div id="dropin-container"></div>
     
+      <h2>Riepilogo</h2>
 
-  </form>
+      <div id="info-cart"></div>
 
-
-
-
-        {{-- drop - in --}}
-        <div id="dropin-container"></div>
-      
-        <h2>Riepilogo</h2>
-
-        <div id="info-cart"></div>
-
-        <div id="total_price"></div>
-      
-        <button id="payBtn" class="btn btn-success">Pagahh Stronzoooohhhh</button>
+      <div id="total_price"></div>
+    
+      <button id="payBtn" class="btn btn-success">Pagahh Stronzoooohhhh</button>
     </div>
 
-  <script type="text/javascript">
+
+<script type="text/javascript">
 
 // carrello  
 
@@ -167,7 +168,7 @@ function appendiCart(){
                           .post('api/payment/post', {'paymentMethodNonce': payload.nonce,
                           'transaction': {cartItems},
                           'user_dates': {datiUtente},
-                          'total_price' : priceTotal
+                          'total_price' : priceTotal  
                           })
                           // .post('api/payment/post',  payload.nonce)
                           .then((hostedFieldInstance)=> {

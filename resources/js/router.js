@@ -7,6 +7,7 @@ Vue.use(VueRouter);
 import HomeComponent from './pages/HomeComponent';
 import RestaurantsComponent from './pages/RestaurantsComponent';
 import MenuComponent from './pages/MenuComponent';
+import PaymentComponent from './pages/PaymentComponent';
 import CartComponent from './partials/CartComponent';
 
 const router = new VueRouter({
@@ -39,6 +40,7 @@ const router = new VueRouter({
         {
             path: '/payment',
             name: 'payment',
+            component: PaymentComponent
         },
     ]
 });

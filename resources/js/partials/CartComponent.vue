@@ -24,8 +24,12 @@
 
             <button @click="emptyCart()">Svuota carrello</button>
 
-            <button class="btn btn-success">
+            <!-- <button class="btn btn-success">
                 <a class="text-white" href="/payment">Paga Ora</a>
+            </button> -->
+
+            <button class="btn btn-success">
+                <a class="text-white" href="/payment">Paga ora</a>
             </button>
         </div>
     </div>
@@ -37,6 +41,7 @@ export default {
     data() {
         return {
             cartItems: [],
+            token: null
         };
     },
     methods: {
@@ -67,6 +72,21 @@ export default {
             });
 
             this.getCartItems();
+        },
+        // callForToken(){
+        //     axios.get('/token').then((res)=>{
+        //         if(typeof res.data === 'string'){
+        //             this.token = res.data;
+        //         }
+        //         this.checkAndGo()
+        //     }).catch((error) => {
+        //         console.log(error)
+        //     })
+        // },
+        checkAndGo(){
+            if(this.token){
+                this.$router.push({name: 'payment', params: { token: this.token } })
+            }
         }
     },
     created() {

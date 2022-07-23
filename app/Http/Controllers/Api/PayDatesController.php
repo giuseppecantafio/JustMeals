@@ -12,15 +12,41 @@ use App\Restaurant;
 
 class PayDatesController extends Controller
 {
-    // public function getCartData(Request $request){
+    public function checkUserData(Request $request){
+        $data = $request->all();
 
+        $mailFound = false;
+        $nameFound = false;
+        $surnameFound = false;
+        $fullnameFound = false;
 
-    //     // dd($request);
-    //     $data = $request->all();
+        $CustomerEmail = Customer::where('email', $data['email'])->get();
 
-    //     // return redirect()->route('welcome', compact('data'));
-    //     return redirect()->route('/', compact('data'));
-    // }
+        $customerFullName = Customer::where([
+            ['name', '=', $data['name']],
+            ['surname', '=', $data['surname']],
+        ])->get();
+        
+        foreach ($customerFullName as $customerConFullnameTrovata){
+            if($customerConFullnameTrovata){
+                $fullnameFound = true;
+            }
+        }
+
+        foreach ($CustomerEmail as $customerConMailTrovata){
+            if($customerConMailTrovata){
+                $mailFound = true;
+            }
+        }
+
+        if($mailFound && $fullnameFound){
+            return response()->json('old');
+        } else if ($mailFound){
+            return response()->json('wrong');
+        } else {
+            return response()->json('new');
+        }
+    }
 
 
     public function postPayment(Request $request){
@@ -47,50 +73,25 @@ class PayDatesController extends Controller
         ]);
 
 
-        $userData = $data['user_dates']['datiUtente'];
-        $transItems = $data['transaction']['cartItems'];
+        $userData = $data['user_dates']['userData'];
+        $transItems = $data['transaction']['items'];
         // return response()->json($userData);
-        $newOrder = new Order();
+        
         // qui fare controllo del new customer, se è new o no
-        $mailFound = false;
-        $nameFound = false;
-        $surnameFound = false;
-        $fullnameFound = false;
+        // $mailFound = false;
+        // $nameFound = false;
+        // $surnameFound = false;
+        // $fullnameFound = false;
 
         // dd($data);
-        
-        $CustomerEmail = Customer::where('email', $userData['email'])->get();
 
-        $customerFullName = Customer::where([
-            ['name', '=', $userData['name']],
-            ['surname', '=', $userData['surname']],
-        ])->get();
-        
-        foreach ($customerFullName as $customerConFullnameTrovata){
-            if($customerConFullnameTrovata){
-                $fullnameFound = true;
-            }
-        }
+        // $customer = false;
 
-        foreach ($CustomerEmail as $customerConMailTrovata){
-            if($customerConMailTrovata){
-                $mailFound = true;
-            }
-        }
+        return response()->json($data['customer']);
 
-        if($mailFound && $fullnameFound){
-            return response()->json('Bentornato');
-            // dd('Bentornato!! Sconto Speciale per te');
-            
-
-        } else if ($mailFound){
-            return response()->json('La tua mail esiste già sotto un altro nome');
-            // dd('Questa mail esiste già sotto un altro nome. Reinserisci i dati corretti');
-        } else {
-
-            // return response()->json('creo nuovo customer');
-            
-            // NEW CUSTOMER
+        if($data['customer'] === 'old'){
+            $customer = Customer::where('email', $userData['email'])->get();
+        } else if($data['customer'] === 'new'){
             $newCustomer = new Customer();
             $newCustomer->name = $userData['name'];
             $newCustomer->surname = $userData['surname'];
@@ -98,9 +99,54 @@ class PayDatesController extends Controller
             $newCustomer->address = $userData['address'];
             $newCustomer->save();
             $customer = Customer::where("email", $newCustomer->email)->first();
+        } else {
+            return response()->json('no customeeeeeeeeeeeeeeeeeeeeeeeeeer');
         }
+        
 
+        // $customerFullName = Customer::where([
+        //     ['name', '=', $userData['name']],
+        //     ['surname', '=', $userData['surname']],
+        // ])->get();
+        
+        // foreach ($customerFullName as $customerConFullnameTrovata){
+        //     if($customerConFullnameTrovata){
+        //         $fullnameFound = true;
+        //     }
+        // }
+
+        // foreach ($CustomerEmail as $customerConMailTrovata){
+        //     if($customerConMailTrovata){
+        //         $mailFound = true;
+        //     }
+        // }
+
+        // if($mailFound && $fullnameFound){
+        //     return response()->json('Bentornato');
+        //     // dd('Bentornato!! Sconto Speciale per te');
+            
+
+        // } else if ($mailFound){
+        //     return response()->json('La tua mail esiste già sotto un altro nome');
+        //     // dd('Questa mail esiste già sotto un altro nome. Reinserisci i dati corretti');
+        // } else {
+
+        //     // return response()->json('creo nuovo customer');
+            
+        //     // NEW CUSTOMER
+        //     $newCustomer = new Customer();
+        //     $newCustomer->name = $userData['name'];
+        //     $newCustomer->surname = $userData['surname'];
+        //     $newCustomer->email = $userData['email'];
+        //     $newCustomer->address = $userData['address'];
+        //     $newCustomer->save();
+        //     // $customer = Customer::where("email", $newCustomer->email)->first();
+        // }
+
+        
         // ORDINE
+        $newOrder = new Order();
+
         $newOrder->customer_id = $customer->id;
         $newOrder->delivery_time = $userData['delivery_time'];
         $newOrder->note = $userData['note'];
@@ -127,7 +173,7 @@ class PayDatesController extends Controller
         
         $newOrder->total_price = $total_price;
         
-        
+        return response()->json($newOrder);
         
         $newOrder->save();
 

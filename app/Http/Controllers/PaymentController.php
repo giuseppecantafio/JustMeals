@@ -19,7 +19,9 @@ class PaymentController extends Controller
 
         $server_token = $this->makeToken();
 
-        return view('welcome', compact('server_token'));
+        // return view('welcome', compact('server_token'));
+
+        return response()->json($server_token);
     }
 
     public function makeToken()
