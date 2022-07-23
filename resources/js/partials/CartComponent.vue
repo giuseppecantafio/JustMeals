@@ -24,7 +24,7 @@
 
             <button @click="emptyCart()">Svuota carrello</button>
 
-            <button class="btn btn-success">
+            <!-- <button class="btn btn-success">
                 <a class="text-white" href="/payment">Paga Ora</a>
             </button> -->
 
@@ -59,6 +59,7 @@ export default {
     data() {
         return {
             cartItems: [],
+            token: null
         };
     },
     methods: {
@@ -90,6 +91,11 @@ export default {
             });
 
             this.getCartItems();
+        },
+        checkAndGo(){
+            if(this.token){
+                this.$router.push({name: 'payment', params: { token: this.token } })
+            }
         }
     },
     created() {

@@ -37,7 +37,7 @@ Route::middleware('auth')
         Route::resource('/restaurants/{id}/charts', 'ChartController');
     });
 
-Route::resource('/payment', 'PaymentController');
+Route::resource('/token', 'PaymentController');
 
 // Route::get('/gateway', function () {
 //     return view('welcome');

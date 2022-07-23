@@ -6,4 +6,5 @@
 
 require('./bootstrap');
 
-require('./modules/restaurantValidation')
+
+require('./modules/restaurantValidation');
