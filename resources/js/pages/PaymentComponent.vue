@@ -88,6 +88,11 @@
         <div id="result"></div>
 
 
+
+        <!-- <p style="background-color:red">{{transactionOrder}}</p> -->
+
+
+
         <!-- button -->
         <button v-show="paymentInProgress" id="payBtn" class="btn btn-success">Pagahh Stronzoooohhhh</button>
     
@@ -117,7 +122,9 @@ export default {
             paymentInProgress: false,
             discountPrice: false,
             oldPrice: false,
-            transaction: false
+            transaction: false,
+            transactionInstance: null,
+            order: ''
         }
     },
     created(){
@@ -126,6 +133,28 @@ export default {
     mounted(){
         this.getCartItems()
     },
+    // updated(){
+    //     console.log('updated')
+    //     if(window.Order){
+    //         console.log('ORDEREEEEEE')
+    //     }
+    // },
+    // computed:{
+    //     transactionOrder(){
+    //         if(window.mioEvento){
+    //             return 'trigger'
+    //         }
+    //     }
+    // },
+    // watch: {
+    //     // whenever question changes, this function will run
+    //         transactionOrder(window) {
+    //             if (window.Order) {
+    //                 this.order = window.Order
+    //                 console.log(this.order,'#######################')
+    //             }
+    //         }
+    //     },
     methods:{
         // in mounted
         getCartItems() {
@@ -214,12 +243,17 @@ export default {
             if(this.server_token){
                 
                 braintree.dropin.create({
+
                     authorization: this.server_token,
                     selector: '#dropin-container',
-                    }, function (err, instance) {
+
+                    }, 
+                    
+                    function (err, instance) {
     
-                            paySubmit.addEventListener('click', function () {
+                        paySubmit.addEventListener('click', function () {
                             instance.requestPaymentMethod(function (err, payload) {
+
                                 if(payload){
                                     axios
                                     .post('api/payment/post', {'paymentMethodNonce': payload.nonce,
@@ -229,49 +263,49 @@ export default {
                                     'customer': customer
                                     })
                                     .then((result)=> {
-                                        const div = document.getElementById('result')
-                                        let cazzo = result.data.transaction.id
-                                        div.append(cazzo)
 
-
-                                        console.log('ANTONELLO TI AMO')
                                         console.log(result)
 
-                                        // this.transaction = result.data
-                                        // console.log(this.transaction)
-                                            // Tear down the Drop-in UI
-                                        //    console.log('prima di result ',result)
-                                            instance.teardown(function (teardownErr) {
-                                                if (teardownErr) {
-                                                console.error('Could not tear down Drop-in UI!');
-                                                 console.log('RESULT----',result)
-                                                } else {
-                                                    // window.location.replace("/checkout");
-                                                console.info('Drop-in UI has been torn down!');
-                                                console.log('RESULT ELSE----',result)
-                                                // Remove the 'Submit payment' button
-                                                // $('#submit-button').remove();
-                                                }
-                                            });
+                                        let orderDetails = {
+                                            'items': items,
+                                            'userData': userData,
+                                            'total_price': parseFloat(totalPrice).toFixed(2),
+                                            'customer': customer,
+                                            'transaction_id': result.data.transaction.id
+                                        }
+
+                                        window.localStorage.clear()
+                                        window.localStorage.setItem('result',JSON.stringify(orderDetails))
+                                        
+                                        instance.teardown(function (teardownErr) {
+                                            if (teardownErr) {
+                                            console.error('Could not tear down Drop-in UI!');
+                                                console.log('RESULT----',result)
+                                            } else {
+                                                window.location.replace("/checkout");
+                                            console.info('Drop-in UI has been torn down!');
+                                            console.log('RESULT ELSE----',result)
+
+                                            }
+                                        });
     
-                                            // if (result.success) {
-                                            //   // $('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
-                                            //   console.log('successo',result);
-                                            // } else {
-                                            //   console.log('result else',result);
-                                            //   // $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
-                                            // }
-                                        })
-                                    // .then((res)=>{
-                                    //     console.log('res',res.data)
-                                    // }).catch((err)=>{
-                                    //     console.log(err)
-                                    // })
+                                        // if (result.success) {
+                                        //   // $('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
+                                        //   console.log('successo',result);
+                                        // } else {
+                                        //   console.log('result else',result);
+                                        //   // $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
+                                        // }
+
+                                    })
+                                    .catch((err)=>{
+                                        console.log(err)
+                                    })
                                 } else {
                                 console.log('error',err);
                                 }
-                                })         
-                            })
+                            })         
+                        })
                     })
             }
 
