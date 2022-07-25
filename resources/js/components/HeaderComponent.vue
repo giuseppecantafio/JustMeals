@@ -39,6 +39,49 @@
                 </div>
             </div>
         </div>
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Inserire Logo</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="">
+                    <a aria-current="page" href="/">
+                        <i class="fa-solid fa-house"></i>
+                    </a>
+                    <div class="position-relative">
+                        <a class="nav-item" aria-current="page" href="/">
+                            Home
+                        </a>
+                    </div>
+                    <a href="/restaurants">
+                        <i class="fa-solid fa-burger "></i>
+                    </a>
+                    <div class="position-relative">
+                        <router-link class="nav-item" :to="{ name: 'restaurants' }">
+                            Restaurants
+                        </router-link>
+                    </div>
+                    <a href="/admin">
+                        <i class="fa-solid fa-cog"></i>
+                    </a>
+                    <div class="position-relative">
+                        <a class="nav-item" href="/admin">
+                            <span>Dashboard</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="bottone-storto">
+                    <div class="btn p-1 pos">Carrello</div>
+                    <div class="prospettiva">
+                        <router-link class="storto btn" :to="{ name: 'cart' }">
+                            <span style="color: transparent;">Carrello</span>
+                        </router-link>
+                    </div>
+                </div>
+            </div>
+        </nav>
     </header>
 </template>
 

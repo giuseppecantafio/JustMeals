@@ -61,6 +61,7 @@ export default {
     methods: {
         getApiTypologies() {
             this.loading = true;
+            setTimeout(()=>{
             axios.get("api/typologies")
                 .then((response) => {
                     this.typologies = response.data;
@@ -70,6 +71,7 @@ export default {
                 .catch((error) => {
                     console.log('1---',error);
                 });
+                },400)
         },
         filterRestaurants(){
 
@@ -80,6 +82,7 @@ export default {
                     finalQuery += (el + ',')
                 });
                     this.loading = true;
+                    setTimeout(()=>{
                 axios.get(`${this.apiPath}?typology=${finalQuery}`)
                     .then((response)=>{
                         this.restaurants = response.data;
@@ -88,6 +91,7 @@ export default {
                     }).catch((error)=>{
                         console.log(error);
                     });
+                    },400)
             } else {
                 // console.log('SONO QUI')
                 axios.get(this.apiPath)
