@@ -20,7 +20,7 @@
     <div class="container">
         <loading-component v-if="loading"/>
         <div class="row d-flex" style="flex-direction: row">
-            <div class="col-2 scale-in-center" v-for="restaurant in restaurants" :key="restaurant.id" style="padding-bottom: 30px">
+            <div class="col-6 scale-in-center" v-for="restaurant in restaurants" :key="restaurant.id" style="padding-bottom: 30px">
                 <div  class="card" style="height: 100%">
                     <img :src="`/storage/${restaurant.image}`" class="card-img-top" alt="...">
                     <div class="card-body">

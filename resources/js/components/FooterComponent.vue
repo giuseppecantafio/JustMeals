@@ -26,7 +26,10 @@ export default {
 
 footer{
     background-color: rgb(50, 50, 50);
-}
+    position: relative;
+    bottom: 0;
+    left: 0;
+    }
 
 .social-menu ul{
     display: flex;

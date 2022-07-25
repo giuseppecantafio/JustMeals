@@ -1,77 +1,54 @@
 <template>
     <header>
-        <div class="container-fluid">
-            <div class="d-flex justify-content-between align-items-center">
-                <a class="navbar-brand" href="/">Inserire Logo</a>
-                <div class="d-flex gap">
-                    <a aria-current="page" href="/">
-                        <i class="fa-solid fa-house"></i>
-                    </a>
-                    <div class="position-relative">
-                        <a class="nav-item" aria-current="page" href="/">
-                            Home
-                        </a>
-                    </div>
-                    <a href="/restaurants">
-                        <i class="fa-solid fa-burger "></i>
-                    </a>
-                    <div class="position-relative">
-                        <router-link class="nav-item" :to="{ name: 'restaurants' }">
-                            Restaurants
-                        </router-link>
-                    </div>
-                    <a href="/admin">
-                        <i class="fa-solid fa-cog"></i>
-                    </a>
-                    <div class="position-relative">
-                        <a class="nav-item" href="/admin">
-                            <span>Dashboard</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="bottone-storto">
-                    <div class="btn p-1 pos">Carrello</div>
-                    <div class="prospettiva">
-                        <router-link class="storto btn" :to="{ name: 'cart' }">
-                            <span style="color: transparent;">Carrello</span>
-                        </router-link>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">Inserire Logo</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-item" aria-current="page" href="/">
-                                Home
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav gap mx-auto mb-2 mb-lg-0">
+                        <li class="d-flex">
+                            <a aria-current="page" class="mx-2" href="/">
+                                <i class="fa-solid fa-house"></i>
                             </a>
+                            <div class="position-relative">
+                                <a class="nav-item" aria-current="page" href="/">
+                                    Home
+                                </a>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <router-link class="nav-item" :to="{ name: 'restaurants' }">
-                                Restaurants
-                            </router-link>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-item" href="/admin">
-                                <span>Dashboard</span>
+                        <li class="d-flex ">
+                            <a href="/restaurants" class="mx-2">
+                                <i class="fa-solid fa-burger "></i>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <div class="btn p-1 pos">Carrello</div>
-                            <div class="prospettiva">
-                                <router-link class="storto btn" :to="{ name: 'cart' }">
-                                    <span style="color: transparent;">Carrello</span>
+                            <div class="position-relative">
+                                <router-link class="nav-item" :to="{ name: 'restaurants' }">
+                                    Restaurants
                                 </router-link>
                             </div>
                         </li>
+                        <li class="d-flex">
+                            <a href="/admin" class="mx-2">
+                                <i class="fa-solid fa-cog"></i>
+                            </a>
+                            <div class="position-relative">
+                                <a class="nav-item" href="/admin">
+                                    <span>Dashboard</span>
+                                </a>
+                            </div>
+                        </li>
                     </ul>
+                    <div class="d-flex">
+                        <div class="bottone-storto">
+                        <div class="btn p-1 pos">Carrello</div>
+                        <div class="prospettiva">
+                            <router-link class="storto btn" :to="{ name: 'cart' }">
+                                <span style="color: transparent;">Carrello</span>
+                            </router-link>
+                        </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -93,8 +70,9 @@ export default {
 @import '../../sass/front.scss';
 
 header{
+    
     padding: 20px;
-
+    
     .nav-item:after {    
         background: none repeat scroll 0 0 transparent;
         bottom: 17%;
@@ -151,6 +129,16 @@ header{
     }
     .bottone-storto{
         position: relative;
+    }
+    .navbar-light .navbar-toggler-icon {
+     background-image: url("/storage/uploads/icon-wrap-23.jpg");
+    }
+    .navbar-toggler-icon{
+        width: 50px;
+        height: 50px;
+    }
+    .navbar-toggler{
+        border: none;
     }
 }
 </style>

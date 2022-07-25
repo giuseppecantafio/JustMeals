@@ -23,8 +23,10 @@ body{
     background: #fc4a1a;  
     background: -webkit-linear-gradient(to bottom, #f7b733, #fc4a1a); 
     background: linear-gradient(to bottom, #f7b733, #fc4a1a); 
+    height: 100%;
+    margin: 0;
     background-repeat: no-repeat;
-
+    background-attachment: fixed;
 }
 
 </style>
