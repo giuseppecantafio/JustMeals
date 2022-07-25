@@ -41,10 +41,13 @@ export default {
     },
     methods:{
         getPizzerie(){
-            axios.get(`api/restaurants?typology=Pizzeria`)
+            axios.get('api/restaurants?typology=Pizzeria')
                     .then((response)=>{
+                        console.log(response.data)
                         this.pizzerie = response.data;
+                        
                         if (this.pizzerie.length > 0) {
+                            
                             this.ok = true;
                         }
                     }).catch((error)=>{
