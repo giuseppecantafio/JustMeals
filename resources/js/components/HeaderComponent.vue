@@ -46,39 +46,32 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="">
-                    <a aria-current="page" href="/">
-                        <i class="fa-solid fa-house"></i>
-                    </a>
-                    <div class="position-relative">
-                        <a class="nav-item" aria-current="page" href="/">
-                            Home
-                        </a>
-                    </div>
-                    <a href="/restaurants">
-                        <i class="fa-solid fa-burger "></i>
-                    </a>
-                    <div class="position-relative">
-                        <router-link class="nav-item" :to="{ name: 'restaurants' }">
-                            Restaurants
-                        </router-link>
-                    </div>
-                    <a href="/admin">
-                        <i class="fa-solid fa-cog"></i>
-                    </a>
-                    <div class="position-relative">
-                        <a class="nav-item" href="/admin">
-                            <span>Dashboard</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="bottone-storto">
-                    <div class="btn p-1 pos">Carrello</div>
-                    <div class="prospettiva">
-                        <router-link class="storto btn" :to="{ name: 'cart' }">
-                            <span style="color: transparent;">Carrello</span>
-                        </router-link>
-                    </div>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-item" aria-current="page" href="/">
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <router-link class="nav-item" :to="{ name: 'restaurants' }">
+                                Restaurants
+                            </router-link>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-item" href="/admin">
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <div class="btn p-1 pos">Carrello</div>
+                            <div class="prospettiva">
+                                <router-link class="storto btn" :to="{ name: 'cart' }">
+                                    <span style="color: transparent;">Carrello</span>
+                                </router-link>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
