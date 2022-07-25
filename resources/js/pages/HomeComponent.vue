@@ -2,7 +2,12 @@
     <div>
         <div class="container">
             <VueSlickCarousel :arrows="true" :dots="true" v-bind="settings" v-if="ok">
-                <div v-for="n in pizzerie" :key="n.id">{{n.name}}</div>
+                <div v-for="pizzeria in pizzerie" :key="pizzeria.id">
+                    <div>
+                        
+                        {{pizzeria.name}}
+                    </div>
+                </div>
             </VueSlickCarousel>
         </div>
     </div>
@@ -41,7 +46,7 @@ export default {
     },
     methods:{
         getPizzerie(){
-            axios.get('api/restaurants?typology=Pizzeria')
+            axios.get('api/restaurants?typology=1')
                     .then((response)=>{
                         console.log(response.data)
                         this.pizzerie = response.data;
