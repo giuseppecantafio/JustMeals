@@ -28,10 +28,10 @@ class PaymentController extends Controller
     {
 
         $gateway = new \Braintree\Gateway([
-            'environment' => 'sandbox',
-            'merchantId' => '794b5xxkqfnjy5hw',
-            'publicKey' => 'pymzsr68k8zspdgg',
-            'privateKey' => '32dfe078fccdb975bee6703b118bb48d'
+            'environment' => getenv('BRAINTREE_ENV'),
+            'merchantId' => getenv('BRAINTREE_MERCHANT_ID'),
+            'publicKey' => getenv('BRAINTREE_PUBLIC_KEY'),
+            'privateKey' => getenv('BRAINTREE_PRIVATE_KEY')
         ]);
         
         $server_token = $gateway->ClientToken()->generate();
