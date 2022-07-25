@@ -2,7 +2,7 @@
     <div>
         <h1>PORRRRRRRRRCCODDDIOOOOOOOOOOOOO</h1>
 
-        <h3 v-if="transaction">{{transaction.transaction_id}}</h3>
+        <div v-if="order">{{order.transaction_id}}</div>
 
 
         <p>Riceverai una mail di conferma quando il ristoratore accetterà l'ordine</p>
@@ -12,25 +12,13 @@
 <script>
 export default {
     name: 'CheckoutComponent',
+    props:{
+        order: Object
+    },
     data(){
         return{
             transaction: null
         }
-    },
-    methods:{
-        getOrderDetails(){
-            console.log(window.localStorage)
-            let result = JSON.parse(window.localStorage['result'])
-            this.transaction = result
-
-            console.log(result)
-        }
-    },
-    mounted(){
-        this.getOrderDetails()
-    },
-    beforeDestroy(){
-        window.localStorage.clear()
     }
 }
 </script>

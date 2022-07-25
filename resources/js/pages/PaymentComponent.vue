@@ -5,6 +5,11 @@
 
         <div class="container">
 
+             <!-- ERRORI -->
+            <div v-if="serverErr">Sembra che ci siano problemi con il nostro server. Non ti sarà addebitato nessun costo, riprovare</div>
+            <div v-if="paySuccess">Pagamento avvenuto con successo</div>
+            <div v-if="payFailed">Pagamento rifiutato</div>
+
             <!-- riepilogo -->
             <div class="riepilogo">
 
@@ -85,13 +90,6 @@
         <!-- drop  in -->
         <div id="dropin-container"></div>
 
-        <div id="result"></div>
-
-
-
-        <!-- <p style="background-color:red">{{transactionOrder}}</p> -->
-
-
 
         <!-- button -->
         <button v-show="paymentInProgress" id="payBtn" class="btn btn-success">Pagahh Stronzoooohhhh</button>
@@ -122,9 +120,13 @@ export default {
             paymentInProgress: false,
             discountPrice: false,
             oldPrice: false,
-            transaction: false,
-            transactionInstance: null,
-            order: ''
+            // transaction: false,
+            // transactionInstance: null,
+            // order: '',
+            orderDetails: null,
+            serverErr: false,
+            paySuccess: false,
+            payFailed: false
         }
     },
     created(){
@@ -133,28 +135,6 @@ export default {
     mounted(){
         this.getCartItems()
     },
-    // updated(){
-    //     console.log('updated')
-    //     if(window.Order){
-    //         console.log('ORDEREEEEEE')
-    //     }
-    // },
-    // computed:{
-    //     transactionOrder(){
-    //         if(window.mioEvento){
-    //             return 'trigger'
-    //         }
-    //     }
-    // },
-    // watch: {
-    //     // whenever question changes, this function will run
-    //         transactionOrder(window) {
-    //             if (window.Order) {
-    //                 this.order = window.Order
-    //                 console.log(this.order,'#######################')
-    //             }
-    //         }
-    //     },
     methods:{
         // in mounted
         getCartItems() {
@@ -225,6 +205,32 @@ export default {
         launchPayment(){
 
             this.paymentInProgress = true
+          
+            const paySubmit = document.getElementById('payBtn');
+
+            if(this.server_token){
+                
+                braintree.dropin.create({
+                    authorization: this.server_token,
+                    selector: '#dropin-container',
+                    })
+                    .then((instance) =>{
+
+                        this.paymentInstance = instance
+                        // console.log('this payment instance ---- ',this.paymentInstance)
+
+                        paySubmit.addEventListener('click', this.instancePayment)
+
+                    })
+                    .catch((error) =>{
+                        console.log(error)
+                    })
+            } else {
+                alert("non c'è il token")
+            }
+
+        },
+        instancePayment(){
 
             const userData = this.userData
             const items = this.cartItems
@@ -237,79 +243,66 @@ export default {
                 customer = 'new'
             }
 
-            
-            const paySubmit = document.getElementById('payBtn');
+            console.log(this.paymentInstance.requestPaymentMethod)
 
-            if(this.server_token){
-                
-                braintree.dropin.create({
 
-                    authorization: this.server_token,
-                    selector: '#dropin-container',
+            this.paymentInstance.requestPaymentMethod().then((payload)=>{
 
-                    }, 
+                axios
+                .post('api/payment/post', {'paymentMethodNonce': payload.nonce,
+                'transaction': { items },
+                'user_dates': { userData },
+                'total_price' : parseFloat(totalPrice).toFixed(2),
+                'customer': customer
+                })
+                .then((result)=> {
+
+                    console.log(result)
+
+                    let orderDetails = {
+                        'items': items,
+                        'userData': userData,
+                        'total_price': parseFloat(totalPrice).toFixed(2),
+                        'customer': customer,
+                        'transaction_id': result.data.transaction.id
+                    }
+
+                    this.orderDetails = orderDetails
+
+                    console.log(this.orderDetails)
+
+                    window.localStorage.clear()
                     
-                    function (err, instance) {
-    
-                        paySubmit.addEventListener('click', function () {
-                            instance.requestPaymentMethod(function (err, payload) {
+                    // butto giù la finestra
+                    this.paymentInstance.teardown(function (teardownErr) {
+                        if (teardownErr) {
+                            console.error('Could not tear down Drop-in UI!');
+                            console.log('RESULT----',result)
+                        } else {
+                            console.info('Drop-in UI has been torn down!');
+                            console.log('RESULT ELSE----',result)
+                        }
+                    });
+                    
 
-                                if(payload){
-                                    axios
-                                    .post('api/payment/post', {'paymentMethodNonce': payload.nonce,
-                                    'transaction': { items },
-                                    'user_dates': { userData },
-                                    'total_price' : parseFloat(totalPrice).toFixed(2),
-                                    'customer': customer
-                                    })
-                                    .then((result)=> {
+                    if(result.data.success){
+                        this.paySuccess = true
+                        setTimeout(()=>{
+                            this.$router.push( { name: 'checkout',  params: { id: result.data.transaction.id, order: this.orderDetails } } )
 
-                                        console.log(result)
+                        }, 2500)
 
-                                        let orderDetails = {
-                                            'items': items,
-                                            'userData': userData,
-                                            'total_price': parseFloat(totalPrice).toFixed(2),
-                                            'customer': customer,
-                                            'transaction_id': result.data.transaction.id
-                                        }
+                    } else {
+                        this.payFailed= true
+                    }
 
-                                        window.localStorage.clear()
-                                        window.localStorage.setItem('result',JSON.stringify(orderDetails))
-                                        
-                                        instance.teardown(function (teardownErr) {
-                                            if (teardownErr) {
-                                            console.error('Could not tear down Drop-in UI!');
-                                                console.log('RESULT----',result)
-                                            } else {
-                                                window.location.replace("/checkout");
-                                            console.info('Drop-in UI has been torn down!');
-                                            console.log('RESULT ELSE----',result)
-
-                                            }
-                                        });
-    
-                                        // if (result.success) {
-                                        //   // $('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
-                                        //   console.log('successo',result);
-                                        // } else {
-                                        //   console.log('result else',result);
-                                        //   // $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
-                                        // }
-
-                                    })
-                                    .catch((err)=>{
-                                        console.log(err)
-                                    })
-                                } else {
-                                console.log('error',err);
-                                }
-                            })         
-                        })
-                    })
-            }
-
-        }
+                })
+                .catch((err)=>{
+                    console.log('error : ', err)
+                    this.serverErr = true
+                })
+            })
+        }   
     }
     
 }
