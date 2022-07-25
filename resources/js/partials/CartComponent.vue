@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="container">
+    <div class="container">
+        <!-- <div class="container">
             <div class="row" v-if="cartItems.length > 0">
                 <div
                     class="col"
@@ -26,9 +26,31 @@
 
             <button class="btn btn-success">
                 <a class="text-white" href="/payment">Paga Ora</a>
-            </button>
+            </button> -->
+
+
+            <div class="card m-5" style="">
+                <div class="row g-0" v-if="cartItems.length > 0">
+                    <button class="btn btn-danger" @click="emptyCart()">Svuota carrello</button>
+                    <!-- <div class="col-md-4">
+                        <img src="" class="img-fluid rounded-start" alt="...">
+                    </div> -->
+                    <div class="col-md-8"  v-for="(item, index) in cartItems" :key="index">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text">Descrizione: {{ item.description }}</p>
+                            <p class="card-text"><small class="text-muted">Quantità: {{ item.quantity }}</small></p>
+                            <button class="btn btn-primary" @click="removeItem(item.id)">
+                                Rimuovi elemento
+                            </button>
+                        </div>
+                    </div>
+                    <button class="btn btn-success">
+                        <a class="text-white" href="/payment">Paga Ora</a>
+                    </button>
+                </div>
+            </div>
         </div>
-    </div>
 </template>
 
 <script>
@@ -47,6 +69,7 @@ export default {
                 item.name = newValue.name;
                 item.price = newValue.price;
                 item.restaurant_id = newValue.restaurant_id;
+                item.description = newValue.description;
                 item.quantity = newValue.quantity;
                 item.id = key;
                 this.cartItems.push(item);
