@@ -228,16 +228,15 @@ export default {
                                     'total_price' : parseFloat(totalPrice).toFixed(2),
                                     'customer': customer
                                     })
-                                    // .then((res)=>{
-                                    //     console.log(res.data)
-                                    // })
-                                    // .catch((err)=>{
-                                    //     console.log(err)
-                                    // })
                                     .then((result)=> {
                                         const div = document.getElementById('result')
                                         let cazzo = result.data.transaction.id
                                         div.append(cazzo)
+
+
+                                        console.log('ANTONELLO TI AMO')
+                                        console.log(result)
+
                                         // this.transaction = result.data
                                         // console.log(this.transaction)
                                             // Tear down the Drop-in UI

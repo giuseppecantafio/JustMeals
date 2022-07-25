@@ -95,6 +95,19 @@ class PayDatesController extends Controller
             $newOrder->delivery_time = $userData['delivery_time'];
             $newOrder->note = $userData['note'];
             $itemsOrdered = [];
+
+            $count = 1;
+            foreach($transItems as $item){
+            
+                ${"newItem".$count} = [
+                    "stats" => Item::where("name", $item['name'])->first(),
+                    'quantity' => $item['quantity']
+                ];
+
+                $itemsOrdered[] = ${"newItem".$count};
+
+            $count++;
+        }
             
             $newOrder->total_price = $amount;
             
