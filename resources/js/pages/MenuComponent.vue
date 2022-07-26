@@ -1,4 +1,5 @@
 <template>
+
     <div class="my-container">
 
         <h1 v-if="restaurant">Menù {{ restaurant.name }}</h1>
@@ -41,6 +42,16 @@
                     Aggiungi al carrello
                 </button> -->
 
+
+                <div class="d-flex justify-content-between margine">
+                    <div>Prezzo: {{ item.price }} &euro;</div>
+                    <button v-if="item.available === 1" @click="addToCart(item)" class="btn text-light rounded-circle" style="background-color: #43abae;">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                    <button v-else class="btn text-light rounded-circle" style="background-color: #ff7210;">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -496,6 +507,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 
 
 /* CARTE SELEZIONATE */
