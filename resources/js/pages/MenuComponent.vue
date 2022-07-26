@@ -1,26 +1,27 @@
 <template>
-    <div>
-        <div class="d-flex justify-content-between">
-            <h1 v-if="restaurant">Menù {{ restaurant.name }}</h1>
-            <div class="card" v-for="(item, index) in menu" :key="index">
+    <div class="container-fluid">
+        <h1 class="text-center mb-5" v-if="restaurant">Menù {{ restaurant.name }}</h1>
+        <div class="d-flex justify-content-center gap-3">
+            <div class="card w-75 p-5 m-3 gap-3" v-for="(item, index) in menu" :key="index">
 
-                <div>{{ item.name }}</div>
-
-                <div>{{ item.price }}</div>
-
-                <div>
+                <h5 class="card-title">{{ item.name }}</h5>
+                <div class="troncatura card-subtitle text-muted">{{ item.description}}</div>
+                <!-- Disponibilità? -->
+                <!-- <div>
                     <span>Disponibilità </span>
                     <i v-if="item.available === 1" class="fa-solid fa-circle-check" style="color: green"></i>
                     <i v-else class="fa-solid fa-circle-xmark" style="color: red"></i>
+                </div> -->
+
+                <div class="d-flex justify-content-between margine">
+                    <div>Prezzo: {{ item.price }} &euro;</div>
+                    <button v-if="item.available === 1" @click="addToCart(item)" class="btn text-light rounded-circle" style="background-color: #43abae;">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                    <button v-else class="btn text-light rounded-circle" style="background-color: #ff7210;">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                 </div>
-
-                <button v-if="item.available === 1" @click="addToCart(item)" class="btn btn-primary" >
-                    Aggiungi al carrello
-                </button>
-                <button v-else class="btn btn-secondary" >
-                    Aggiungi al carrello
-                </button>
-
             </div>
         </div>
     </div>
@@ -147,7 +148,23 @@ export default {
         this.getMenu();
         this.getCartItems();
     },
+    
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+
+.margine{
+    margin-top: 20px;
+}
+.troncatura{
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.card{
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+</style>
