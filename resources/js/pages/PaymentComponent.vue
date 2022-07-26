@@ -332,7 +332,7 @@ export default {
                         customer: customer,
                     })
                     .then((result) => {
-                        console.log(result);
+                        console.log("result: ", result);
 
                         let orderDetails = {
                             items: items,
@@ -377,7 +377,7 @@ export default {
                         }
                     })
                     .catch((err) => {
-                        console.log("error : ", err);
+                        console.log("error: ", err);
                         this.serverErr = true;
                     });
             });

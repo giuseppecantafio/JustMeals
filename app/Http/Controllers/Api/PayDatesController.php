@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 use App\Order;
 use App\Customer;
 use App\Item;
+use App\User;
 use App\Restaurant;
+use App\Mail\PaymentMail;
+use App\Mail\AdminMail;
+use Illuminate\Support\Facades\Mail;
 
 
 class PayDatesController extends Controller
@@ -125,6 +129,24 @@ class PayDatesController extends Controller
                 );
     
             }
+            
+
+            // mail customer post pagamento
+            Mail::to($customer->email)->send(new PaymentMail($customer->name, $customer->surname, $amount, $itemsOrdered, $result->transaction->id));
+
+            // mail ristoratore 
+            $itemCalc = $itemsOrdered[0];
+
+            $restaurantId = $itemCalc['stats']->restaurant_id;
+
+            $restaurant = Restaurant::findOrFail($restaurantId);
+
+            $userId = $restaurant->user_id;
+
+            $user_restaurant = User::findOrFail($userId);
+
+            Mail::to($user_restaurant->email)->send(new AdminMail($customer->name, $customer->surname, $amount, $itemsOrdered, $result->transaction->id));
+
             return response()->json($result);
 
         } else {
