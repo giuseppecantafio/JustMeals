@@ -3,14 +3,14 @@
         <JumbotronComponent/>
         <div class="container">
             <span class="titolo-carosello my-5">le nostre pizzerie</span>
-            <i class="fa-solid fa-pizza-slice"></i>
+            <i class="fa-solid fa-pizza-slice titolo-carosello" style="text-align:center; padding-left: 5px;"></i>
             <VueSlickCarousel :arrows="true" :dots="true" v-bind="settings" v-if="ok">
                 <div v-for="pizzeria in pizzerie" :key="pizzeria.id" class="my-3">
                     <div class=" mx-3" style="width: 18rem;">
                     <router-link :to="{ name: 'menu', params: { slug: pizzeria.slug } }" style="color:white" >
                         <img :src="`/storage/${pizzeria.image}`" class="card-img shadow" alt="...">
-                        <div>
-                            <h5 class="text-center">{{pizzeria.name}}</h5>
+                        <div class="py-3">
+                            <h5 class="text-center restaurant-name-slider">{{pizzeria.name}}</h5>
                         </div>
                     </router-link>    
                     </div>
@@ -57,14 +57,14 @@
         </div>
         <div class="container my-5">
             <span class="titolo-carosello my-5">i nostri ristoranti giapponesi</span>
-            <i class="fa-solid fa-fish"></i>
+            <i class="fa-solid fa-fish titolo-carosello" style="text-align:center; padding-left: 5px;"></i>
             <VueSlickCarousel :arrows="true" :dots="true" v-bind="settings" v-if="ko" >
                 <div v-for="giappo in giapponesi" :key="giappo.id" class="my-3">
                     <div class="mx-3" style="width: 18rem;">
                     <router-link :to="{ name: 'menu', params: { slug: giappo.slug } }" style="text-decoration:none ;" >
                         <img :src="`/storage/${giappo.image}`" class="card-img shadow" alt="...">
-                        <div>
-                            <h5 class="text-center">{{giappo.name}}</h5>
+                        <div class="py-3">
+                            <h5 class="text-center restaurant-name-slider">{{giappo.name}}</h5>
                         </div>
                     </router-link>    
                     </div>
@@ -216,6 +216,7 @@ export default {
     font-size: $font-xl;
     font-weight: bolder;
     color: $dark-light-blue;
+    text-shadow: 2px 2px 5px black;
 }
 
 h5{
@@ -223,7 +224,7 @@ h5{
     color: $dark-light-blue;
 }
 .shadow{
-    box-shadow: 2px 2px 2px;
+    box-shadow: 2px 2px 2px black;
     border-radius: 20px;
 }
 
@@ -246,6 +247,7 @@ mark{
 .bottone{
     background-color: #0d9ca4;
     color: white;
+    box-shadow: 2px 2px 5px black;
 }
 a{
     color: white;
@@ -253,5 +255,10 @@ a{
 }
 .unisciti{
     padding-top: 50px;
+}
+
+.restaurant-name-slider{
+    text-shadow: 2px 2px 5px black;
+    text-decoration: none;
 }
 </style>

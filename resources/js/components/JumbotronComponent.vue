@@ -1,6 +1,6 @@
 <template>
   <div class="jumbo-size">
-    
+
   </div>
 </template>
 
@@ -14,4 +14,5 @@ export default {
 .jumbo-size{
   height: 400px;
 }
+
 </style>
