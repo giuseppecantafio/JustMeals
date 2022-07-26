@@ -1,44 +1,62 @@
 <template>
     <header>
-        <div class="container-fluid">
-            <div class="d-flex justify-content-between align-items-center">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid">
+                <!-- Add logo -->
                 <a class="navbar-brand" href="/">Inserire Logo</a>
-                <div class="d-flex gap">
-                    <a aria-current="page" href="/">
-                        <i class="fa-solid fa-house"></i>
-                    </a>
-                    <div class="position-relative">
-                        <a class="nav-item" aria-current="page" href="/">
-                            Home
-                        </a>
-                    </div>
-                    <a href="/restaurants">
-                        <i class="fa-solid fa-burger "></i>
-                    </a>
-                    <div class="position-relative">
-                        <router-link class="nav-item" :to="{ name: 'restaurants' }">
-                            Restaurants
-                        </router-link>
-                    </div>
-                    <a href="/admin">
-                        <i class="fa-solid fa-cog"></i>
-                    </a>
-                    <div class="position-relative">
-                        <a class="nav-item" href="/admin">
-                            <span>Dashboard</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="bottone-storto">
-                    <div class="btn p-1 pos">Carrello</div>
-                    <div class="prospettiva">
-                        <router-link class="storto btn" :to="{ name: 'cart' }">
-                            <span style="color: transparent;">Carrello</span>
-                        </router-link>
+                <!-- Responsive Button -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Navbar Items -->
+                    <ul class="navbar-nav gap mx-auto mb-2 mb-lg-0">
+                        <li class="d-flex">
+                            <a aria-current="page" class="mx-2" href="/">
+                                <i class="fa-solid fa-house"></i>
+                            </a>
+                            <div class="position-relative">
+                                <a class="nav-item" aria-current="page" href="/">
+                                    Home
+                                </a>
+                            </div>
+                        </li>
+                        <li class="d-flex ">
+                            <a href="/restaurants" class="mx-2">
+                                <i class="fa-solid fa-burger "></i>
+                            </a>
+                            <div class="position-relative">
+                                <router-link class="nav-item" :to="{ name: 'restaurants' }">
+                                    Restaurants
+                                </router-link>
+                            </div>
+                        </li>
+                        <li class="d-flex">
+                            <a href="/admin" class="mx-2">
+                                <i class="fa-solid fa-cog"></i>
+                            </a>
+                            <div class="position-relative">
+                                <a class="nav-item" href="/admin">
+                                    <span>Dashboard</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                    <!--  -->
+                    <!-- Navbar cart -->
+                    <div class="d-flex">
+                        <div class="bottone-storto">
+                        <div class="btn p-1 pos">Carrello</div>
+                        <div class="prospettiva">
+                            <router-link class="storto btn" :to="{ name: 'cart' }">
+                                <span style="color: transparent;">Carrello</span>
+                            </router-link>
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </nav>
     </header>
 </template>
 
@@ -57,8 +75,9 @@ export default {
 @import '../../sass/front.scss';
 
 header{
+    
     padding: 20px;
-
+    
     .nav-item:after {    
         background: none repeat scroll 0 0 transparent;
         bottom: 17%;
@@ -115,6 +134,16 @@ header{
     }
     .bottone-storto{
         position: relative;
+    }
+    .navbar-light .navbar-toggler-icon {
+     background-image: url("/storage/uploads/icon-wrap-23.jpg");
+    }
+    .navbar-toggler-icon{
+        width: 50px;
+        height: 50px;
+    }
+    .navbar-toggler{
+        border: none;
     }
 }
 </style>

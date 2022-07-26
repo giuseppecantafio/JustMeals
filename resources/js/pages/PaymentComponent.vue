@@ -1,91 +1,71 @@
 <template>
     <div>
-
-        <h1>Payment Component</h1>
-
         <div class="container">
-
-             <!-- ERRORI -->
+        
+        
+        <!-- ERRORI -->
             <div v-if="serverErr">Sembra che ci siano problemi con il nostro server. Non ti sarà addebitato nessun costo, riprovare</div>
             <div v-if="paySuccess">Pagamento avvenuto con successo</div>
             <div v-if="payFailed">Pagamento rifiutato</div>
-
-            <!-- riepilogo -->
-            <div class="riepilogo">
+            
+            <div class="row">
+            <div class="col">
+                <!-- riepilogo -->
+                <div class="riepilogo">
 
                     <h2>Riepilogo</h2>
-
                     <div id="info-cart" v-if="cartItems.length > 0">
-
-                            <div class="card" v-for="item in cartItems" :key="item.id">
-
-                                <div class="name">{{item.name}}</div>
-                                <div class="price">Price : {{item.price}}&euro;</div>
-                                <div class="quantity">Quantity {{item.quantity}}</div>
-                                <div class="restaurant_id">Restaurant id {{item.restaurant_id}}</div>
-                                <div class="id">cart_item_id : {{item.id}}</div>
-                                <div class="partial_price">Partial Price : {{item.price * item.quantity}}&euro;</div>
-
-                            </div>
-
+                        <div class="card p-3" v-for="item in cartItems" :key="item.id">
+                            <div class="name">{{item.name}}</div>
+                            <div class="price">Prezzo: {{item.price}} &euro;</div>
+                            <div class="quantity">X {{item.quantity}}</div>
+                            <div class="partial_price">Prezzo: {{item.price * item.quantity}}&euro;</div>
+                        </div>
                     </div>
-
+                        <div class="text-bold my-3 p-3 bg-light border-rounded rounded-3" id="total_price"><strong>Total: {{priceTotal}} &euro;</strong> </div>
                     <div>
-
-                        <div class="text-primary my-3" id="total_price">Prezzo totale : {{priceTotal}} &euro;</div>
-
                         <div v-if="discountPrice" class="text-primary my-3" id="total_price">Vecchio prezzo : {{oldPrice}} &euro;</div>
-
                         <div v-if="discountPrice" class="text-danger my-3" id="total_price">Prezzo scontato : {{priceTotal}} &euro;</div>
                     </div>
-
+                </div>
+            </div>
+            <div class="col">
+                <!-- form -->
+                <form v-if="paymentInProgress === false && oldCustomer === false && newCustomer === false">
+                    <h2>DATI UTENTE</h2>
+                    <div class="form-group mb-3">
+                        <label for="userName">Nome utente</label>
+                        <input type="text" class="form-control" id="userName" placeholder="Inserisci il tuo nome" name="userName" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="userSurname">Cognome utente</label>
+                        <input type="text" class="form-control" id="userSurname" placeholder="Inserisci il tuo cognome" name="userSurname"  required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="userEmail">Email utente</label>
+                        <input type="email" class="form-control" id="userEmail" placeholder="Inserisci la tua email" name="userEmail"  required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="userAddress">Indirizzo utente</label>
+                        <input type="text" class="form-control" id="userAddress" placeholder="Inserisci la tua via" name="userAddress"  required>
+                    </div>
+                    <!-- note  -->
+                    <div class="form-group mb-3">
+                        <label for="userNote">Note utente</label>
+                        <textarea class="form-control" name="userNote" id="userNote" ></textarea>
+                    </div>
+                    <!-- orario -->
+                    <div class="form-group mb-3">
+                        <label for="delivery">Inserire un orario di consegna</label>
+                        <input class="form-control" type="time" id="delivery" name="delivery"
+                            min="09:00" max="18:00"  required>
+                    </div>
+                </form>
+            <button v-if="(oldCustomer || newCustomer) && paymentInProgress === false" @click.prevent="launchPayment()" class="btn bottone text-light" type="submit">Vai al pagamento</button>
+            <button v-if="!oldCustomer && !newCustomer && !paymentInProgress" @click.prevent="getUserData()" class="btn bottone text-light" type="submit">Invia Dati</button>
+            </div>
             </div>
 
-
-            <!-- form -->
-
-            <form v-if="paymentInProgress === false && oldCustomer === false && newCustomer === false">
-
-            <h2>DATI UTENTE</h2>
-        
-            <div class="form-group mb-3">
-                <label for="userName">Nome utente</label>
-                <input type="text" class="form-control" id="userName" placeholder="Inserisci il tuo nome" name="userName" required>
-            </div>
-        
-            <div class="form-group mb-3">
-                <label for="userSurname">Cognome utente</label>
-                <input type="text" class="form-control" id="userSurname" placeholder="Inserisci il tuo cognome" name="userSurname"  required>
-            </div>
-        
-            <div class="form-group mb-3">
-                <label for="userEmail">Email utente</label>
-                <input type="email" class="form-control" id="userEmail" placeholder="Inserisci la tua email" name="userEmail"  required>
-            </div>
-        
-            <div class="form-group mb-3">
-                <label for="userAddress">Indirizzo utente</label>
-                <input type="text" class="form-control" id="userAddress" placeholder="Inserisci la tua via" name="userAddress"  required>
-            </div>
-        
-            <!-- note  -->
-            <div class="form-group mb-3">
-                <label for="userNote">Note utente</label>
-                <textarea name="userNote" id="userNote" ></textarea>
-            </div>
-
-            <!-- orario -->
-            <div class="form-group mb-3">
-                <label for="delivery">Inserire un orario di consegna</label>
-                <input type="time" id="delivery" name="delivery"
-                    min="09:00" max="18:00"  required>
-            </div>
-
-        </form>
-        
-        <button v-if="(oldCustomer || newCustomer) && paymentInProgress === false" @click.prevent="launchPayment()" class="btn btn-success" type="submit">Vai al pagamento</button>
-
-        <button v-if="!oldCustomer && !newCustomer && !paymentInProgress" @click.prevent="getUserData()" class="btn btn-success" type="submit">Invia Dati</button>
 
         <!-- drop  in -->
         <div id="dropin-container"></div>
@@ -310,4 +290,8 @@ export default {
 
 <style lang="scss" scoped>
 
+
+.bottone{
+    background-color: #0d9ca4;
+}
 </style>

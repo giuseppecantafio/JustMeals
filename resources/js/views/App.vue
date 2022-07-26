@@ -1,8 +1,8 @@
 <template>
     <div>
-        <header-component/>
-        <main-component/>
-        <footer-component/>
+        <header-component class="header"/>
+        <main-component class="main"/>
+        <footer-component class="footer"/>
     </div>
 </template>
 
@@ -23,8 +23,16 @@ body{
     background: #fc4a1a;  
     background: -webkit-linear-gradient(to bottom, #f7b733, #fc4a1a); 
     background: linear-gradient(to bottom, #f7b733, #fc4a1a); 
+    height: 100%;
+    margin: 0;
     background-repeat: no-repeat;
-
+    background-attachment: fixed;
 }
-
+.main{
+    min-height: calc(100vh - 256px);
+}
+.footer{
+    bottom: 0;
+    width: 100%;
+}
 </style>
