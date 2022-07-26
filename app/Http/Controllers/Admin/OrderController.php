@@ -10,6 +10,8 @@ use App\Customer;
 use App\Restaurant;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\ConfirmationMail;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -172,12 +174,28 @@ class OrderController extends Controller
 
         if($order->delivery_time != $data['delivery']){
             $order->delivery_time = $data['delivery'];
-            // manda una mail
+            
         }
 
         if(isset($data['confirmed'])){
             $order->confirmed = 1;
-            // manda una mail
+
+            // mail di conferma
+
+            $customer = Customer::findOrFail($order->customer_id);
+
+            // $items = Item::whereHas('orders', function($q) use($order) {
+            //     $q->whereIn('order_id', $order->id);
+            // })->get();
+            $items = $order->items()->get();
+
+            // dd($items[0]);
+
+            $restaurant_id = $items[0]->restaurant_id;
+
+            $restaurant = Restaurant::findOrFail($restaurant_id);
+
+            Mail::to($customer->email)->send(new ConfirmationMail($customer->name, $customer->surname, $restaurant->name, $order->delivery_time));
         } else {
             $order->confirmed = 0;
         }
