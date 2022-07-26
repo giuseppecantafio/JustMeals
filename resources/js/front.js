@@ -9,6 +9,8 @@ import App from './views/App';
 
 import router from './router.js';
 
+// require('./modules/cardsAnimation');
+
  const app = new Vue({
     el: '#root',
     render: h => h(App),
