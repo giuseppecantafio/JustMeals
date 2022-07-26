@@ -44,9 +44,10 @@ const router = new VueRouter({
             component: PaymentComponent
         },
         {
-            path: '/checkout',
+            path: '/checkout/:id',
             name: 'checkout',
-            component: CheckoutComponent
+            component: CheckoutComponent,
+            props: true
         }
     ]
 });
