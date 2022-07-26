@@ -1,8 +1,8 @@
 <template>
     <div>
-        <header-component/>
-        <main-component/>
-        <footer-component/>
+        <header-component class="header"/>
+        <main-component class="main"/>
+        <footer-component class="footer"/>
     </div>
 </template>
 
@@ -28,5 +28,11 @@ body{
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
-
+.main{
+    min-height: calc(100vh - 256px);
+}
+.footer{
+    bottom: 0;
+    width: 100%;
+}
 </style>

@@ -2,11 +2,14 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
+                <!-- Add logo -->
                 <a class="navbar-brand" href="/">Inserire Logo</a>
+                <!-- Responsive Button -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Navbar Items -->
                     <ul class="navbar-nav gap mx-auto mb-2 mb-lg-0">
                         <li class="d-flex">
                             <a aria-current="page" class="mx-2" href="/">
@@ -39,6 +42,8 @@
                             </div>
                         </li>
                     </ul>
+                    <!--  -->
+                    <!-- Navbar cart -->
                     <div class="d-flex">
                         <div class="bottone-storto">
                         <div class="btn p-1 pos">Carrello</div>

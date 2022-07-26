@@ -1,25 +1,30 @@
 <template>
 <div>      
     <div class="position-fixed">
+        <!-- Typologies -->
         <div class="m-3">
             <i class="fa-solid fa-utensils"></i>
-            Tutte le categorie:
+            Per categoria:
         </div>
         <div class="form-check" v-for="typology in typologies" :key="typology.id" >
-            <label class="checkbox path">
-                <input class="form-check-input" type="checkbox" :value="typology.id" @change="filterRestaurants()" id="flexCheckDefault" v-model="selectTypo">
-                <svg viewBox="0 0 21 21">
-                    <path d="M5,10.75 L8.5,14.25 L19.4,2.3 C18.8333333,1.43333333 18.0333333,1 17,1 L4,1 C2.35,1 1,2.35 1,4 L1,17 C1,18.65 2.35,20 4,20 L17,20 C18.65,20 20,18.65 20,17 L20,7.99769186"></path>
-                </svg>
-                <label class="form-check-label px-1" for="flexCheckDefault">
+            <div class="d-flex align-center justify-content-between gap-3 py-2 border-rounded">
+                <label class="form-check-label px-1" >
                     {{typology.name}}
                 </label>
-            </label>
+                <label class="checkbox path">
+                    <input class="form-check-input" type="checkbox" :value="typology.id" @change="filterRestaurants()" id="flexCheckDefault" v-model="selectTypo">
+                    <svg viewBox="0 0 21 21">
+                        <path d="M5,10.75 L8.5,14.25 L19.4,2.3 C18.8333333,1.43333333 18.0333333,1 17,1 L4,1 C2.35,1 1,2.35 1,4 L1,17 C1,18.65 2.35,20 4,20 L17,20 C18.65,20 20,18.65 20,17 L20,7.99769186"></path>
+                    </svg>
+                </label>
+
+            </div>
         </div>
     </div>
     <div class="container">
         <loading-component v-if="loading"/>
         <div class="row d-flex" style="flex-direction: row">
+            <!-- Restaurants loop -->
             <div class="col-6 scale-in-center" v-for="restaurant in restaurants" :key="restaurant.id" style="padding-bottom: 30px">
                 <div  class="card" style="height: 100%">
                     <img :src="`/storage/${restaurant.image}`" class="card-img-top" alt="...">
@@ -32,6 +37,7 @@
                             <p v-for="typology in restaurant.typologies" :key="typology.id" class="card-text">{{typology.name}}</p>
                         </div>
                     </div>
+                    <!-- Menu button -->
                     <button class="btn btn-primary">
                         <router-link :to="{ name: 'menu', params: { slug: restaurant.slug } }" style="color:white" >Menu</router-link>
                     </button>
@@ -208,10 +214,9 @@ export default {
         transform: scale(1);
     }
 }
-.container{
-    height: 100vh;
-}
+
 .scale-in-center{animation:scale-in-center .1s cubic-bezier(.25,.46,.45,.94) both}
 @keyframes scale-in-center{0%{transform:scale(0);opacity:1}100%{transform:scale(1);opacity:1}}
+
 
 </style>
