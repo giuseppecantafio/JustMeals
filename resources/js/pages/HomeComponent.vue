@@ -38,7 +38,10 @@
             <div class="backg">
                 <div class="container consenge">
                     <section class="text-center">
-                        <div class="row ">
+                        <div class="row " data-aos="fade-down"
+                            data-aos-offset="200"
+                            data-aos-delay="100"
+                            data-aos-duration="1000">
                             <div class="col">
                                 <img src="https://res.cloudinary.com/glovoapp/image/fetch//q_auto/https://glovoapp.com/images/why-glovo/restaurants.svg" alt="">
                                 <div class="title py-3">
@@ -122,7 +125,10 @@
         <div class="backg unisciti">
             <div class="container ">
                 <section class="text-center ">
-                    <div class="row ">
+                    <div class="row " data-aos="fade-down"
+                            data-aos-offset="200"
+                            data-aos-delay="50"
+                            data-aos-duration="1000">>
                         <div class="col">
                             <img src="https://res.cloudinary.com/glovoapp/image/fetch//w_254,h_220,c_fit,f_auto,q_auto:best/dpr_auto/https://glovoapp.com/images/corporate/rider-image.png" alt="">
                             <div class="title py-2">
@@ -173,6 +179,7 @@ import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
   // optional style for arrows & dots
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+import AOS from "aos";
 
 export default {
     name: "HomeComponent",
@@ -229,7 +236,7 @@ export default {
                 "slidesToShow": 5,
                 "slidesToScroll": 1,
                 "touchThreshold": 5,
-                "autoplay": false,
+                "autoplay": true,
                 "autoplaySpeed": 2000,
                 "pauseOnDotsHover": true,
                 "pauseOnFocus": true,
@@ -307,6 +314,9 @@ export default {
     created(){
         this.getPizzerie();
         this.getGiapponesi();
+    },
+    mounted() {
+        AOS.init();
     },
 };
 </script>

@@ -9,6 +9,8 @@ import App from './views/App';
 
 import router from './router.js';
 
+import 'aos/dist/aos.css'
+
 // require('./modules/cardsAnimation');
 
  const app = new Vue({

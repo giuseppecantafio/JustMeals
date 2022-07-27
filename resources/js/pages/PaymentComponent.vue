@@ -4,13 +4,14 @@
             <div class="row w-75 m-auto">
                 <div class="col-12">
                     <!-- ERRORI -->
-                    <div v-if="serverErr">
-                        Sembra che ci siano problemi con il nostro server. Non ti sarà
-                        addebitato nessun costo, riprovare
-                    </div>
-                    <div v-if="paySuccess">Pagamento avvenuto con successo</div>
-                    <div v-if="payFailed">Pagamento rifiutato</div>
-
+                    
+                        <div class="riepilogo" v-if="serverErr">
+                            Sembra che ci siano problemi con il nostro server. Non ti sarà
+                            addebitato nessun costo, riprovare
+                        </div>
+                        <div class="riepilogo" v-if="paySuccess">Pagamento avvenuto con successo</div>
+                        <div class="riepilogo" v-if="payFailed">Pagamento rifiutato</div>
+                    
                     <!-- riepilogo -->
                     <div class="riepilogo">
                         <h5>Riepilogo</h5>
@@ -34,35 +35,34 @@
 
                             <div
                                 v-if="discountPrice"
-                                class="text-primary my-3"
+                                class="prezzo"
                                 id="total_price"
-                                style="text-decoration: line-through"
                             >
-                                {{ oldPrice }} &euro;
+                                Prezzo precedente: <s>{{ oldPrice }} &euro;</s>
                             </div>
 
                             <div
                                 v-if="discountPrice"
-                                class="text-danger my-3"
+                                class="prezzo py-3"
                                 id="total_price"
                             >
                                 Prezzo scontato : {{ priceTotal }} &euro;
                             </div>
 
-
-                            <div v-if="!removePayBtn">
-                                <button
-                                
-                                    v-if="
+                            <div class="d-flex" v-if="!removePayBtn">
+                                <div class="bottone-storto" v-if="
                                         (oldCustomer || newCustomer) &&
                                         paymentInProgress === false
                                     "
                                     @click.prevent="launchPayment()"
-                                    class="btn btn-success"
-                                    type="submit"
-                                >
-                                    Vai al pagamento
-                                </button>
+                                    type="submit">
+                                    <div class="btn p-1 pos mycheck">Vai al pagamento</div>
+                                    <div class="prospettiva">
+                                        <div class="storto btn myblue" :to="{ name: 'payment' }">
+                                            <span style="color: transparent;">Vai al pagamento</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
@@ -168,14 +168,18 @@
             
 
             <!-- button -->
-            <div v-if="!removePayBtn">
-                <button
-                    v-show="paymentInProgress"
-                    id="payBtn"
-                    class="btn btn-success"
-                >
-                    Pagahh Stronzoooohhhh
-                </button>
+            <div class="container prosegui w-75" v-if="!removePayBtn" v-show="paymentInProgress">
+                <div class="d-flex" >
+                    <div class="bottone-storto"  v-show="paymentInProgress"
+                    id="payBtn">
+                        <div class="btn p-1 pos mycheck">Prosegui</div>
+                        <div class="prospettiva">
+                            <div class="storto btn myblue">
+                                <span style="color: transparent;">Prosegui</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
 
@@ -456,5 +460,29 @@ export default {
 }
 .mycheck{
     color: $my-blue;
+}
+s, strike{text-decoration:none;position:relative;}
+s::before, strike::before {
+    top: 50%; /*tweak this to adjust the vertical position if it's off a bit due to your font family */
+    background:red; /*this is the color of the line*/
+    opacity:.7;
+    content: '';
+    width: 110%;
+    position: absolute;
+    height:.1em;
+    border-radius:.1em;
+    left: -5%;
+    white-space:nowrap;
+    display: block;
+    transform: rotate(-15deg);  
+}
+s.straight::before, strike.straight::before{transform: rotate(0deg);left:-1%;width:102%;}
+
+.prosegui{
+    border-radius: 3px;
+    background-color: white;
+    padding: 16px;
+    margin-top: -13px;
+    margin-bottom: 50px;
 }
 </style>
