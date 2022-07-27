@@ -7,7 +7,7 @@
   <h1>MODIFICA L'ORDINE DI {{$order->customer->surname.'   '.$order->customer->name}}</h1>
   
   
-  <form action="{{route('admin.orders.update', $order->id)}}" method="post" enctype="multipart/form-data">
+  <form action="{{route('admin.orders.update', [$restaurant_id, $order->id])}}" method="post" enctype="multipart/form-data">
       @csrf
       @method('PUT')
   
