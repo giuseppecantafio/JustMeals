@@ -1,22 +1,28 @@
 <template>
     <div>
-        <!-- <JumbotronComponent/> -->
+        <JumbotronComponent/>
         <div class="container">
             <div class="wrapper">
                 <span class="titolo-carosello my-5">Le nostre pizzerie</span>
                 <i class="fa-solid fa-angle-right" style="text-align:center; padding-left: 5px;"></i>
             </div>
             <VueSlickCarousel :arrows="true" :dots="true" v-bind="settings" v-if="ok">
-                <div v-for="pizzeria in pizzerie" :key="pizzeria.id" class="my-3">
-                    <div class=" mx-3" style="width: 18rem;">
-                    <router-link :to="{ name: 'menu', params: { slug: pizzeria.slug } }" style="color:white" >
-                        <img :src="`/storage/${pizzeria.image}`" class="card-img shadow" alt="...">
+                
+                <div v-for="pizzeria in pizzerie" :key="pizzeria.id" class="my-3" >
+                    <div class="mx-3" style="width: 18rem;">
+                        <router-link :to="{ name: 'menu', params: { slug: pizzeria.slug } }" style="color:white" >
+                        <div class="img-slider-container" >                                                  
+                            <img :src="`/storage/${pizzeria.image}`" class="card-img shadow " alt="...">
+                        </div>
+
                         <div class="py-3">
                             <h5 class="text-center restaurant-name-slider">{{pizzeria.name}}</h5>
                         </div>
-                    </router-link>
+                        </router-link>
                     </div>
                 </div>
+                
+                
                 <!-- <template #customPaging="page">
                     <div class="custom-dot">
                         {{ page }}
@@ -31,7 +37,7 @@
             </svg>
             <div class="backg">
                 <div class="container consenge">
-                    <section class="my-5 text-center">
+                    <section class="text-center">
                         <div class="row ">
                             <div class="col">
                                 <img src="https://res.cloudinary.com/glovoapp/image/fetch//q_auto/https://glovoapp.com/images/why-glovo/restaurants.svg" alt="">
@@ -39,7 +45,7 @@
                                     I migliori ristoranti della tua città
                                 </div>
                                 <p class="m-auto">
-                                    Con un'ampia varietà di ristoranti puoi ordinare i tuoi piatti preferiti oppure <mark>esplora nuovi ristoranti nei dintorni!</mark> 
+                                    Con un'ampia varietà di ristoranti puoi ordinare i tuoi piatti preferiti oppure esplora nuovi ristoranti nei dintorni! 
                                 </p>
                             </div>
                             <div  class="col">
@@ -48,7 +54,7 @@
                                     Consegna rapida
                                 </div>
                                 <p class="m-auto">
-                                La rapidità è un nostro punto d'orgoglio. Ordina o invia qualsiasi cosa nella tua città e lo ritireremo e te <mark>lo consegneremo nel giro di qualche minuto.</mark> 
+                                La rapidità è un nostro punto d'orgoglio. Ordina o invia qualsiasi cosa nella tua città e lo ritireremo e te lo consegneremo nel giro di qualche minuto.
                                 </p>
                             </div>
                             <div  class="col">
@@ -57,12 +63,12 @@
                                 Consegna della spesa e altro
                                 </div>
                                 <p class="m-auto">
-                                Trova tutto ciò che ti serve! Dai <mark>supermercati ai negozi, dalle farmacie ai fioristi</mark>  — se è nella tua città, te lo portiamo noi.
+                                Trova tutto ciò che ti serve! Dai supermercati ai negozi, dalle farmacie ai fioristi se è nella tua città, te lo portiamo noi.
                                 </p>
                             </div>
                         </div>
                     </section>
-                    <div class="d-flex justify-content-center my-2">
+                    <div class="d-flex justify-content-center" style="margin-top: 10vh;">
                         <div class="bottone-storto">
                         <div class="btn p-1 pos">Esplora i locali intorno a te</div>
                             <div class="prospettiva">
@@ -76,13 +82,14 @@
             </div>
 
         </section>
-        <svg xmlns="http://www.w3.org/2000/svg" style="margin-top: -170px" viewBox="0 0 1440 320">
-            <path fill="#EDEAEB" fill-opacity="1" d="M0,96L48,101.3C96,107,192,117,288,117.3C384,117,480,107,576,101.3C672,96,768,96,864,133.3C960,171,1056,245,1152,256C1248,267,1344,213,1392,186.7L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
-        </svg>
-        <VueSlickCarousel v-bind="settingslow" v-if="ok" style="width: 100%; margin-top: -250px; z-index: -1;">
-            <div v-for="pizzeria in pizzerie" :key="pizzeria.id" >
+        <svg xmlns="http://www.w3.org/2000/svg" class="white-wave" viewBox="0 0 1440 320" style="margin-top: -1px;
+}">
+                <path fill="#EDEAEB" fill-opacity="1" d="M0,192L48,181.3C96,171,192,149,288,170.7C384,192,480,256,576,245.3C672,235,768,149,864,133.3C960,117,1056,171,1152,181.3C1248,192,1344,160,1392,144L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+        <VueSlickCarousel v-bind="settingslow" v-if="ok">
+            <div v-for="pizzeria in pizzerie" :key="pizzeria.id" class="slider-2-size ">
                 <router-link :to="{ name: 'menu', params: { slug: pizzeria.slug } }">
-                    <img :src="`/storage/${pizzeria.image}`" class="shadow card-img-top" alt="...">
+                    <img :src="`/storage/${pizzeria.image}`" class="shadow card-img-top img-slider-container" alt="...">
                 </router-link>
             </div>
         </VueSlickCarousel>
@@ -173,6 +180,7 @@ export default {
     data(){
         return{
             settingslow:{
+                "centerMode": true,
                 "arrows": false,
                 "dots": false,
                 "infinite": true,
@@ -221,7 +229,7 @@ export default {
                 "slidesToShow": 5,
                 "slidesToScroll": 1,
                 "touchThreshold": 5,
-                "autoplay": true,
+                "autoplay": false,
                 "autoplaySpeed": 2000,
                 "pauseOnDotsHover": true,
                 "pauseOnFocus": true,
@@ -260,6 +268,7 @@ export default {
             giapponesi: [],
             ok: false,
             ko: false,
+            isHovering: [],
         }
         
     },
@@ -289,7 +298,8 @@ export default {
                     }).catch((error)=>{
                         console.log(error);
                     });
-        },
+        }
+        
         
         
     },
@@ -309,11 +319,14 @@ export default {
     width: 100%;
     height: 200px;
     object-fit: cover;
+    border-radius: 20px
 }
 .card-img-top{
-    width: 100px;
-    height: 100px;
+    margin-left: 20px;
+    width: 170px;
+    height: 150px;
     object-fit: cover;
+    border-radius: 20px
 }
 
 .titolo-carosello{
@@ -336,13 +349,9 @@ i{
 h5{
     color: black;
 }
-.shadow{
-    // box-shadow: 2px 2px 2px black;
-    border-radius: 20px;
-}
 
 .consenge{
-    margin-bottom: 100px;
+    
     margin-top:100px;
     // -color: #eeeaeb;
 }
@@ -395,6 +404,7 @@ a{
     }
     .bottone-storto{
         position: relative;
+        z-index: 99;
     }
 .backg{
     background-color: #EDEAEB;
@@ -409,4 +419,25 @@ a{
     // transform: rotate(85deg) scale(0.7) skew(19deg) translate(-1px,0px);
     transform: skew(26deg);
 }
+.white-wave{
+    transform: rotate(180deg);
+}
+.img-slider-container {
+border-radius: 20px;
+opacity: 0.8;
+}
+.img-slider-container:hover{
+    animation-name: example;
+    animation-duration: 1s;
+    animation-timing-function: ease;
+  
+ }
+ 
+@keyframes example {
+  0%   {opacity: 0.9; box-shadow: 0px 0px 0px rgb(0, 0, 0);}
+  50%  {opacity: 1; box-shadow: 20px 10px 30px rgb(0, 0, 0);}
+  
+}
+
+
 </style>

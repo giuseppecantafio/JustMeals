@@ -1,14 +1,14 @@
 <template>
   <div class="jumbo-size d-flex justify-content-center container-fluid">
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-lg-6 col-sm-12 jumbo-container d-flex justify-content-center align-items-center">
         <img src="storage/uploads/kisspng-logo-computer-icons-scalable-vector-graphics-clip-filemcdonaldampapossshadow-svg-wikipedia-5c775acd244151.2332977515513259011485.jpg" class="logo shadow" id="lolgo" alt="...">
       </div>
       <div class="col-lg-6 col-sm-12 jumbo-container d-flex justify-content-center align-items-center">
         <h1 class="jumbo-title">Consegna di cibo a domicilio</h1>
-      </div>
-    </div>
-    
+      </div> 
+    </div>-->
+    <video src=""></video>
   </div>
 </template>
 
