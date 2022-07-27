@@ -8,9 +8,12 @@
         <h1 class="jumbo-title">Consegna di cibo a domicilio</h1>
       </div> 
     </div>-->
-    <div class="img-container animate__animated animate__bounceInDown animate__slow animate__delay-0.5s"> 
+    
+    <div class="img-container animate__animated animate__bounceInDown animate__slow animate__delay-0.5s justify-content-center"> 
       <img src="/images/Justmeals-ai-white-su-blue.png"  id="jumbo-img" alt="" class="jumbo-immagine">
+  
     </div>
+    
     
   </div>
 </template>
@@ -60,4 +63,15 @@ export default {
 .img-container{
   padding-top: 3%;
 }
+@media only screen and (max-width: 714px) {
+  .img-container {
+   width: 75%;
+  }
+  #jumbo-img{
+    width: 100%;
+    height: 70%;
+  }
+
+}
+
 </style>
