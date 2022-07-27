@@ -1,0 +1,209 @@
+// SEZIONE CARDS
+
+.my-container {
+    width: 90%;
+    margin: 0 auto;
+    padding: $padding-sm 0;
+
+    h1 {
+        margin-bottom: $padding-md;
+        text-align: center;
+    }
+
+    .my-row {
+        display: flex;
+        flex-wrap: wrap;
+        position: relative;
+        justify-content: center;
+        row-gap: 5px;
+        column-gap: 5px;
+
+        .my-card {
+            display: inline-block;
+            min-height: 200px;
+            position: relative;
+            height: 50%;
+            width: calc(20% - (15px * 4 / 5));
+            transition: all 0.35s;
+            background-color: rgba($color: #EDEAEB, $alpha: 1);
+            background-color: #323232;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            overflow: hidden;
+
+            &:hover {
+                transition: all 0.35s;
+                box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 40px 4px;
+            }
+
+            .my-wrapper {
+                height: calc(100% - 12px);
+                width: calc(100% - 12px);
+                overflow: hidden;
+                border-radius: 25px;
+                position: absolute;
+
+                .card-top {
+                    img.available {
+                        height: 100%;
+                        width: 100%;
+                        object-fit: cover;
+                        object-position: center;
+                    }
+
+                    figure {
+                        img.wrap-icon {
+                            height: 50px;
+                            position: absolute;
+                            top: calc(50% - 30px);
+                            left: 50%;
+                            transform: translate(-50%, -50%) rotate(30deg);
+                        }
+
+                        figcaption {
+                            position: absolute;
+                            bottom: 100px;
+                            width: 100%;
+                            text-align: center;
+                            color: $my-white;
+                            font-size: $font-sm;
+                        }
+                    }
+                }
+            }
+
+            .card-bottom {
+                position: absolute;
+                bottom: -180px;
+                height: 240px;
+                width: 100%;
+                background-color: #EDEAEB;
+                border-radius: 30px 0 0 0;
+                transition: 0.3s;
+                text-align: center;
+                color: #323232;
+                // padding: 20px;
+
+                .text {
+                    .out-text {
+                        height: 60px;
+                        // border: 1px solid red;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        position: relative;
+
+                        i.fa-eye {
+                            position: absolute;
+                            bottom: 6px;
+                            right: 16px;
+                            color: rgba($color: $my-black, $alpha: 0.4);
+                            transition: all 0.5s;
+                        }
+                    }
+
+                    .inner-text {
+                        .description {
+                            padding: 15px;
+                            height: 122px;
+                        }
+
+                        .card-footer {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: flex-end;
+                            position: absolute;
+                            bottom: 0;
+                            width: 100%;
+                            border-top: 2px solid rgba($color: $my-black, $alpha: 0.5);
+                            padding: 7px 15px;
+
+                            .price {
+                                font-weight: 700;
+                                position: relative;
+                                bottom: 10px;
+                            }
+                        }
+                    }
+                }
+
+                &:hover {
+                    bottom: 0;
+                }
+
+                .card__arc {
+                    width: 80px;
+                    height: 80px;
+                    position: absolute;
+                    top: -79px;
+                    right: 0;
+                    z-index: 1;
+                }
+
+                .card__arc path {
+                    fill: #EDEAEB;
+                    d: path("M 40 80 c 22 0 40 -22 40 -40 v 40 Z");
+                }
+            }
+
+        }
+    }
+}
+
+.prospettiva {
+    perspective: 70px;
+}
+
+.storto {
+    border: 2px solid $my-black;
+
+    &:hover {
+        // border: 2px solid $orange-juice;
+        transition: all 0.35s !important;
+        border: 2px solid $my-dark-orange;
+        transform: none;
+    }
+
+    transform: rotateY(-9deg) rotateX(-11deg) rotateZ(-1deg) translateX(-8px);
+    transition: transform 0.5s;
+    padding: 3px !important;
+
+}
+
+.storto {
+    padding: 7px !important;
+}
+
+.storto.finto:hover {
+    transform: none;
+    border: 2px solid $my-black;
+}
+
+.pos {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: $my-black;
+    transition: 0.3s;
+
+    &:hover {
+        color: $my-dark-orange  !important;
+    }
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.bottone-storto {
+    position: relative;
+}
+
+
+.card-bottom:hover .fa-eye {
+    opacity: 0;
+}
