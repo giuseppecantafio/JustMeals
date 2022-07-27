@@ -3,7 +3,10 @@
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
                 <!-- Add logo -->
-                <a class="navbar-brand" href="/">Inserire Logo</a>
+                <div > 
+                    <a href="/"><img src="storage/uploads/Justmeals-blue-su-dark-orange.png" alt="" class="jumbo-logo"></a>
+                    
+                </div>
                 <!-- Responsive Button -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -145,5 +148,17 @@ header{
     .navbar-toggler{
         border: none;
     }
+}
+// #jumbo-img {
+//   display: inline-block;
+//   margin: 0 0.5rem;
+
+//   animation: bounce; /* referring directly to the animation's @keyframe declaration */
+//   animation-duration: 2.5s; /* don't forget to set a duration! */
+// }
+.jumbo-logo{
+  width: 200px;
+  height: 75px;
+//   padding-bottom: 10px;
 }
 </style>
