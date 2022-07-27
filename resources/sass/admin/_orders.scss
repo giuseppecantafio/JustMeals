@@ -33,14 +33,10 @@
                 .order-id{
                     text-decoration: none;
                     text-transform: uppercase;
-                    cursor: pointer;
-                    color: $my-black;
                     font-size: 1.35em;
                     text-align: center;
                     display: block;
-                    &:hover{
-                        color: $my-blue;
-                    }
+                    color: $my-blue;
                     margin-top: 15px;
 
                 }
@@ -71,5 +67,24 @@
     .bold{
         font-weight: 700;
     }
+}
+
+
+
+.admin-orders-edit{
+    .btns{
+        display: flex;
+        gap: 15px;
+        form{
+            margin-top: 50px;
+            #delivery{
+                width: auto;
+            }
+    
+        }
+    }
+
+
+
 }
 

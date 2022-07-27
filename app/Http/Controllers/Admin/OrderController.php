@@ -165,7 +165,8 @@ class OrderController extends Controller
     public function edit($restaurant_id, $order_id)
     {
         $order = Order::findOrFail($order_id);
-        return view('admin.orders.edit', compact('restaurant_id', 'order'));
+        $items = $order->items()->get();
+        return view('admin.orders.edit', compact('restaurant_id', 'order', 'items'));
     }
 
     /**

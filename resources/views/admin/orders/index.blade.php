@@ -22,7 +22,7 @@
                     @endif
 
                     {{-- numero --}}
-                    <a class="order-id" href="{{route('admin.orders.show', [$restaurant->id, $order->id])}}">Ordine numero : {{$order->id}}</a>
+                    <a class="order-id">Ordine numero : {{$order->id}}</a>
                     {{-- cliente --}}
                     <div class="name">
                         <span>Cliente : </span>
@@ -46,7 +46,7 @@
                     {{-- buttons --}}
                     <div class="btns">
                         <button class="btn edit">
-                            <a class="edit-btn" href="{{route('admin.orders.edit', [$restaurant->id ,$order->id])}}" style="color: black">Vai alla conferma</a>
+                            <a class="edit-btn" href="{{route('admin.orders.edit', [$restaurant->id ,$order->id])}}" style="color: black">Apri</a>
                         </button>
                         <form action="{{route('admin.orders.destroy', [$restaurant->id, $order->id])}}" method="post" >
                             @csrf
