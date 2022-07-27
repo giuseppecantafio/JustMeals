@@ -136,7 +136,7 @@ header{
         position: relative;
     }
     .navbar-light .navbar-toggler-icon {
-     background-image: url("/storage/uploads/icon-wrap-23.jpg");
+        background-image: url("/storage/uploads/icon-wrap-23.jpg");
     }
     .navbar-toggler-icon{
         width: 50px;
