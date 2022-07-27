@@ -9,7 +9,7 @@
       </div> 
     </div>-->
     <div class="img-container animate__animated animate__bounceInDown animate__slow animate__delay-0.5s"> 
-      <img src="storage/uploads/Justmeals-ai-white-su-blue.png"  id="jumbo-img" alt="" class="jumbo-immagine">
+      <img src="/images/Justmeals-ai-white-su-blue.png"  id="jumbo-img" alt="" class="jumbo-immagine">
     </div>
     
   </div>

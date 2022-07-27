@@ -4,7 +4,7 @@
             <div class="container-fluid">
                 <!-- Add logo -->
                 <div > 
-                    <a href="/"><img src="storage/uploads/Justmeals-blue-su-dark-orange.png" alt="" class="jumbo-logo"></a>
+                    <a href="/"><img src="/images/Justmeals-blue-su-dark-orange.png" alt="" class="jumbo-logo"></a>
                     
                 </div>
                 <!-- Responsive Button -->
