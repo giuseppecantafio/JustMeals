@@ -1,146 +1,148 @@
 <template>
     <div>
-        <h1>Payment Component</h1>
-
         <div class="container">
-            <!-- ERRORI -->
-            <div v-if="serverErr">
-                Sembra che ci siano problemi con il nostro server. Non ti sarà
-                addebitato nessun costo, riprovare
-            </div>
-            <div v-if="paySuccess">Pagamento avvenuto con successo</div>
-            <div v-if="payFailed">Pagamento rifiutato</div>
+            <div class="row w-75 m-auto">
+                <div class="col-12">
+                    <!-- ERRORI -->
+                    <div v-if="serverErr">
+                        Sembra che ci siano problemi con il nostro server. Non ti sarà
+                        addebitato nessun costo, riprovare
+                    </div>
+                    <div v-if="paySuccess">Pagamento avvenuto con successo</div>
+                    <div v-if="payFailed">Pagamento rifiutato</div>
 
-            <!-- riepilogo -->
-            <div class="riepilogo">
-                <h2>Riepilogo</h2>
+                    <!-- riepilogo -->
+                    <div class="riepilogo">
+                        <h5>Riepilogo</h5>
 
-                <div id="info-cart" v-if="cartItems.length > 0">
-                    <div class="card" v-for="item in cartItems" :key="item.id">
-                        <div class="name">{{ item.name }}</div>
-                        <div class="price">Price : {{ item.price }}&euro;</div>
-                        <div class="quantity">Quantity {{ item.quantity }}</div>
-                        <div class="restaurant_id">
-                            Restaurant id {{ item.restaurant_id }}
+                        <div id="info-cart" v-if="cartItems.length > 0">
+                            <div v-for="item in cartItems" :key="item.id">
+                                <h3 class="name">{{ item.name }}</h3>
+                                <div class="price">Prezzo: {{ item.price }}&euro;</div>
+                                <div class="quantity">Quantità: {{ item.quantity }}</div>
+                                <div class="partial_price">
+                                    Prezzo parziale:
+                                    {{ item.price * item.quantity }}&euro;
+                                </div>
+                            </div>
                         </div>
-                        <div class="id">cart_item_id : {{ item.id }}</div>
-                        <div class="partial_price">
-                            Partial Price :
-                            {{ item.price * item.quantity }}&euro;
+
+                        <div>
+                            <div class="prezzo" id="total_price">
+                                Prezzo totale: &euro;{{ priceTotal }} 
+                            </div>
+
+                            <div
+                                v-if="discountPrice"
+                                class="text-primary my-3"
+                                id="total_price"
+                            >
+                                Vecchio prezzo : {{ oldPrice }} &euro;
+                            </div>
+
+                            <div
+                                v-if="discountPrice"
+                                class="text-danger my-3"
+                                id="total_price"
+                            >
+                                Prezzo scontato : {{ priceTotal }} &euro;
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div>
-                    <div class="text-primary my-3" id="total_price">
-                        Prezzo totale : {{ priceTotal }} &euro;
-                    </div>
+                    <!-- form -->
+                    <div class="col-12">
+                        <form class="dati"
+                            v-if="
+                                paymentInProgress === false &&
+                                oldCustomer === false &&
+                                newCustomer === false
+                            "
+                        >
+                            <div class="form-group mb-3">
+                                <label for="userName">Nome utente</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="userName"
+                                    placeholder="Inserisci il tuo nome"
+                                    name="userName"
+                                    required
+                                />
+                            </div>
 
-                    <div
-                        v-if="discountPrice"
-                        class="text-primary my-3"
-                        id="total_price"
-                    >
-                        Vecchio prezzo : {{ oldPrice }} &euro;
-                    </div>
+                            <div class="form-group mb-3">
+                                <label for="userSurname">Cognome utente</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="userSurname"
+                                    placeholder="Inserisci il tuo cognome"
+                                    name="userSurname"
+                                    required
+                                />
+                            </div>
 
-                    <div
-                        v-if="discountPrice"
-                        class="text-danger my-3"
-                        id="total_price"
-                    >
-                        Prezzo scontato : {{ priceTotal }} &euro;
+                            <div class="form-group mb-3">
+                                <label for="userEmail">Email utente</label>
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    id="userEmail"
+                                    placeholder="Inserisci la tua email"
+                                    name="userEmail"
+                                    required
+                                />
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="userAddress">Indirizzo utente</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="userAddress"
+                                    placeholder="Inserisci la tua via"
+                                    name="userAddress"
+                                    required
+                                />
+                            </div>
+
+                            <!-- note  -->
+                            <div class="form-group mb-3">
+                                <label for="userNote">Note utente</label>
+                                <textarea class="form-control" name="userNote" id="userNote"></textarea>
+                            </div>
+
+                            <!-- orario -->
+                            <div class="form-group mb-3">
+                                <label for="delivery">Inserire un orario di consegna</label>
+                                <input
+                                    class="form-control"
+                                    type="time"
+                                    id="delivery"
+                                    name="delivery"
+                                    min="09:00"
+                                    max="18:00"
+                                    required
+                                />
+                            </div>
+                            <div class="d-flex">
+                                <div class="bottone-storto " v-if="!oldCustomer && !newCustomer && !paymentInProgress"
+                                @click.prevent="getUserData()"
+                                type="submit mycheck">
+                                    <div class="btn p-1 pos mycheck" >Invia Dati</div>
+                                    <div class="prospettiva">
+                                        <div class="storto btn myblue">
+                                            <span style="color: transparent;">Invia Dati</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </div>
             </div>
 
-            <!-- form -->
-
-            <form
-                v-if="
-                    paymentInProgress === false &&
-                    oldCustomer === false &&
-                    newCustomer === false
-                "
-            >
-                <h2>DATI UTENTE</h2>
-
-                <div class="form-group mb-3">
-                    <label for="userName">Nome utente</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="userName"
-                        placeholder="Inserisci il tuo nome"
-                        name="userName"
-                        required
-                    />
-                </div>
-
-                <div class="form-group mb-3">
-                    <label for="userSurname">Cognome utente</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="userSurname"
-                        placeholder="Inserisci il tuo cognome"
-                        name="userSurname"
-                        required
-                    />
-                </div>
-
-                <div class="form-group mb-3">
-                    <label for="userEmail">Email utente</label>
-                    <input
-                        type="email"
-                        class="form-control"
-                        id="userEmail"
-                        placeholder="Inserisci la tua email"
-                        name="userEmail"
-                        required
-                    />
-                </div>
-
-                <div class="form-group mb-3">
-                    <label for="userAddress">Indirizzo utente</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="userAddress"
-                        placeholder="Inserisci la tua via"
-                        name="userAddress"
-                        required
-                    />
-                </div>
-
-                <!-- note  -->
-                <div class="form-group mb-3">
-                    <label for="userNote">Note utente</label>
-                    <textarea name="userNote" id="userNote"></textarea>
-                </div>
-
-                <!-- orario -->
-                <div class="form-group mb-3">
-                    <label for="delivery">Inserire un orario di consegna</label>
-                    <input
-                        type="time"
-                        id="delivery"
-                        name="delivery"
-                        min="09:00"
-                        max="18:00"
-                        required
-                    />
-                </div>
-
-                <button
-                    v-if="!oldCustomer && !newCustomer && !paymentInProgress"
-                    @click.prevent="getUserData()"
-                    class="btn btn-success"
-                    type="submit"
-                >
-                    Invia Dati
-                </button>
-            </form>
 
             <!-- drop  in -->
             <div id="dropin-container"></div>
@@ -167,6 +169,9 @@
                     Pagahh Stronzoooohhhh
                 </button>
             </div>
+
+
+            
         </div>
 
     </div>
@@ -388,7 +393,60 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../sass/front.scss';
+
 .bottone{
     background-color: #0d9ca4;
+}
+.riepilogo{
+    background-color: $my-white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    margin-bottom: 50px;
+}
+.prezzo{
+    display: flex;
+    font-weight: 700;
+    font-size: 20px;
+    padding-top: 20px;
+    justify-content: flex-end;
+}
+#info-cart{
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgb(192, 192, 192);
+}
+.dati{
+    background-color: $my-white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    margin-bottom: 50px;
+}
+.prospettiva{
+    perspective: 100px;
+}
+.storto{
+    transform: rotateY(-9deg) rotateX(-11deg) rotateZ(-1deg) translateX(-8px);
+    transition: transform 0.5s;
+    padding: 12px !important;
+}
+.storto:hover{
+    transform: none;
+}
+.pos{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.bottone-storto{
+    position: relative;
+}
+.myblue{
+    border: 1px solid $my-blue;
+}
+.mycheck{
+    color: $my-blue;
 }
 </style>
