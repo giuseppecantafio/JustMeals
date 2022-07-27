@@ -38,10 +38,7 @@ Route::middleware('auth')
     });
 
 Route::resource('/token', 'PaymentController');
-
-// Route::get('/gateway', function () {
-//     return view('welcome');
-// });
+Route::get('/leonardo/aiutaci/per/favore', 'LeonardoController@index');
 
 Route::get("{any?}", function() {
     return view('guest.home');
