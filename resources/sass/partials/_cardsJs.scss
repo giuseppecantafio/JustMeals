@@ -1,0 +1,93 @@
+/* CARTE SELEZIONATE */
+.selected-left {
+    z-index: 100;
+    transform: skew(1deg) scale(1.1) rotate(1deg);
+}
+
+.selected-right {
+    z-index: 100;
+    transform: skew(-1deg) scale(1.1) rotate(-1deg);
+}
+
+.selected-center {
+    z-index: 100;
+    transform: scale(1.125);
+}
+
+.selected-lonely {
+    z-index: 100;
+    transform: scale(1.125);
+}
+
+
+
+/* CARTE VICINE SE SELEZIONATO A SINISTRA */
+.left-left-sibling {
+    transform: skew(-1deg) scale(1.075) rotate(-1deg);
+    z-index: 50;
+    width: calc(20% - 50px);
+}
+
+.left-right-sibling {
+    transform: skew(-1deg) scale(1.075) rotate(-1deg);
+    z-index: 50;
+    width: calc(20% - 50px);
+}
+
+
+/* CARTE VICINE SE SELEZIONATO A DESTRA */
+.right-left-sibling {
+    transform: skew(1deg) scale(1.075) rotate(1deg);
+    z-index: 50;
+    width: calc(20% - 50px);
+}
+
+.right-right-sibling {
+    transform: skew(1deg) scale(1.075) rotate(1deg);
+    z-index: 50;
+    width: calc(20% - 50px);
+}
+
+
+@media screen and (max-width: 1200px) {
+    .my-card {
+        width: calc((100% / 3) - (15px * 2 / 3)) !important;
+    }
+
+    .left-left-sibling,
+    .left-right-sibling,
+    .right-right-sibling,
+    .right-left-sibling {
+        width: calc((100% / 3) - 50px) !important;
+    }
+}
+
+@media screen and (max-width: 840px) {
+    .my-card {
+        width: calc((100% / 2) - (15px * 1 / 2)) !important;
+    }
+
+    .left-left-sibling,
+    .left-right-sibling,
+    .right-right-sibling,
+    .right-left-sibling {
+        width: calc((100% / 2) - 50px) !important;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .my-row {
+        gap: 30px !important;
+    }
+
+    .my-card {
+        width: calc(80% - 15px) !important;
+    }
+
+    .left-left-sibling,
+    .left-right-sibling,
+    .right-right-sibling,
+    .right-left-sibling {
+        width: calc(80% - 50px) !important;
+    }
+}

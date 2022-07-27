@@ -2,27 +2,43 @@
 
     <div class="my-container">
 
+        <loading-component v-if="loading" class="loader" />
+
         <h1 v-if="restaurant">Menù {{ restaurant.name }}</h1>
         
+
         <div class="my-row">
 
             <div class="my-card" v-for="(item, index) in menu" :key="index">
 
+                <!-- CARD TOP / IMMAGINE -->
                 <div class="my-wrapper">
-
                     <div class="card-top" style="height: 300px;">
-                        <img :src="`/storage/${item.image}`" alt="ciao" style="height: 100%; width: 100%; object-fit: cover; object-position: center">
+
+                        <img class="available" v-if="item.image" :src="`/storage/${item.image}`" alt="image not available sorry" >
+
+                        <figure v-else>
+                            <img class="wrap-icon" src="/images/wrap-white.png" alt="wrap icon">
+                            <figcaption>Immagine non disponibile</figcaption>
+                        </figure>
+
                     </div>
-
-
-
                 </div>
 
+                <!-- CARD BOTTOM -->
                 <div class="card-bottom">
-                    <!-- svg -->
-                    <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>    
-                    <!-- testo -->
 
+                    <!-- svg -->
+                    <svg class="card__arc" xmlns="http://www.w3.org/2000/svg">
+                        <path />
+                        <defs>
+                            <pattern id="img1" patternUnits="userSpaceOnUse" width="100" height="100">
+                                <image href="/images/wrap-paper-2.jpg" x="0" y="0" width="100" height="100" />
+                            </pattern>
+                        </defs>
+                    </svg>    
+
+                    <!-- testo -->
                     <div class="text">
                         <div class="out-text">
                             <h5 class="name">{{item.name}}</h5>
@@ -53,7 +69,7 @@
 
                                     <div class="bottone-storto">
                                         <div class="d-flex btn p-1 pos">
-                                            <i style="font-size: 11px; color: red; align-self: center; vertical-align: middle" class="fa-solid fa-circle-xmark"></i>
+                                            <i style="margin-right: 5px; font-size: 13px; color: red; align-self: center; vertical-align: middle" class="fa-solid fa-circle-xmark"></i>
                                             <span style="margin-right: 3px">Finito!</span>
                                         </div>
                                         <div class="prospettiva" style="opacity: 0">
@@ -81,6 +97,8 @@
 </template>
 
 <script>
+import LoadingComponent from '../components/LoadingComponent.vue'
+
 export default {
     name: "MenuComponent",
     data() {
@@ -88,25 +106,27 @@ export default {
             menu: [],
             cart: [],
             restaurant: {},
+            loading: false
         };
+    },
+    components: {
+        LoadingComponent
+    },
+    created() {
+        this.getMenu();
+        this.getCartItems();
+    },
+    updated(){
+        this.cardsJs()
     },
     methods: {
         addToCart(item) {
-            // console.log('1--- ',item)
             let check = false;
             if (this.cart.length > 0) {
-                // console.log(this.cart);
-                // console.log(item);
 
                 this.cart.forEach((element) => {
                     if (element.restaurant_id != item.restaurant_id) {
                         check = true;
-                        // console.log("2---######################################################################################");
-                        // console.log("3---element: ",
-                        //     element.restaurant_id,
-                        //     "item: ",
-                        //     item.restaurant_id
-                        // );
                     }
                 });
 
@@ -117,7 +137,6 @@ export default {
                         this.cart.push(item);
                         window.localStorage.setItem(`item${this.cart.length}`,JSON.stringify(item));
                     }
-                    // console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
                 } else {
                     // QUI CICLO QUANTITA
                     // CARRELLO NON VUOTO
@@ -149,13 +168,6 @@ export default {
                         window.localStorage.setItem(`item${this.cart.length}`,JSON.stringify(item));
                         return console.log(localStorage)
                     }
-                    // this.cart.push(item);
-                    // window.localStorage.setItem(
-                    //     `item${this.cart.length}`,
-                    //     JSON.stringify(item)
-                    // );
-                    // console.log("4---?????????????????????????????????????????????????");
-                    // console.log('5---',this.cart);
                 }
             } else {
                 item.quantity = 1
@@ -180,6 +192,7 @@ export default {
             }
         },
         getMenu() {
+            this.loading = true
             const slug = this.$route.params.slug;
             axios
                 .get(`/api/restaurants/${slug}`)
@@ -187,6 +200,7 @@ export default {
                     this.menu = response.data.items;
                     this.restaurant = response.data;
                     console.log("7---RESTAURANT : ", response.data);
+                    this.loading = false
                     this.cardsJs()
                 })
                 .catch((error) => {
@@ -518,277 +532,25 @@ export default {
                 }
             }
         }
-    },
-    created() {
-        this.getMenu();
-        this.getCartItems();
-    },
-    updated(){
-        this.cardsJs()
     }
+    
 };
 </script>
 
 <style lang="scss" scoped>
 @import '../../sass/front.scss';
+@import '../../sass/partials/cardsJs.scss';
+@import '../../sass/partials/cardsJs_row.scss';
 
-/* CARTE SELEZIONATE */
-.selected-left{    
-    z-index: 100;
-    transform:skew(1deg) scale(1.05) rotate(1deg) ;
+.card-bottom{
+    background-image: url('/images/wrap-paper-2.jpg');
 }
-.selected-right {
-    z-index: 100;
-    transform: skew(-1deg) scale(1.05) rotate(-1deg);
-}
-.selected-center{
-    z-index: 100;
-    transform: scale(1.05);
-}
-.selected-lonely{
-    z-index: 100;
-    transform: scale(1.05);
+.card__arc path {
+    fill: url(#img1) !important;
 }
 
-
-
-/* CARTE VICINE SE SELEZIONATO A SINISTRA */
-.left-left-sibling {
-    transform: skew(-1deg) scale(1.05) rotate(-1deg);
-    z-index: 50;
-    width: calc(20% - 50px);
+.storto:hover{
+    border: 3px solid $my-light-blue !important;
 }
-.left-right-sibling{
-    transform:skew(-1deg) scale(1.05) rotate(-1deg) ;
-    z-index: 50;
-    width: calc(20% - 50px);
-}
-
-
-/* CARTE VICINE SE SELEZIONATO A DESTRA */
-.right-left-sibling {
-    transform: skew(1deg) scale(1.05) rotate(1deg);
-    z-index: 50;
-    width: calc(20% - 50px);
-}
-.right-right-sibling {
-    transform: skew(1deg) scale(1.05) rotate(1deg);
-    z-index: 50;
-    width: calc(20% - 50px);
-}
-
-
-@media screen and (max-width: 1200px){
-    .my-card{
-        width: calc((100% / 3) - (15px * 2 / 3)) !important;
-    }
-    .left-left-sibling, 
-    .left-right-sibling, 
-    .right-right-sibling, 
-    .right-left-sibling {
-        width: calc((100% / 3) - 50px) !important;
-    }
-}
-
-@media screen and (max-width: 840px) {
-    .my-card {
-        width: calc((100% / 2) - (15px * 1 / 2)) !important;
-    }
-
-    .left-left-sibling,
-    .left-right-sibling,
-    .right-right-sibling,
-    .right-left-sibling {
-        width: calc((100% / 2) - 50px) !important;
-    }
-}
-
-@media screen and (max-width: 700px) {
-    .my-row{
-        gap: 30px !important;
-    }
-    .my-card {
-        width: calc(80% - 15px) !important;
-    }
-
-    .left-left-sibling,
-    .left-right-sibling,
-    .right-right-sibling,
-    .right-left-sibling {
-        width: calc(80% - 50px) !important;
-    }
-}
-
-
-
-
-
-.my-container{
-    width: 90%;
-    margin: 0 auto;
-    padding: $padding-sm 0;
-    
-    h1{
-        margin-bottom: $padding-md;
-        text-align: center;
-    }
-
-    .my-row {
-        display: flex;
-        flex-wrap: wrap;
-        position: relative;
-        justify-content: center;
-        row-gap: 5px;
-        column-gap: 5px;
-
-        .my-card {
-            display: inline-block;
-            min-height: 200px;
-            position: relative;
-            height: 50%;
-            width: calc(20% - (15px * 4 / 5));
-            transition: all 0.35s;
-            background-color: rgba($color: #EDEAEB, $alpha: 1);
-            background-color: #323232;
-            border-radius: 30px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 300px;
-            overflow: hidden;
-
-            &:hover{
-                transition: all 0.35s;
-                box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 40px 4px;
-            }
-            .my-wrapper{
-                height: calc(100% - 12px);
-                width: calc(100% - 12px);
-                overflow: hidden;
-                border-radius: 25px;
-                position: absolute;
-                
-            }
-            .card-bottom{
-                position: absolute; 
-                bottom: -180px; 
-                height: 240px; 
-                width: 100%; 
-                background-color: #EDEAEB; 
-                border-radius: 30px 0 0 0;
-                transition: 0.3s;
-                text-align: center;
-                color: #323232;
-                // padding: 20px;
-
-                .text{
-                    .out-text{
-                        height: 60px;
-                        // border: 1px solid red;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        position: relative;
-                        i.fa-eye{
-                            position: absolute;
-                            bottom: 10px;
-                            right: 10px;
-                            color: rgba($color: $my-black, $alpha: 0.4);
-                            transition: all 0.5s;
-                        }
-                    }
-                    .inner-text{
-                        .description{
-                            padding: 15px;
-                            height: 122px;
-                        }
-                        .card-footer{
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: flex-end;
-                            position: absolute;
-                            bottom: 0;
-                            width: 100%;
-                            border-top: 2px solid rgba($color: $my-black, $alpha: 0.5);
-                            padding: 7px 15px;
-                            .price{
-                                font-weight: 700;
-                                position: relative;
-                                bottom: 10px;
-                            }
-                        }
-                    }
-                }
-                
-                &:hover{
-                    bottom: 0;
-                }
-                
-                .card__arc {
-                    width: 80px;
-                    height: 80px;
-                    position: absolute;
-                    top: -79px;
-                    right: 0;      
-                    z-index: 1;
-                }
-                .card__arc path {
-                    fill: #EDEAEB;
-                    d: path("M 40 80 c 22 0 40 -22 40 -40 v 40 Z");
-                }    
-            }
-
-        }
-    }
-}
-
-.prospettiva{
-    perspective: 70px;
-}
-.storto{
-    border: 2px solid $my-black;
-    &:hover{
-        // border: 2px solid $orange-juice;
-        transition: all 0.35s !important;
-        border: 2px solid $my-dark-orange;
-        transform: none;
-    }
-    transform: rotateY(-9deg) rotateX(-11deg) rotateZ(-1deg) translateX(-8px);
-    transition: transform 0.5s;
-    padding: 3px !important;
-    
-}
-.storto{
-    padding: 7px !important;
-}
-.storto.finto:hover{
-    transform: none;
-    border: 2px solid $my-black;
-}
-.pos{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: $my-black;
-    transition: 0.3s;
-    &:hover{
-        color: $my-dark-orange !important;
-    }
-    font-size: 12px;
-    font-weight: 600;
-}
-.bottone-storto{
-    position: relative;
-}
-
-
-.card-bottom:hover .fa-eye{    
-    opacity: 0;
-}
-// .card-bottom:hover {
-
-// }
 
 </style>
