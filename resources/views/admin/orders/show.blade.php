@@ -10,7 +10,7 @@
 <div>{{$order->customer->name.' - '.$order->customer->surname}}</div>
 
 <button>
-    <a href="{{route('admin.orders.edit', $order->id)}}">Edit</a>
+    <a href="{{route('admin.orders.edit', [$restaurant->id, $order->id])}}">Edit</a>
 </button>
 
 @endsection

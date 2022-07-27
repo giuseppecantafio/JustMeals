@@ -33,7 +33,7 @@ Route::middleware('auth')
         Route::resource('/restaurants/{id}/items', 'ItemController');
         Route::resource('/tags', 'TagController');
         Route::resource('/categories', 'CategoryController');
-        Route::resource('/orders', 'OrderController');
+        Route::resource('/restaurants/{id}/orders', 'OrderController');
         Route::resource('/restaurants/{id}/charts', 'ChartController');
     });
 

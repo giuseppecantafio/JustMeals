@@ -22,6 +22,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -51,18 +52,27 @@
                             </a>
                         </div>
                     </div>
+                    <div class="bottone-storto">
+                        <div class="pos">Ordini</div>
+                            <div class="prospettiva">
+                                <a class="storto btn" href="{{route('admin.orders.index', $restaurant->id)}}">
+                                    <span style="color: transparent">Ordini</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-12 col-md-6">
-                @if($restaurant->image)
-                <div class="right-block img-container">
-                    <img class="img-fluid" src="{{asset("storage/".$restaurant->image)}}" alt="Immagine ristorante">
+                <div class="col-sm-12 col-md-6">
+                    @if($restaurant->image)
+                    <div class="right-block img-container">
+                        <img class="img-fluid" src="{{asset("storage/".$restaurant->image)}}" alt="Immagine ristorante">
+                    </div>
+                    @else 
+                    <div class="right-block">
+                    <p>Non è presente un'immagine per il ristorante</p>
+                    </div>
+                    @endif
                 </div>
-                @else 
-                <div class="right-block">
-                <p>Non è presente un'immagine per il ristorante</p>
-                </div>
-                @endif
             </div>
             
         </div>

@@ -160,7 +160,7 @@
                 </section>  
             <div class="d-flex justify-content-center py-5">
                 <div class="bottone-storto">
-                <div class="btn p-1 pos">Esplora i locali intorno a te</div>
+                <div class="btn p-1 pos">unisciti a noi</div>
                     <div class="prospettiva">
                         <a class="storto btn" href="/admin">
                             <span style="color: transparent; margin-left: 25px;">Esplora i locali intorno a te</span>
