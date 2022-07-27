@@ -28,7 +28,7 @@
                         </div>
 
                         <div>
-                            <div class="prezzo" id="total_price">
+                            <div v-if="!discountPrice" class="prezzo" id="total_price">
                                 Prezzo totale: &euro;{{ priceTotal }} 
                             </div>
 
@@ -36,8 +36,9 @@
                                 v-if="discountPrice"
                                 class="text-primary my-3"
                                 id="total_price"
+                                style="text-decoration: line-through"
                             >
-                                Vecchio prezzo : {{ oldPrice }} &euro;
+                                {{ oldPrice }} &euro;
                             </div>
 
                             <div
@@ -47,6 +48,23 @@
                             >
                                 Prezzo scontato : {{ priceTotal }} &euro;
                             </div>
+
+
+                            <div v-if="!removePayBtn">
+                                <button
+                                
+                                    v-if="
+                                        (oldCustomer || newCustomer) &&
+                                        paymentInProgress === false
+                                    "
+                                    @click.prevent="launchPayment()"
+                                    class="btn btn-success"
+                                    type="submit"
+                                >
+                                    Vai al pagamento
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -145,22 +163,12 @@
 
 
             <!-- drop  in -->
-            <div id="dropin-container"></div>
+            <div id="dropin-container" class="w-75 m-auto"></div>
 
+            
+
+            <!-- button -->
             <div v-if="!removePayBtn">
-                <button
-                    v-if="
-                        (oldCustomer || newCustomer) &&
-                        paymentInProgress === false
-                    "
-                    @click.prevent="launchPayment()"
-                    class="btn btn-success"
-                    type="submit"
-                >
-                    Vai al pagamento
-                </button>
-
-                <!-- button -->
                 <button
                     v-show="paymentInProgress"
                     id="payBtn"
@@ -406,11 +414,11 @@ export default {
     margin-bottom: 50px;
 }
 .prezzo{
-    display: flex;
+    // display: flex;
     font-weight: 700;
     font-size: 20px;
     padding-top: 20px;
-    justify-content: flex-end;
+    // justify-content: flex-end;
 }
 #info-cart{
     padding-bottom: 5px;
