@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container auth-register">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -97,9 +97,17 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4 d-flex justify-content-between">
-                                <button type="submit" class="btn btn-primary">
+                                {{-- <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
-                                </button>
+                                </button> --}}
+                                <div class="bottone-storto mx-4">
+                                    <div class="pos">{{ __('Register') }}</div>
+                                        <div class="prospettiva">
+                                        <button type="submit" class="storto btn">
+                                        <span style="color: transparent">{{ __('Register') }}</span>
+                                        </button>
+                                    </div>
+                                </div>
                                 <div>* Campi Obbligatori</div>
                             </div>
                         </div>

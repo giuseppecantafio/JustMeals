@@ -1,9 +1,16 @@
 @import ".././variables.scss";
 .admin-header {
+    .navbar-toggler-icon {
+        background-image: url("/images/wrap.png");
+        font-size: 2rem !important;
+        border: none !important;
+    }
+
     padding: 20px;
     font-size: $font-md;
-    .debug {
-        border: 1px solid black;
+    .jumbo-logo {
+        width: 200px;
+        height: 75px;
     }
     .nav-item:after {
         background: none repeat scroll 0 0 transparent;
@@ -64,6 +71,11 @@
                     transform: none;
                 }
             }
+        }
+    }
+    @media screen and (max-width: 991px) {
+        .gap {
+            border-right: none;
         }
     }
 }
