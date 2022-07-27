@@ -3,8 +3,8 @@
 <nav class="navbar navbar-expand-lg navbar-light admin-header">
             <div class="container-fluid">
                 <!-- Add logo -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    Inserire logo
+                <a class="navbar-brand" href="{{ url('/admin') }}">
+                    <img src="/images/Justmeals-logo-backend.png" alt="" class="jumbo-logo">
                 </a>
 
                 <!-- Responsive button-->

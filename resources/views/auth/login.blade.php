@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container auth-login">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -51,11 +51,19 @@
                             </div>
                         </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                        <div class="form-group row mb-0 d-flex justify-content-center">
+                            <div class="d-flex">
+                                {{-- <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
-                                </button>
+                                </button> --}}
+                                <div class="bottone-storto mx-4 display-inline">
+                                    <div class="pos">{{ __('Login') }}</div>
+                                        <div class="prospettiva">
+                                        <button type="submit" class="storto btn">
+                                        <span style="color: transparent">{{ __('Login') }}</span>
+                                        </button>
+                                    </div>
+                                </div>
 
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">

@@ -14,10 +14,10 @@
                 </div>
             </div>
         <div class="bottone-storto">
-            <div class="pos">Grafico</div>
+            <div class="pos">Statistiche</div>
                 <div class="prospettiva">
                     <a class="storto btn" href="{{route('admin.charts.index', $restaurant->id)}}">
-                        <span style="color: transparent">Grafico</span>
+                        <span style="color: transparent">Statistiche</span>
                     </a>
                 </div>
             </div>

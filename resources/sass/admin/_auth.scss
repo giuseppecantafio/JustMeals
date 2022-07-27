@@ -1,0 +1,66 @@
+.auth-register {
+    .bottone-storto {
+        position: relative;
+        width: 80px;
+        font-size: $font-md;
+        color: $my-dark-orange;
+        .pos {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .prospettiva {
+            perspective: 100px;
+            a:hover {
+                background-color: transparent;
+            }
+            .storto {
+                border: 3px solid $my-dark-orange;
+                transform: rotateY(-9deg) rotateX(-11deg) rotateZ(-1deg)
+                    translateX(-8px);
+                transition: transform 0.5s;
+                padding: 12px !important;
+                display: block;
+                &:hover {
+                    transform: none;
+                    border: 3px solid $my-dark-orange;
+                    transition: 1s;
+                }
+            }
+        }
+    }
+}
+.auth-login {
+    .bottone-storto {
+        position: relative;
+        width: 50px;
+        font-size: $font-md;
+        color: $my-dark-orange;
+        .pos {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .prospettiva {
+            perspective: 100px;
+            a:hover {
+                background-color: transparent;
+            }
+            .storto {
+                border: 3px solid $my-dark-orange;
+                transform: rotateY(-9deg) rotateX(-11deg) rotateZ(-1deg)
+                    translateX(-8px);
+                transition: transform 0.5s;
+                padding: 12px !important;
+                display: block;
+                &:hover {
+                    transform: none;
+                    border: 3px solid $my-dark-orange;
+                    transition: 1s;
+                }
+            }
+        }
+    }
+}
