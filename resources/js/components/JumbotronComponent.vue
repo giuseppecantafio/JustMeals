@@ -8,11 +8,15 @@
         <h1 class="jumbo-title">Consegna di cibo a domicilio</h1>
       </div> 
     </div>-->
-    <video src=""></video>
+    <div class="img-container animate__animated animate__bounceInDown animate__slow animate__delay-0.5s"> 
+      <img src="storage/uploads/Justmeals-ai-white-su-blue.png"  id="jumbo-img" alt="" class="jumbo-immagine">
+    </div>
+    
   </div>
 </template>
 
 <script>
+
 export default {
   name: "JumbotronComponent"
 }
@@ -21,7 +25,7 @@ export default {
 <style>
 
 .jumbo-size{
-  height: 400px;
+  height: 300px;
 }
 .jumbo-container{
   width: 600px;
@@ -34,18 +38,26 @@ export default {
   text-align: center;
 }
 
-#lolgo{
+/* #lolgo{
    width: 200px;
   position: relative;
 }
 .logo:hover{
- 
-  animation-name: example;
+
+  animation-name:;
   animation-duration: 2s;
 }
 @keyframes example {
-  0%   {left:0px; top:0px;}
-  50%  { left:0px; top:-50px;}
-  100% {left:0px; top:0px;}
+  
+} */
+#jumbo-img {
+  display: inline-block;
+  margin: 0 0.5rem;
+
+  animation: bounce; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 2.5s; /* don't forget to set a duration! */
+}
+.img-container{
+  padding-top: 3%;
 }
 </style>
