@@ -29,6 +29,7 @@ $font-primary: sans-serif;
 $font-secondary: arial;
 
 //font, verificare come rendono e in caso modificare
+$font-xxl: 45px;
 $font-xl: 25px;
 $font-lg: 20px;
 $font-md: 15px;
@@ -40,22 +41,20 @@ $padding-lg: 150px;
 $padding-md: 100px;
 $padding-sm: 50px;
 
-//colors 
-$yellow-mustard: #FDC944;
-$orange-juice: #FF8E40;
-$orange-mango: #FEA341;
-$dark-light-blue: #3DB0B6;
-$light-blue:#69BCBE;
-$white-gray: #EDEAEB;
-
+//colors
+$yellow-mustard: #fdc944;
+$orange-juice: #ff8e40;
+$orange-mango: #fea341;
+$dark-light-blue: #3db0b6;
+$light-blue: #69bcbe;
+$white-gray: #edeaeb;
 
 // JustMeals colori
 
-$my-white: #EDEAEB;
-$my-light-blue: #42ABAE;
-$my-blue: #0D9BA3;
-$my-orange: #FE8B10;
-$my-dark-orange: #FF7211;
-$my-mustard: #FBBC14;
+$my-white: #edeaeb;
+$my-light-blue: #42abae;
+$my-blue: #0d9ba3;
+$my-orange: #fe8b10;
+$my-dark-orange: #ff7211;
+$my-mustard: #fbbc14;
 $my-black: #323232;
-
