@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>leo</h1>
+<div class="text-center">
+    <img src="/images/travo.gif" alt="leo" style="border-radius:50%;">
+    <p style="font-size: 250px;">?</p>
+</div>
 
 @endsection
