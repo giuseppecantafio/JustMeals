@@ -12,7 +12,6 @@
                         <span style="color: transparent">Aggiungi ristorante! <i class="fa-solid fa-carrot"></i></span>
                     </a>
                 </div>
-            </div>
         </div>
     </div>
 </div>
