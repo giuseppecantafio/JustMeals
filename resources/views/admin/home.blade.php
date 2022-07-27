@@ -17,7 +17,7 @@
                     </div>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-6 d-flex justify-content-center buttons-container">
-                <div class="bottone-storto">
+                {{-- <div class="bottone-storto">
                     <div class="pos">Ordini ricevuti</div>
                         <div class="prospettiva">
                             <a class="storto btn" href="{{ route('admin.orders.index') }}">
@@ -25,7 +25,7 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                </div> --}}
         </div>
     </div>
 </section>

@@ -32,10 +32,10 @@
                                      <a href="{{route('admin.restaurants.index')}}" class="mx-2"><i class="fa-solid fa-house"></i></a>
                                         <div class="position-relative"><a href="{{route('admin.restaurants.index')}}" class="nav-item">I miei ristoranti</a></div>
                                 </li>
-                            <li class="d-flex">
+                            {{-- <li class="d-flex">
                                 <a id="navbarDropdown" href="{{route('admin.orders.index')}}" class="mx-2"><i class="fa-solid fa-utensils"></i></a>
                                      <div class="position-relative"><a class="nav-item" href="{{route('admin.orders.index')}}">Ordini ricevuti</a></div>
-                            <li>
+                            <li> --}}
                             </ul>
 
                             <!-- Right side of Navbar -->

@@ -20,18 +20,23 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($rest_id)
     {
-        $orders = Order::all();
-        // $restaurant = Restaurant::findOrFail();
-        // controllo autenticazione
-        // $auth_user = Auth::user()->id;
-        // if ($auth_user != $restaurant->user_id){
-        //     abort(401);
-        // }
-        // $orders = $restaurant->orders;
+        $restaurant = Restaurant::findOrFail($rest_id);
+
+        $auth_user = Auth::user()->id;
+        if ($auth_user != $restaurant->user_id){
+            abort(401);
+        }
+
+        $items = Item::where('restaurant_id', $restaurant->id)->get();
+
+        $orders = Order::whereHas('items', function($q) use($items) {
+                $q->whereIn('item_id', $items);
+            })->get();
+        // dd($orders);
         
-        return view('admin.orders.index', compact('orders'));
+        return view('admin.orders.index', compact('orders', 'restaurant', 'items'));
     }
 
     /**
@@ -145,9 +150,10 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
-    {
-        return view('admin.orders.show', compact('order'));
+    public function show($rest_id, Order $order)
+    {   
+        $restaurant = Restaurant::findOrFail($rest_id);
+        return view('admin.orders.show', compact('order', 'restaurant'));
     }
 
     /**
@@ -156,9 +162,11 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Order $order)
+    public function edit($restaurant_id, $order_id)
     {
-        return view('admin.orders.edit', compact('order'));
+        $order = Order::findOrFail($order_id);
+        $items = $order->items()->get();
+        return view('admin.orders.edit', compact('restaurant_id', 'order', 'items'));
     }
 
     /**
@@ -168,9 +176,11 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(Request $request, $restaurant_id, $order_id)
     {
         $data = $request->all();
+
+        $order = Order::findOrFail($order_id);
 
         if($order->delivery_time != $data['delivery']){
             $order->delivery_time = $data['delivery'];
@@ -184,12 +194,7 @@ class OrderController extends Controller
 
             $customer = Customer::findOrFail($order->customer_id);
 
-            // $items = Item::whereHas('orders', function($q) use($order) {
-            //     $q->whereIn('order_id', $order->id);
-            // })->get();
             $items = $order->items()->get();
-
-            // dd($items[0]);
 
             $restaurant_id = $items[0]->restaurant_id;
 
@@ -202,7 +207,7 @@ class OrderController extends Controller
 
         $order->update();
 
-        return redirect()->route('admin.orders.show', $order->id);
+        return redirect()->route('admin.orders.show', [$restaurant_id, $order->id]);
     }
 
     /**
@@ -211,12 +216,13 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function destroy($rest_id, $order_id)
     {
+        $order = Order::findOrFail($order_id);
         $order->items()->sync([]);
         $order->delete();
 
-        return redirect()->route('admin.orders.index');
+        return redirect()->route('admin.orders.index', $rest_id);
     }
 
     
