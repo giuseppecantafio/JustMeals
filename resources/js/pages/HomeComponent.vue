@@ -430,12 +430,13 @@ opacity: 0.8;
     animation-name: example;
     animation-duration: 1s;
     animation-timing-function: ease;
+    animation-fill-mode: forwards;
   
  }
  
 @keyframes example {
-  0%   {opacity: 0.9; box-shadow: 0px 0px 0px rgb(0, 0, 0);}
-  50%  {opacity: 1; box-shadow: 20px 10px 30px rgb(0, 0, 0);}
+  from   {opacity: 0.9; box-shadow: 0px 0px 0px rgb(0, 0, 0);}
+  to  {opacity: 1; box-shadow: 20px 10px 30px rgb(0, 0, 0);}
   
 }
 
