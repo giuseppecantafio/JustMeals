@@ -158,7 +158,7 @@ export default {
         filterRestaurants(){
 
             if (this.selectTypo.length > 0){
-
+                this.restaurants = []
                 let finalQuery = '';
                 this.selectTypo.forEach((el) =>{
                     finalQuery += (el + ',')
@@ -178,6 +178,7 @@ export default {
             } else {
                 // console.log('SONO QUI')
                 this.loading = true;
+                this.restaurants = []
                 axios.get(this.apiPath)
                     .then((response)=>{
                         console.log('5,1---',response.data)

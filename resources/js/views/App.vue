@@ -35,4 +35,16 @@ body{
     bottom: 0;
     width: 100%;
 }
+button.slick-prev:before, button.slick-next:before {
+    background-color: #0d9ba3 !important;
+    border-radius: 50%;
+}
+.slick-dots li button:before {
+    font-size: 60px !important;
+    color: #0d9ba3 !important;
+    content: '\2212' !important;
+}
+.slick-dots li{
+    margin: 0px 15px !important;
+}
 </style>
