@@ -13,13 +13,44 @@
     <span>{{$order->customer->surname.'   '.$order->customer->name}}</span>
     
   </h2>
+
+
+  <section class="riepilogo">
+
+    {{-- riepilogo --}}
+    @foreach ($rawItems as $item)
+      <div class="item">
+
+        <div>
+          <strong style="margin-left: -40px; margin-right: 16px">{{$item['pivot_quantity']}} x</strong>
+          <span class="item-span">{{$item['name']}}</span>
+        </div>
+
+        <div>
+          <span>Prezzo di Vendita : </span>
+          <strong>{{$item['price']}} &euro;</strong>
+        </div>
+
+        <div>
+          <span>Prezzo Parziale : </span>
+          <strong>{{$item['price'] * $item['pivot_quantity']}} &euro;</strong>
+        </div>
+
+      </div>
+        
+    @endforeach
+
+  </section>
+
+  <section class="tot_price">
+    <h3>
+      <span>Prezzo Totale : </span>
+      <strong>{{$order->total_price}} &euro;</strong>
+    </h3>
+  </section>
+
   
 
-  {{-- riepilogo --}}
-  @foreach ($items as $item)
-  <div>{{$item->name}}</div>
-      
-  @endforeach
   
 
   {{-- form --}}

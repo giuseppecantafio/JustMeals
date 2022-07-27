@@ -72,6 +72,30 @@
 
 
 .admin-orders-edit{
+
+    .riepilogo{
+        padding: 40px 0;      
+        display: flex;
+        gap: 50px;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        .item{
+            width: calc((100% / 3) - (50px * 2 / 3 ));
+            border: 1px solid white;
+            background-color: $my-white;
+            border-radius: 25px;
+            padding: 20px 10px;
+            .item-span{
+                color: $my-blue;
+                font-weight: 600;
+                font-size: 1.3em;
+            }
+        }
+    }
+    .tot_price{
+        padding: 20px 0 20px 0;
+    }
     .btns{
         display: flex;
         gap: 15px;

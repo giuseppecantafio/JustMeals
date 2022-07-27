@@ -14,7 +14,7 @@ class Item extends Model
     }
 
     public function orders(){
-        return $this->belongsToMany('App\Order');
+        return $this->belongsToMany('App\Order')->withPivot('quantity');
     }
     public function tags(){
         return $this->belongsToMany('App\Tag');

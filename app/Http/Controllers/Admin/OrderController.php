@@ -165,8 +165,15 @@ class OrderController extends Controller
     public function edit($restaurant_id, $order_id)
     {
         $order = Order::findOrFail($order_id);
-        $items = $order->items()->get();
-        return view('admin.orders.edit', compact('restaurant_id', 'order', 'items'));
+
+        $items = $order->items()->withPivot('quantity')->get();
+
+        $rawItems = [];
+        foreach ($items as $item) {
+            $rawItems[] = $item->getRawOriginal();
+        }
+
+        return view('admin.orders.edit', compact('restaurant_id', 'order', 'rawItems'));
     }
 
     /**
@@ -207,7 +214,7 @@ class OrderController extends Controller
 
         $order->update();
 
-        return redirect()->route('admin.orders.show', [$restaurant_id, $order->id]);
+        return redirect()->route('admin.orders.index', [$restaurant_id]);
     }
 
     /**
