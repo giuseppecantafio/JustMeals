@@ -3,7 +3,7 @@
         <JumbotronComponent />
         <div class="container">
             <div class="wrapper">
-                <span class="titolo-carosello my-5">Le nostre pizzerie</span>
+                <span class="titolo-carosello my-5">I sushi migliori del momento</span>
                 <i
                     class="fa-solid fa-angle-right"
                     style="text-align: center; padding-left: 5px"
@@ -234,7 +234,7 @@
                             />
                             <div class="title py-2">Diventa partner</div>
                             <p class="m-auto">
-                                Cresci con Glovo! La nostra tecnologia e la
+                                Cresci con JustMeals! La nostra tecnologia e la
                                 nostra base di utenti possono aiutarti a
                                 incrementare le vendite e aprire nuove
                                 opportunità!
@@ -256,7 +256,7 @@
                 </section>
                 <div class="d-flex justify-content-center py-5">
                     <div class="bottone-storto">
-                        <div class="btn p-1 pos">unisciti a noi</div>
+                        <div class="btn p-1 pos">Unisciti a noi</div>
                         <div class="prospettiva">
                             <a class="storto btn" href="/admin">
                                 <span

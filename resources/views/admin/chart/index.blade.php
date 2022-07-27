@@ -4,11 +4,11 @@
 
 <div class="container">
     <div>
-        <div class="row">
-            <div class="col-md-12">
+        <div class="row w-75 m-auto">
+            <div class="col">
                 <div class="panel panel-default">
                     <div class="panel-heading my-2">Chart Demo</div>
-                        <div class="col-lg-8">
+                        <div class="">
                             <canvas id="userChart" class="rounded shadow">
                             </canvas>
                         </div>
@@ -16,7 +16,7 @@
             </div>
         </div>
     </div>
-    
+</div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
