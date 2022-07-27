@@ -1,55 +1,28 @@
 <template>
     <div class="container">
-        <!-- <div class="container">
-            <div class="row" v-if="cartItems.length > 0">
-                <div
-                    class="col"
-                    v-for="(item, index) in cartItems"
-                    :key="index"
-                >
-                    <div>
-                        {{ item.name }}
+        
+        <div class="card m-5" style="">
+            <div class="row g-0" v-if="cartItems.length > 0">
+
+                <button class="btn btn-danger" @click="emptyCart()">Svuota carrello</button>
+                
+                <div class="col-md-8"  v-for="(item, index) in cartItems" :key="index">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <p class="card-text">Descrizione: {{ item.description }}</p>
+                        <p class="card-text"><small class="text-muted">Quantità: {{ item.quantity }}</small></p>
+                        
+
+                        <button class="btn btn-primary" @click="removeItem(item.id)">
+                            Rimuovi elemento
+                        </button>
                     </div>
-                    <div>
-                        {{ item.price }}
-                    </div>
-                    <div>
-                        {{ item.quantity }}
-                    </div>
-                    <button @click="removeItem(item.id)">
-                        Rimuovi elemento
-                    </button>
                 </div>
+                
+                <router-link :to="{ name : 'payment' }" class="btn btn-success">Vai al pagamento</router-link>
+
             </div>
-
-            <button @click="emptyCart()">Svuota carrello</button>
-
-             <button class="btn btn-success">
-                <a class="text-white" href="/payment">Paga Ora</a>
-            </button> -->
-
-
-            <div class="card m-5" style="">
-                <div class="row g-0" v-if="cartItems.length > 0">
-                    <button class="btn btn-danger" @click="emptyCart()">Svuota carrello</button>
-                    <!-- <div class="col-md-4">
-                        <img src="" class="img-fluid rounded-start" alt="...">
-                    </div> -->
-                    <div class="col-md-8"  v-for="(item, index) in cartItems" :key="index">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ item.name }}</h5>
-                            <p class="card-text">Descrizione: {{ item.description }}</p>
-                            <p class="card-text"><small class="text-muted">Quantità: {{ item.quantity }}</small></p>
-                            <button class="btn btn-primary" @click="removeItem(item.id)">
-                                Rimuovi elemento
-                            </button>
-                        </div>
-                    </div>
-                    <button class="btn btn-success">
-                        <a class="text-white" href="/payment">Paga Ora</a>
-                    </button>
-                </div>
-            </div>
+        </div>
         </div>
 </template>
 
@@ -96,12 +69,19 @@ export default {
             if(this.token){
                 this.$router.push({name: 'payment', params: { token: this.token } })
             }
-        }
+        },
     },
     created() {
         this.getCartItems();
+
+        console.log('storage : ',window.localStorage)
     },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import '../../sass/front.scss';
+
+
+
+</style>
