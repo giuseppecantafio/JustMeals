@@ -47,8 +47,5 @@ button.slick-prev:before, button.slick-next:before {
 .slick-dots li{
     margin: 0px 15px !important;
 }
-*{
-    font-family: 'Patrick Hand SC', cursive;
-    font-size: 20px;
-}
+
 </style>
