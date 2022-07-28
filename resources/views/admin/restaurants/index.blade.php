@@ -6,10 +6,10 @@
 <div class="create-container">
     <div class="container d-flex justify-content-center align-items-center">
         <div class="bottone-storto">
-            <div class="pos">Aggiungi ristorante! <i class="fa-solid fa-carrot"></i></div>
+            <div class="pos">Aggiungi ristorante!</div>
                 <div class="prospettiva">
                     <a class="storto btn" href="{{ route('admin.restaurants.create') }}">
-                        <span style="color: transparent">Aggiungi ristorante! <i class="fa-solid fa-carrot"></i></span>
+                        <span style="color: transparent">Aggiungi ristorante!</span>
                     </a>
                 </div>
         </div>

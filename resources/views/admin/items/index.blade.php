@@ -12,10 +12,10 @@
             <div class="col-sm-6 col-md-6">
                 <div class="container d-flex justify-content-center align-items-center">
                     <div class="bottone-storto">
-                        <div class="pos">Aggiungi un piatto! <i class="fa-solid fa-drumstick-bite"></i></div>
+                        <div class="pos">Aggiungi un piatto!</div>
                             <div class="prospettiva">
                                 <a class="storto btn" href="{{route('admin.items.create', $restaurant->id)}}">
-                                    <span style="color: transparent">Aggiungi un piatto! <i class="fa-solid fa-drumstick-bite"></i></span>
+                                    <span style="color: transparent">Aggiungi un piatto!</span>
                                 </a>
                             </div>
                     </div>
